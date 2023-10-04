@@ -27,5 +27,9 @@ function deleteProfilePokemon(userId, pokemonId){
 }
 
 module.exports = {
-    getAllProfilePokemon, getProfilePokemonById, addProfilePokemon, updateProfilePokemon
+    getAllProfilePokemon, 
+    getProfilePokemonById, 
+    addProfilePokemon, 
+    updateProfilePokemon,
+    deleteProfilePokemon
 }
