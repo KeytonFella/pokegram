@@ -6,7 +6,7 @@ AWS.config.update({
 
 const docClient = new AWS.DynamoDB.DocumentClient();
 
-function createTeam(team_id, user_id, name, pokemonList) {
+function createTeam(team_id, name, pokemonList) {
     const params = {
         TableName: 'teams',
         Item: {
