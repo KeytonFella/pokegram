@@ -4,6 +4,9 @@ const port = 3000;
 const cors = require('cors');
 const bodyParser = require('body-parser');
 
+const tradesRouter = require('./routes/trades');
+app.use('/trades', tradesRouter);
+
 app.use(cors());
 app.use(bodyParser.json())
 app.get('/', (req, res) => {
