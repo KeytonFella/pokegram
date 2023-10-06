@@ -2,34 +2,29 @@ const profileDAO = require('../repository/profileDAO');
 const uuid = require('uuid');
 
 // Get all pokemon associated with profile
-function getAllProfilePokemon(userId){
-
-}
-
-// Get single pokemon from profile pokemon list
-function getProfilePokemonById(userId, pokemonId){
-
+function getAllProfilePokemon(profile_id){
+    return new Promise((resolve, reject) => {
+        profileDAO.getAllProfilePokemon(profile_id).then((data) => {
+            resolve(data);
+        }).catch((err) => {
+            reject(err);
+        });
+    });
 }
 
 // Add pokemon to profile pokemon list
-function addProfilePokemon(userId, pokemon){
+function addProfilePokemon(profile_id, pokemon){
 
 }
 
-// Update pokemon in profile pokemon list
-function updateProfilePokemon(userId, pokemonId, pokemon){
-
-}
 
 // Delete pokemon from profile pokemon list
-function deleteProfilePokemon(userId, pokemonId){
+function deleteProfilePokemon(profile_id, pokemonId){
 
 }
 
 module.exports = {
     getAllProfilePokemon, 
-    getProfilePokemonById, 
     addProfilePokemon, 
-    updateProfilePokemon,
     deleteProfilePokemon
 }

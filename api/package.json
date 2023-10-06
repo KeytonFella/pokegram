@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Andres Guzman, Arin Aihara, Keyton Friske, Peter Nepomuceno",
+  "author": "Andres Guzman, Arin Aihara, Joshua Sanchez, Keyton Friske, Peter Nepomuceno",
   "license": "ISC",
   "dependencies": {
     "aws-sdk": "^2.1469.0",

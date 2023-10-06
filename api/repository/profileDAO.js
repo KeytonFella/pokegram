@@ -1,25 +1,30 @@
 // Load the AWS SDK for Node.js
 const AWS = require('aws-sdk');
 // Set the region 
-AWS.config.update({region: 'us-east-2'});
+AWS.config.update({
+    region: 'us-east-2',
 
-var roleToAssume = {RoleArn: 'arn:aws:iam::053796667043:role/ArinAihara',
-                    RoleSessionName: 'session1',
-                    DurationSeconds: 900,};
-var roleCreds;
+});
+
+let roleToAssume = {RoleArn: 'arn:aws:iam::053796667043:role/ArinAihara',
+RoleSessionName: 'session1',
+DurationSeconds: 900,};
+let roleCreds;
 
 // Create the STS service object    
-var sts = new AWS.STS({apiVersion: '2011-06-15'});
+let sts = new AWS.STS({apiVersion: '2011-06-15'});
+let docClient;  
 
 //Assume Role
 sts.assumeRole(roleToAssume, function(err, data) {
     if (err) console.log(err, err.stack);
     else{
         roleCreds = {accessKeyId: data.Credentials.AccessKeyId,
-                     secretAccessKey: data.Credentials.SecretAccessKey,
-                     sessionToken: data.Credentials.SessionToken};
-        stsGetCallerIdentity(roleCreds);
-    }
+            secretAccessKey: data.Credentials.SecretAccessKey,
+            sessionToken: data.Credentials.SessionToken};
+            docClient = new AWS.DynamoDB.DocumentClient({accessKeyId: roleCreds.accessKeyId, secretAccessKey: roleCreds.secretAccessKey, sessionToken: roleCreds.sessionToken});  
+            stsGetCallerIdentity(roleCreds);
+        }
 });
 
 //Get Arn of current identity
@@ -38,64 +43,49 @@ function stsGetCallerIdentity(creds) {
     });    
 }
 
-// Get all pokemon associated with profile
-function getAllProfilePokemon(userId){
-    const params = {
-        TableName: 'profiles',
-        Key: {userId}
-    }
-    return docClient.get(params).promise();
-}
 
-// Get single pokemon from profile pokemon list
-function getProfilePokemonById(userId, pokemonId){
+
+
+// Get all pokemon associated with profile
+function getAllProfilePokemon(profile_id){
     const params = {
-        TableName: 'profiles',
-        Key: {userId, pokemonId}
+        TableName: 'poke_profiles',
+        Key: {
+            'profile_id': profile_id 
+        }
     }
     return docClient.get(params).promise();
 }
 
 // Add pokemon to profile pokemon list
-function addProfilePokemon(userId, pokemon){
+function addProfilePokemon(profile_id, pokemon){
     const params = {
-        TableName: 'profiles',
-        Item: {
-            userId,
-            pokemonId: uuid.v4(),
-            pokemon
-        }
-    }
-    return docClient.put(params).promise();
-}
-
-// Update pokemon in profile pokemon list
-function updateProfilePokemon(userId, pokemonId, pokemon){
-    const params = {
-        TableName: 'profiles',
-        Key: {userId, pokemonId},
-        UpdateExpression: 'set pokemon = :p',
+        TableName: 'poke_profiles',
+        Key: {
+            'profile_id': profile_id,
+        },
+        UpdateExpression: 'set #p = list_append(#p, :p)',
+        ExpressionAttributeNames: {
+            '#p': 'pokemon'
+        },
         ExpressionAttributeValues: {
             ':p': pokemon
         },
-        ReturnValues: 'UPDATED_NEW'
     }
     return docClient.update(params).promise();
 }
 
 // Delete pokemon from profile pokemon list
-function deleteProfilePokemon(userId, pokemonId){
+function deleteProfilePokemon(profile_id, pokemonId){
     const params = {
-        TableName: 'profiles',
-        Key: {userId, pokemonId}
+        TableName: 'poke_profiles',
+        Key: {profile_id, pokemonId}
     }
     return docClient.delete(params).promise();
 }
 
 module.exports = {
     getAllProfilePokemon, 
-    getProfilePokemonById, 
     addProfilePokemon, 
-    updateProfilePokemon,
     deleteProfilePokemon
 }
