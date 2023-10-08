@@ -8,13 +8,12 @@ const profileRouter = require('./controller/profileController');
 
 app.use(cors());
 app.use(bodyParser.json())
-app.use('/profiles', profileRouter);
+app.use('/api/profiles', profileRouter);
 
 app.get('/', (req, res) => {
     res.send('Hello and welcome to the Pokegram API!');
     }
 );
-
 
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
