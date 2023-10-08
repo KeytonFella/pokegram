@@ -1,3 +1,5 @@
+// ============================= AWS DynamoDB  Setup =============================
+
 // Load the AWS SDK for Node.js
 const AWS = require('aws-sdk');
 // Set the region 
@@ -43,8 +45,7 @@ function stsGetCallerIdentity(creds) {
     });    
 }
 
-
-
+// ============================== DynamoDB Functions ==============================
 
 // Get all pokemon associated with profile
 function getAllProfilePokemon(profile_id){
@@ -69,23 +70,27 @@ function addProfilePokemon(profile_id, pokemon){
             '#p': 'pokemon'
         },
         ExpressionAttributeValues: {
-            ':p': pokemon
+            ':p': [pokemon]
         },
     }
     return docClient.update(params).promise();
 }
 
 // Delete pokemon from profile pokemon list
-function deleteProfilePokemon(profile_id, pokemonId){
+function removeProfilePokemon(profile_id, index){
     const params = {
         TableName: 'poke_profiles',
-        Key: {profile_id, pokemonId}
+        Key: {
+            'profile_id': profile_id
+        },
+        UpdateExpression: `remove pokemon[${index}]`,
+
     }
-    return docClient.delete(params).promise();
+    return docClient.update(params).promise();
 }
 
 module.exports = {
     getAllProfilePokemon, 
     addProfilePokemon, 
-    deleteProfilePokemon
+    removeProfilePokemon
 }
