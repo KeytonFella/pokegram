@@ -6,6 +6,9 @@ const bodyParser = require('body-parser');
 const profileRouter = require('./controller/profileController');
 
 
+const tradesRouter = require('./controller/trades');
+app.use('/trades', tradesRouter);
+
 app.use(cors());
 app.use(bodyParser.json())
 app.use('/api/profiles', profileRouter);
