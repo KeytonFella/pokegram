@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const tradesService = require('../service/tradesService');
-const tradesValidation = require('../utility/tradesMW.js');
+const tradesValidation = require('../utility/middleware/tradesMW.js');
 const bodyParser = require('body-parser');
 router.use(bodyParser.json());
 

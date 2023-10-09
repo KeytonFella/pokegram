@@ -4,7 +4,7 @@ const port = 3000;
 const cors = require('cors');
 const bodyParser = require('body-parser');
 
-const tradesRouter = require('./routes/trades');
+const tradesRouter = require('./controller/trades');
 app.use('/trades', tradesRouter);
 
 app.use(cors());
