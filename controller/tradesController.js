@@ -1,14 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const tradesService = require('../service/tradesService');
-const tradesValidation = require('../utility/middleware/tradesMW.js');
-const bodyParser = require('body-parser');
-router.use(bodyParser.json());
 
 module.exports = router;
 
 //add trade
-router.post('', tradesValidation.verifyUser, async (req, res) => {
+router.post('', async (req, res) => {
     const body = req.body;
     try{
         const data = await tradesService.submitTradeData(body.currentUserId, body.currentUsername, body.desire_list, body.surrender_list);
@@ -29,7 +26,7 @@ router.post('', tradesValidation.verifyUser, async (req, res) => {
     }
 })
 
-router.get('', tradesValidation.verifyUser, async (req, res) => {
+router.get('', async (req, res) => {
     try{
         const data = await tradesService.findTrades(req.params.user)
         if(data.bool){
@@ -40,7 +37,28 @@ router.get('', tradesValidation.verifyUser, async (req, res) => {
         }else{
             res.status(400).send({
                 error: data.message,
-                // error: `${data.message}`
+            });
+        }
+    }catch(err){
+        res.status(500).send({
+            message: 'An error occurred',
+            error: `${err}`
+        })
+    }
+})
+
+router.put('desire-list', async (req, res) => {
+    const body = req.body;
+    try{
+        const data = await tradesService.updateDesireList(body.currentUserId, body.desire_list)
+        if(data.bool){
+            res.send({
+                message: data.message,
+                trades: data.data
+            })
+        }else{
+            res.status(400).send({
+                error: data.message,
             })
         }
     }catch(err){
@@ -51,9 +69,24 @@ router.get('', tradesValidation.verifyUser, async (req, res) => {
     }
 })
 
-router.put('desire-list', tradesValidation.verifyUser, async (req, res) => {
+router.put('surrender-list', async (req, res) => {
     const body = req.body;
     try{
-        const data = await tradesService.updateDesireList(body.currentUserId, body.desire_list)
+        const data = await tradesService.updateSurrenderList(body.currentUserId, body.surrender_list)
+        if(data.bool){
+            res.send({
+                message: data.message,
+                trades: data.data
+            })
+        }else{
+            res.status(400).send({
+                error: data.message,
+            })
+        }
+    }catch(err){
+        res.status(500).send({
+            message: 'An error occurred',
+            error: `${err}`
+        })
     }
 })

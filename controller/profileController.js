@@ -1,11 +1,10 @@
 const express = require('express');
 const profileRouter = express.Router();
 const profileService = require('../service/profileService');
-const profileMW = require('../utility/middleware/profileMW');
 
 //============================= Profile pokemon calls =========================================
 // Get all pokemon associated with profile
-profileRouter.get('/:profile_id/pokemon', profileMW.logRequest, (req, res) => {
+profileRouter.get('/:profile_id/pokemon', (req, res) => {
     profileService.getAllProfilePokemon(req.params.profile_id).then((data) => {
         res.status(200);
         res.send({response: data});
@@ -16,7 +15,7 @@ profileRouter.get('/:profile_id/pokemon', profileMW.logRequest, (req, res) => {
 });
 
 // Add pokemon in profile pokemon list
-profileRouter.put('/:profile_id/pokemon/add', profileMW.logRequest, (req, res) => {
+profileRouter.put('/:profile_id/pokemon/add', (req, res) => {
     const pokemon = req.body;
     profileService.addProfilePokemon(req.params.profile_id,  pokemon).then((data) => {
         res.status(200);
@@ -28,7 +27,7 @@ profileRouter.put('/:profile_id/pokemon/add', profileMW.logRequest, (req, res) =
 });
 
 // Delete pokemon in profile pokemon list
-profileRouter.put('/:profile_id/pokemon/remove', profileMW.logRequest, (req, res) => {
+profileRouter.put('/:profile_id/pokemon/remove', (req, res) => {
     const pokemon = req.body.pokemon;
     profileService.removeProfilePokemon(req.params.profile_id, pokemon).then((data) => {
         res.status(204);

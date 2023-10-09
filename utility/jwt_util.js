@@ -17,7 +17,31 @@ function verifyTokenAndReturnPayload(token){
     return jwt.verify(token, 'blastingoffagain');    
 }
 
+function verifyUser(req, res, next){
+    if(req.headers.authorization){
+        const token = req.headers.authorization.split(' ')[1];
+        verifyTokenAndReturnPayload(token)
+            .then((payload) => {
+                req.body.currentUserId = payload.user_id;
+                req.body.currentUsername = payload.username;
+                next();
+            })
+            .catch((err) => {
+                res.statusCode = 401;
+                res.send({
+                    message: "Failed to Authenticate Token"
+                })
+            })
+    }else{
+        res.statusCode = 401;
+        res.send({
+            message: "User requires authorization. Please log in"
+        })
+    }
+}
+
 module.exports = {
     createJWT,
-    verifyTokenAndReturnPayload
+    verifyTokenAndReturnPayload,
+    verifyUser
 }

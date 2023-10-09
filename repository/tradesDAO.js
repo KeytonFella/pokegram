@@ -37,6 +37,7 @@ function updateDesireList(user_id, desire_list){
             user_id
         },
         UpdateExpression: 'set #d = :desire_list',
+        ConditionExpression: 'attribute_exists(user_id)',
         ExpressionAttributeNames:{
             '#d': 'desire_list'
         },
@@ -54,6 +55,7 @@ function updateSurrenderList(user_id, surrender_list){
             user_id
         },
         UpdateExpression: 'set #s = :surrender_list',
+        ConditionExpression: 'attribute_exists(user_id)',
         ExpressionAttributeNames:{
             '#d': 'surrender_list'
         },
