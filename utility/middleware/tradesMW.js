@@ -1,4 +1,4 @@
-const jwtUtil = require('../utility/jwt_util');
+const jwtUtil = require('../jwt_util');
 
 module.exports = {
     verifyUser
