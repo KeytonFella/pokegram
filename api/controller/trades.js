@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const tradesService = require('../service/tradesService');
-const tradesValidation = require('../utility/tradesMiddleware.js');
+const tradesValidation = require('../utility/tradesMW.js');
 const bodyParser = require('body-parser');
 router.use(bodyParser.json());
 
@@ -11,7 +11,7 @@ module.exports = router;
 router.post('', async (req, res) => {
     const body = req.body;
     try{
-        const data = await tradesService.submitTradeData(user_id, body.desire_list, body.surrender_list);
+        const data = await tradesService.submitTradeData(body.user_id, body.desire_list, body.surrender_list);
         if(data.bool){
             res.status(201).send({
                 message: data.message

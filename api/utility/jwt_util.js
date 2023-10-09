@@ -1,11 +1,10 @@
 const jwt = require('jsonwebtoken');
 const Promise = require('bluebird');
 
-function createJWT(user_id, username, role){
+function createJWT(user_id, username){
     return jwt.sign({
         user_id,
-        username,
-        role
+        username
     }, 'blastingoffagain', {
         expiresIn: '1d'
     })
