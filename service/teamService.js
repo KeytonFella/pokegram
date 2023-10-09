@@ -1,13 +1,12 @@
 const teamDao = require('../repository/teamDAO');
-//const mw = require('..middleware')
-const uuid = require('uuid')
+const {v4: uuidv4} = require('uuid')
 
 //Add team
 function createTeam(name, list) {
     
     return new Promise((resolve, reject) => {
         console.log("promising...")
-        teamDao.createTeam(uuid.v4(), name, list)
+        teamDao.createTeam(uuidv4(), name, list)
             .then((data) => {
                 resolve(data)
             })

@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const bodyParser = require('body-parser');
 const teamService = require('../service/teamService')
-const mw = require('../middleware.js')
+const mw = require('../utility/middleware/teamMW.js')
 
 
 router.use(bodyParser.json());
