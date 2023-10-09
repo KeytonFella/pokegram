@@ -5,7 +5,7 @@ module.exports = {
     submitTradeData
 }
 
-async function submitTradeData(user_id, desire_list, surrender_list){
+async function submitTradeData(user_id, desire_list, surrender_list){    
     try{
         const data = await tradesDAO.submitTradeData(user_id, desire_list, surrender_list);
         return {bool: true, message: "Trade data added successfully"};

@@ -8,10 +8,10 @@ router.use(bodyParser.json());
 module.exports = router;
 
 //add trade
-router.post('', async (req, res) => {
+router.post('', tradesValidation.verifyUser, async (req, res) => {
     const body = req.body;
     try{
-        const data = await tradesService.submitTradeData(body.user_id, body.desire_list, body.surrender_list);
+        const data = await tradesService.submitTradeData(body.currentUserId, body.desire_list, body.surrender_list);
         if(data.bool){
             res.status(201).send({
                 message: data.message
