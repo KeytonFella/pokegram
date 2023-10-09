@@ -39,3 +39,12 @@
 2023-10-09T21:54:06.287Z [error]: Error attempting to getAllProfilePokemon: ExpiredTokenException: The security token included in the request is expired
 2023-10-09T21:54:14.628Z [error]: Error attempting to getAllProfilePokemon: ExpiredTokenException: The security token included in the request is expired
 2023-10-09T21:54:16.173Z [error]: Error attempting to getAllProfilePokemon: ExpiredTokenException: The security token included in the request is expired
+2023-10-09T21:54:22.163Z [info]: Method: GET | URL accessed: http://localhost:3000/profiles/1/pokemon
+2023-10-09T21:54:22.165Z [info]: getAllProfilePokemon called
+2023-10-09T21:54:22.176Z [info]: Method: GET | URL accessed: http://localhost:3000/profiles/1/pokemon
+2023-10-09T21:54:22.176Z [info]: getAllProfilePokemon called
+2023-10-09T21:54:22.570Z [info]: getAllProfilePokemon resolved
+2023-10-09T21:54:22.575Z [info]: getAllProfilePokemon resolved
+2023-10-09T21:55:55.424Z [info]: Method: GET | URL accessed: http://localhost:3000/profiles/1/pokemon
+2023-10-09T21:55:55.425Z [info]: getAllProfilePokemon called
+2023-10-09T21:55:55.834Z [info]: getAllProfilePokemon resolved
