@@ -8,7 +8,7 @@ const profileMW = require('../utility/middleware/profileMW');
 profileRouter.get('/:profile_id/pokemon', profileMW.logRequest, (req, res) => {
     profileService.getAllProfilePokemon(req.params.profile_id).then((data) => {
         res.status(200);
-        res.send({response: data});
+        res.send(data);
     }).catch((err) => {
         res.status(500);
         res.send({message: err});

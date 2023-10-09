@@ -1,5 +1,41 @@
-2023-10-08T19:01:36.538Z [info]: Method: GET | URL accessed: http://localhost:3000/1/pokemon
-2023-10-08T19:01:46.514Z [info]: Method: PUT | URL accessed: http://localhost:3000/1/pokemon/add
-2023-10-08T19:01:52.350Z [info]: Method: GET | URL accessed: http://localhost:3000/1/pokemon
-2023-10-08T19:02:02.476Z [info]: Method: PUT | URL accessed: http://localhost:3000/1/pokemon/remove
-2023-10-08T19:23:14.104Z [info]: Method: GET | URL accessed: http://localhost:3000/profiles//1/pokemon
+2023-10-09T21:38:48.942Z [info]: Method: GET | URL accessed: http://localhost:3000/profiles/1/pokemon
+2023-10-09T21:38:48.944Z [info]: getAllProfilePokemon called
+2023-10-09T21:38:48.955Z [info]: Method: GET | URL accessed: http://localhost:3000/profiles/1/pokemon
+2023-10-09T21:38:48.955Z [info]: getAllProfilePokemon called
+2023-10-09T21:38:49.363Z [info]: getAllProfilePokemon resolved
+2023-10-09T21:38:49.372Z [info]: getAllProfilePokemon resolved
+2023-10-09T21:39:53.447Z [info]: Method: GET | URL accessed: http://localhost:3000/profiles/1/pokemon
+2023-10-09T21:39:53.448Z [info]: getAllProfilePokemon called
+2023-10-09T21:39:53.454Z [info]: Method: GET | URL accessed: http://localhost:3000/profiles/1/pokemon
+2023-10-09T21:39:53.455Z [info]: getAllProfilePokemon called
+2023-10-09T21:39:53.836Z [info]: getAllProfilePokemon resolved
+2023-10-09T21:39:53.842Z [info]: getAllProfilePokemon resolved
+2023-10-09T21:40:16.753Z [info]: Method: GET | URL accessed: http://localhost:3000/profiles/1/pokemon
+2023-10-09T21:40:16.754Z [info]: getAllProfilePokemon called
+2023-10-09T21:40:16.758Z [info]: Method: GET | URL accessed: http://localhost:3000/profiles/1/pokemon
+2023-10-09T21:40:16.759Z [info]: getAllProfilePokemon called
+2023-10-09T21:40:17.141Z [info]: getAllProfilePokemon resolved
+2023-10-09T21:40:17.143Z [info]: getAllProfilePokemon resolved
+2023-10-09T21:46:53.427Z [info]: Method: GET | URL accessed: http://localhost:3000/profiles/1/pokemon
+2023-10-09T21:46:53.428Z [info]: getAllProfilePokemon called
+2023-10-09T21:46:53.436Z [info]: Method: GET | URL accessed: http://localhost:3000/profiles/1/pokemon
+2023-10-09T21:46:53.437Z [info]: getAllProfilePokemon called
+2023-10-09T21:46:53.818Z [info]: getAllProfilePokemon resolved
+2023-10-09T21:46:53.820Z [info]: getAllProfilePokemon resolved
+2023-10-09T21:48:33.431Z [info]: Method: GET | URL accessed: http://localhost:3000/profiles/1/pokemon
+2023-10-09T21:48:33.431Z [info]: getAllProfilePokemon called
+2023-10-09T21:48:33.439Z [info]: Method: GET | URL accessed: http://localhost:3000/profiles/1/pokemon
+2023-10-09T21:48:33.440Z [info]: getAllProfilePokemon called
+2023-10-09T21:48:33.819Z [info]: getAllProfilePokemon resolved
+2023-10-09T21:48:33.821Z [info]: getAllProfilePokemon resolved
+2023-10-09T21:53:44.443Z [info]: Method: GET | URL accessed: http://localhost:3000/profiles/1/pokemon
+2023-10-09T21:53:44.443Z [info]: getAllProfilePokemon called
+2023-10-09T21:53:44.456Z [info]: Method: GET | URL accessed: http://localhost:3000/profiles/1/pokemon
+2023-10-09T21:53:44.456Z [info]: getAllProfilePokemon called
+2023-10-09T21:53:54.772Z [info]: Method: GET | URL accessed: http://localhost:3000/profiles/1/pokemon
+2023-10-09T21:53:54.772Z [info]: getAllProfilePokemon called
+2023-10-09T21:53:54.779Z [info]: Method: GET | URL accessed: http://localhost:3000/profiles/1/pokemon
+2023-10-09T21:53:54.779Z [info]: getAllProfilePokemon called
+2023-10-09T21:54:06.287Z [error]: Error attempting to getAllProfilePokemon: ExpiredTokenException: The security token included in the request is expired
+2023-10-09T21:54:14.628Z [error]: Error attempting to getAllProfilePokemon: ExpiredTokenException: The security token included in the request is expired
+2023-10-09T21:54:16.173Z [error]: Error attempting to getAllProfilePokemon: ExpiredTokenException: The security token included in the request is expired
