@@ -3,7 +3,7 @@ const router = express.Router();
 const bodyParser = require('body-parser');
 const teamService = require('../service/teamService')
 const mw = require('../middleware.js')
-const URL = require('url').URL;
+
 
 router.use(bodyParser.json());
 
@@ -45,9 +45,10 @@ router.get('/teams/:team_id', (req,res) => {
     })
 })
 
-router.put('/teams/:team_id', (req, res) => {
+router.put('/teams/:team_id', mw.validateTeam, (req, res) => {
     const id = req.params.team_id
     const body = req.body
+    if(req.body.valid) {
     teamService.updateTeamById(id, body.name, body.pokemonList)
         .then((data) => {
             res.send({message: `Successfully updated team ${data}`})
@@ -55,7 +56,10 @@ router.put('/teams/:team_id', (req, res) => {
             res.statusCode = 400
             res.send({message: err})
         })
-
+    } else {
+        res.statusCode = 400
+        res.send({message: "Team validation failed"})
+    }
 })
 
 module.exports = router
