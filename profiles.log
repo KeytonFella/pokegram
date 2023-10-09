@@ -1,0 +1,5 @@
+2023-10-08T19:01:36.538Z [info]: Method: GET | URL accessed: http://localhost:3000/1/pokemon
+2023-10-08T19:01:46.514Z [info]: Method: PUT | URL accessed: http://localhost:3000/1/pokemon/add
+2023-10-08T19:01:52.350Z [info]: Method: GET | URL accessed: http://localhost:3000/1/pokemon
+2023-10-08T19:02:02.476Z [info]: Method: PUT | URL accessed: http://localhost:3000/1/pokemon/remove
+2023-10-08T19:23:14.104Z [info]: Method: GET | URL accessed: http://localhost:3000/profiles//1/pokemon
