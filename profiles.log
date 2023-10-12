@@ -214,3 +214,183 @@
 2023-10-10T04:33:28.717Z [info]: Method: GET | URL accessed: http://localhost:3000/profiles/1/pokemon
 2023-10-10T04:33:28.718Z [info]: getAllProfilePokemon called
 2023-10-10T04:33:29.028Z [info]: getAllProfilePokemon resolved
+2023-10-11T20:41:03.324Z [info]: Method: GET | URL accessed: http://localhost:3000/profiles/1/pokemon
+2023-10-11T20:41:03.326Z [info]: getAllProfilePokemon called
+2023-10-11T20:41:03.337Z [info]: Method: GET | URL accessed: http://localhost:3000/profiles/1/pokemon
+2023-10-11T20:41:03.337Z [info]: getAllProfilePokemon called
+2023-10-11T20:41:03.746Z [info]: getAllProfilePokemon resolved
+2023-10-11T20:41:03.752Z [info]: getAllProfilePokemon resolved
+2023-10-11T20:41:24.096Z [info]: Method: GET | URL accessed: http://localhost:3000/profiles/1/pokemon
+2023-10-11T20:41:24.097Z [info]: getAllProfilePokemon called
+2023-10-11T20:41:24.506Z [info]: getAllProfilePokemon resolved
+2023-10-11T20:41:28.969Z [info]: Method: GET | URL accessed: http://localhost:3000/profiles/1/pokemon
+2023-10-11T20:41:28.969Z [info]: getAllProfilePokemon called
+2023-10-11T20:41:29.237Z [info]: getAllProfilePokemon resolved
+2023-10-11T20:41:38.953Z [info]: Method: GET | URL accessed: http://localhost:3000/profiles/1/pokemon
+2023-10-11T20:41:38.953Z [info]: getAllProfilePokemon called
+2023-10-11T20:41:39.367Z [info]: getAllProfilePokemon resolved
+2023-10-11T20:41:43.520Z [info]: Method: GET | URL accessed: http://localhost:3000/profiles/1/pokemon
+2023-10-11T20:41:43.520Z [info]: getAllProfilePokemon called
+2023-10-11T20:41:43.527Z [info]: Method: PUT | URL accessed: http://localhost:3000/profiles/1/pokemon/remove
+2023-10-11T20:41:43.528Z [info]: removeProfilePokemon called
+2023-10-11T20:41:43.528Z [info]: getAllProfilePokemon called
+2023-10-11T20:41:43.910Z [info]: getAllProfilePokemon resolved
+2023-10-11T20:41:43.913Z [info]: getAllProfilePokemon resolved
+2023-10-11T20:47:37.853Z [info]: Method: GET | URL accessed: http://localhost:3000/profiles/1/pokemon
+2023-10-11T20:47:37.855Z [info]: getAllProfilePokemon called
+2023-10-11T20:47:37.865Z [info]: Method: GET | URL accessed: http://localhost:3000/profiles/1/pokemon
+2023-10-11T20:47:37.866Z [info]: getAllProfilePokemon called
+2023-10-11T20:47:38.234Z [info]: getAllProfilePokemon resolved
+2023-10-11T20:47:38.243Z [info]: getAllProfilePokemon resolved
+2023-10-11T20:47:40.800Z [info]: Method: GET | URL accessed: http://localhost:3000/profiles/1/pokemon
+2023-10-11T20:47:40.801Z [info]: getAllProfilePokemon called
+2023-10-11T20:47:40.807Z [info]: Method: PUT | URL accessed: http://localhost:3000/profiles/1/pokemon/remove
+2023-10-11T20:47:40.807Z [info]: removeProfilePokemon called
+2023-10-11T20:47:40.808Z [info]: getAllProfilePokemon called
+2023-10-11T20:47:41.058Z [info]: getAllProfilePokemon resolved
+2023-10-11T20:47:41.062Z [info]: getAllProfilePokemon resolved
+2023-10-11T20:48:44.727Z [info]: Method: GET | URL accessed: http://localhost:3000/profiles/1/pokemon
+2023-10-11T20:48:44.728Z [info]: getAllProfilePokemon called
+2023-10-11T20:48:45.098Z [info]: getAllProfilePokemon resolved
+2023-10-11T20:49:18.823Z [info]: Method: PUT | URL accessed: http://localhost:3000/profiles/1/pokemon/remove
+2023-10-11T20:49:18.823Z [info]: removeProfilePokemon called
+2023-10-11T20:49:18.824Z [info]: getAllProfilePokemon called
+2023-10-11T20:49:19.202Z [info]: getAllProfilePokemon resolved
+2023-10-11T20:49:25.869Z [info]: Method: GET | URL accessed: http://localhost:3000/profiles/1/pokemon
+2023-10-11T20:49:25.870Z [info]: getAllProfilePokemon called
+2023-10-11T20:49:25.875Z [info]: Method: GET | URL accessed: http://localhost:3000/profiles/1/pokemon
+2023-10-11T20:49:25.875Z [info]: getAllProfilePokemon called
+2023-10-11T20:49:26.173Z [info]: getAllProfilePokemon resolved
+2023-10-11T20:49:26.177Z [info]: getAllProfilePokemon resolved
+2023-10-11T20:49:32.439Z [info]: Method: GET | URL accessed: http://localhost:3000/profiles/1/pokemon
+2023-10-11T20:49:32.439Z [info]: getAllProfilePokemon called
+2023-10-11T20:49:32.446Z [info]: Method: GET | URL accessed: http://localhost:3000/profiles/1/pokemon
+2023-10-11T20:49:32.447Z [info]: getAllProfilePokemon called
+2023-10-11T20:49:32.817Z [info]: getAllProfilePokemon resolved
+2023-10-11T20:49:32.820Z [info]: getAllProfilePokemon resolved
+2023-10-11T20:51:08.541Z [info]: Method: PUT | URL accessed: http://localhost:3000/profiles/1/pokemon/remove
+2023-10-11T20:51:08.542Z [info]: removeProfilePokemon called
+2023-10-11T20:51:08.542Z [info]: getAllProfilePokemon called
+2023-10-11T20:51:08.946Z [info]: getAllProfilePokemon resolved
+2023-10-11T21:14:31.020Z [info]: Method: PUT | URL accessed: http://localhost:3000/profiles/1/pokemon/remove
+2023-10-11T21:14:31.021Z [info]: removeProfilePokemon called
+2023-10-11T21:14:31.021Z [info]: getAllProfilePokemon called
+2023-10-11T21:14:52.566Z [info]: Method: PUT | URL accessed: http://localhost:5500/profiles/1/pokemon/remove
+2023-10-11T21:14:52.569Z [info]: removeProfilePokemon called
+2023-10-11T21:14:52.570Z [info]: getAllProfilePokemon called
+2023-10-11T21:14:52.970Z [info]: getAllProfilePokemon resolved
+2023-10-11T21:16:13.433Z [info]: Method: PUT | URL accessed: http://localhost:5500/profiles/1/pokemon/remove
+2023-10-11T21:16:13.434Z [info]: removeProfilePokemon called
+2023-10-11T21:16:13.435Z [info]: getAllProfilePokemon called
+2023-10-11T21:16:13.818Z [info]: getAllProfilePokemon resolved
+2023-10-11T21:17:49.784Z [info]: Method: PUT | URL accessed: http://localhost:5500/profiles/1/pokemon/remove
+2023-10-11T21:17:49.786Z [info]: removeProfilePokemon called
+2023-10-11T21:20:22.539Z [info]: Method: PUT | URL accessed: http://localhost:5500/profiles/1/pokemon/remove
+2023-10-11T21:20:22.539Z [info]: removeProfilePokemon called
+2023-10-11T21:20:30.273Z [info]: Method: PUT | URL accessed: http://localhost:5500/profiles/1/pokemon/remove
+2023-10-11T21:20:30.275Z [info]: removeProfilePokemon called
+2023-10-11T21:20:30.949Z [info]: Pokemon removed: Lugia}
+2023-10-11T21:20:50.038Z [info]: Method: GET | URL accessed: http://localhost:5500/profiles/1/pokemon
+2023-10-11T21:20:50.039Z [info]: getAllProfilePokemon called
+2023-10-11T21:20:50.051Z [info]: Method: GET | URL accessed: http://localhost:5500/profiles/1/pokemon
+2023-10-11T21:20:50.051Z [info]: getAllProfilePokemon called
+2023-10-11T21:20:50.427Z [info]: getAllProfilePokemon resolved
+2023-10-11T21:20:50.431Z [info]: getAllProfilePokemon resolved
+2023-10-11T21:21:48.080Z [info]: Method: GET | URL accessed: http://localhost:5500/profiles/1/pokemon
+2023-10-11T21:21:48.081Z [info]: getAllProfilePokemon called
+2023-10-11T21:21:48.086Z [info]: Method: PUT | URL accessed: http://localhost:5500/profiles/1/pokemon/remove
+2023-10-11T21:21:48.087Z [info]: removeProfilePokemon called
+2023-10-11T21:21:48.469Z [info]: getAllProfilePokemon resolved
+2023-10-11T21:21:48.735Z [info]: Pokemon removed: Bastiodon}
+2023-10-11T21:21:51.447Z [info]: Method: GET | URL accessed: http://localhost:5500/profiles/1/pokemon
+2023-10-11T21:21:51.448Z [info]: getAllProfilePokemon called
+2023-10-11T21:21:51.456Z [info]: Method: GET | URL accessed: http://localhost:5500/profiles/1/pokemon
+2023-10-11T21:21:51.457Z [info]: getAllProfilePokemon called
+2023-10-11T21:21:51.722Z [info]: getAllProfilePokemon resolved
+2023-10-11T21:21:51.725Z [info]: getAllProfilePokemon resolved
+2023-10-11T21:22:21.307Z [info]: Method: GET | URL accessed: http://localhost:5500/profiles/1/pokemon
+2023-10-11T21:22:21.309Z [info]: getAllProfilePokemon called
+2023-10-11T21:22:21.334Z [info]: Method: PUT | URL accessed: http://localhost:5500/profiles/1/pokemon/remove
+2023-10-11T21:22:21.334Z [info]: removeProfilePokemon called
+2023-10-11T21:22:21.701Z [info]: getAllProfilePokemon resolved
+2023-10-11T21:22:21.960Z [info]: Pokemon removed: Dragonite
+2023-10-11T21:22:25.964Z [info]: Method: PUT | URL accessed: http://localhost:5500/profiles/1/pokemon/remove
+2023-10-11T21:22:25.964Z [info]: removeProfilePokemon called
+2023-10-11T21:22:25.969Z [info]: Method: GET | URL accessed: http://localhost:5500/profiles/1/pokemon
+2023-10-11T21:22:25.969Z [info]: getAllProfilePokemon called
+2023-10-11T21:22:26.232Z [info]: getAllProfilePokemon resolved
+2023-10-11T21:22:26.664Z [error]: Error attempting to remove Dragonite: ValidationException: Invalid UpdateExpression: Syntax error; token: "-", near: "[-1"
+2023-10-11T21:23:17.731Z [info]: Method: GET | URL accessed: http://localhost:5500/profiles/1/pokemon
+2023-10-11T21:23:17.732Z [info]: getAllProfilePokemon called
+2023-10-11T21:23:18.151Z [info]: getAllProfilePokemon resolved
+2023-10-11T21:23:19.905Z [info]: Method: GET | URL accessed: http://localhost:5500/profiles/1/pokemon
+2023-10-11T21:23:19.906Z [info]: getAllProfilePokemon called
+2023-10-11T21:23:20.161Z [info]: getAllProfilePokemon resolved
+2023-10-11T21:23:20.164Z [info]: Method: GET | URL accessed: http://localhost:5500/profiles/1/pokemon
+2023-10-11T21:23:20.164Z [info]: getAllProfilePokemon called
+2023-10-11T21:23:20.419Z [info]: getAllProfilePokemon resolved
+2023-10-11T21:23:24.386Z [info]: Method: GET | URL accessed: http://localhost:5500/profiles/1/pokemon
+2023-10-11T21:23:24.387Z [info]: getAllProfilePokemon called
+2023-10-11T21:23:24.406Z [info]: Method: PUT | URL accessed: http://localhost:5500/profiles/1/pokemon/remove
+2023-10-11T21:23:24.407Z [info]: removeProfilePokemon called
+2023-10-11T21:23:24.772Z [info]: getAllProfilePokemon resolved
+2023-10-11T21:23:25.028Z [info]: Pokemon removed: Charizard
+2023-10-11T21:34:40.619Z [info]: Method: GET | URL accessed: http://localhost:5500/profiles/1/pokemon
+2023-10-11T21:34:40.620Z [info]: getAllProfilePokemon called
+2023-10-11T21:34:41.005Z [info]: getAllProfilePokemon resolved
+2023-10-11T21:34:41.013Z [info]: Method: GET | URL accessed: http://localhost:5500/profiles/1/pokemon
+2023-10-11T21:34:41.014Z [info]: getAllProfilePokemon called
+2023-10-11T21:34:41.279Z [info]: getAllProfilePokemon resolved
+2023-10-11T21:36:38.402Z [info]: Method: GET | URL accessed: http://localhost:5500/profiles/1/pokemon
+2023-10-11T21:36:38.402Z [info]: getAllProfilePokemon called
+2023-10-11T21:36:38.777Z [info]: getAllProfilePokemon resolved
+2023-10-11T21:36:41.998Z [info]: Method: PUT | URL accessed: http://localhost:5500/profiles/1/pokemon/remove
+2023-10-11T21:36:41.999Z [info]: removeProfilePokemon called
+2023-10-11T21:36:42.516Z [info]: Pokemon removed: Garchomp
+2023-10-11T21:36:42.521Z [info]: Method: GET | URL accessed: http://localhost:5500/profiles/1/pokemon
+2023-10-11T21:36:42.522Z [info]: getAllProfilePokemon called
+2023-10-11T21:36:42.774Z [info]: getAllProfilePokemon resolved
+2023-10-11T21:38:31.714Z [info]: Method: PUT | URL accessed: http://localhost:5500/profiles/1/pokemon/add
+2023-10-11T21:38:31.714Z [info]: addProfilePokemon called
+2023-10-11T21:39:06.536Z [error]: Error attempting to add [object Object]: ExpiredTokenException: The security token included in the request is expired
+2023-10-11T21:39:16.173Z [info]: Method: PUT | URL accessed: http://localhost:5500/profiles/1/pokemon/add
+2023-10-11T21:39:16.175Z [info]: addProfilePokemon called
+2023-10-11T21:39:16.566Z [info]: Pokemon added: Lugia}
+2023-10-11T21:40:26.022Z [info]: Method: GET | URL accessed: http://localhost:5500/profiles/1/pokemon
+2023-10-11T21:40:26.023Z [info]: getAllProfilePokemon called
+2023-10-11T21:40:26.406Z [info]: getAllProfilePokemon resolved
+2023-10-11T21:40:26.409Z [info]: Method: GET | URL accessed: http://localhost:5500/profiles/1/pokemon
+2023-10-11T21:40:26.409Z [info]: getAllProfilePokemon called
+2023-10-11T21:40:26.662Z [info]: getAllProfilePokemon resolved
+2023-10-11T21:40:40.023Z [info]: Method: PUT | URL accessed: http://localhost:5500/profiles/1/pokemon/remove
+2023-10-11T21:40:40.024Z [info]: removeProfilePokemon called
+2023-10-11T21:40:40.670Z [info]: Pokemon removed: Lugia
+2023-10-11T21:40:40.685Z [info]: Method: GET | URL accessed: http://localhost:5500/profiles/1/pokemon
+2023-10-11T21:40:40.687Z [info]: getAllProfilePokemon called
+2023-10-11T21:40:40.947Z [info]: getAllProfilePokemon resolved
+2023-10-11T21:42:31.727Z [info]: Method: GET | URL accessed: http://localhost:5500/profiles/1/pokemon
+2023-10-11T21:42:31.728Z [info]: getAllProfilePokemon called
+2023-10-11T21:42:32.099Z [info]: getAllProfilePokemon resolved
+2023-10-11T22:24:58.133Z [info]: Method: GET | URL accessed: http://localhost:5500/profiles/1/pokemon
+2023-10-11T22:24:58.135Z [info]: getAllProfilePokemon called
+2023-10-11T22:24:58.520Z [info]: getAllProfilePokemon resolved
+2023-10-11T22:24:58.525Z [info]: Method: GET | URL accessed: http://localhost:5500/profiles/1/pokemon
+2023-10-11T22:24:58.525Z [info]: getAllProfilePokemon called
+2023-10-11T22:24:58.785Z [info]: getAllProfilePokemon resolved
+2023-10-11T22:28:57.479Z [info]: Method: GET | URL accessed: http://localhost:5500/profiles/1/pokemon
+2023-10-11T22:28:57.480Z [info]: getAllProfilePokemon called
+2023-10-11T22:28:57.902Z [info]: getAllProfilePokemon resolved
+2023-10-12T00:12:52.622Z [info]: Method: GET | URL accessed: http://localhost:5500/profiles/1/pokemon
+2023-10-12T00:12:52.625Z [info]: getAllProfilePokemon called
+2023-10-12T00:12:53.033Z [info]: getAllProfilePokemon resolved
+2023-10-12T00:12:53.039Z [info]: Method: GET | URL accessed: http://localhost:5500/profiles/1/pokemon
+2023-10-12T00:12:53.040Z [info]: getAllProfilePokemon called
+2023-10-12T00:12:53.330Z [info]: getAllProfilePokemon resolved
+2023-10-12T00:38:40.651Z [info]: Method: GET | URL accessed: http://localhost:5500/profiles/1/pokemon
+2023-10-12T00:38:40.652Z [info]: getAllProfilePokemon called
+2023-10-12T04:11:39.594Z [info]: Method: GET | URL accessed: http://localhost:5500/profiles/1/pokemon
+2023-10-12T04:11:39.597Z [info]: getAllProfilePokemon called
+2023-10-12T04:11:40.020Z [info]: getAllProfilePokemon resolved
+2023-10-12T04:11:40.025Z [info]: Method: GET | URL accessed: http://localhost:5500/profiles/1/pokemon
+2023-10-12T04:11:40.025Z [info]: getAllProfilePokemon called
+2023-10-12T04:11:40.290Z [info]: getAllProfilePokemon resolved

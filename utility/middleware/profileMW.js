@@ -22,7 +22,7 @@ const logger = createLogger({
 
 function logRequest(req, res, next) {
     // Log the request
-    logger.info(`Method: ${req.method} | URL accessed: http://localhost:3000/profiles${req.url}`);
+    logger.info(`Method: ${req.method} | URL accessed: http://localhost:5500/profiles${req.url}`);
     next();
 }
 

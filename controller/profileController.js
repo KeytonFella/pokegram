@@ -1,5 +1,7 @@
 const express = require('express');
 const profileRouter = express.Router();
+const multer  = require('multer')
+const upload = multer()
 const profileService = require('../service/profileService');
 const profileMW = require('../utility/middleware/profileMW');
 
@@ -20,7 +22,7 @@ profileRouter.put('/:profile_id/pokemon/add', profileMW.logRequest, (req, res) =
     const pokemon = req.body;
     profileService.addProfilePokemon(req.params.profile_id,  pokemon).then((data) => {
         res.status(200);
-        res.send({message: `${pokemon} added to profile`});
+        res.send({message: `${pokemon.pokemon} added to profile`});
     }).catch((err) => {
         res.status(500);
         res.send({message: err});
@@ -40,5 +42,13 @@ profileRouter.put('/:profile_id/pokemon/remove', profileMW.logRequest, (req, res
 });
 
 // ============================== Profile calls =========================================
+profileRouter.put('/:profile_id/update/photo', upload.single(), profileMW.logRequest, (req, res) => {
+
+ 
+});
+
+profileRouter.put('/:profile_id/update/bio', profileMW.logRequest, (req, res) => {
+
+});
 
 module.exports = profileRouter;

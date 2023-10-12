@@ -19,7 +19,7 @@ function addProfilePokemon(profile_id, pokemon){
     logger.info('addProfilePokemon called');
     return new Promise((resolve, reject) => {
         profileDAO.addProfilePokemon(profile_id, pokemon.pokemon).then((data) => {
-            logger.info(`Pokemon added: ${pokemon.pokemon}}`)
+            logger.info(`Pokemon added: ${pokemon.pokemon}`)
             resolve(data);
         }).catch((err) => {
             logger.error(`Error attempting to add ${pokemon}: ${err}`)
@@ -32,11 +32,12 @@ function addProfilePokemon(profile_id, pokemon){
 // Delete pokemon from profile pokemon list
 async function removeProfilePokemon(profile_id, pokemon){
     logger.info('removeProfilePokemon called');
-    const pokemonList = await getAllProfilePokemon(profile_id);
+    const profile = await profileDAO.getAllProfilePokemon(profile_id);
+    const pokemonList = profile.Item.pokemon;
     const index = pokemonList.indexOf(pokemon);
     return new Promise((resolve, reject) => {
         profileDAO.removeProfilePokemon(profile_id, index).then((data) => {
-            logger.info(`Pokemon removed: ${pokemon}}`)
+            logger.info(`Pokemon removed: ${pokemon}`)
             resolve(data);
         }).catch((err) => {
             logger.error(`Error attempting to remove ${pokemon}: ${err}`)
