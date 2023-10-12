@@ -47,6 +47,11 @@ function stsGetCallerIdentity(creds) {
 
 // ============================== DynamoDB Functions ==============================
 
+// ============================== General Profile Calls ==============================
+// Get one profile
+
+
+// ============================== Pokemon Calls ==============================
 // Get all pokemon associated with profile
 function getAllProfilePokemon(profile_id){
     const params = {
