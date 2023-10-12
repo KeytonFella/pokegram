@@ -1,8 +1,5 @@
 {
-<<<<<<< HEAD
-  "dependencies": {
-    "uuid": "^9.0.1"
-=======
+
   "name": "tr-poke-sm",
   "version": "1.0.0",
   "description": "",
@@ -20,10 +17,10 @@
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.2",
     "winston": "^3.11.0",
-    "bluebird": "3.7.2"
+    "bluebird": "3.7.2",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"
->>>>>>> 63989d477773da20da9bd9d481b3fa5a9378f2dc
   }
 }
