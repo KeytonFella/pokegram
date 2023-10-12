@@ -3,7 +3,6 @@ const profileRouter = express.Router();
 const multer  = require('multer')
 const upload = multer()
 const profileService = require('../service/profileService');
-const profileMW = require('../utility/middleware/profileMW');
 
 //============================= Profile pokemon calls =========================================
 // Get all pokemon associated with profile
