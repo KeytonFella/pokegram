@@ -16,9 +16,13 @@
     "express": "^4.18.2",
     "json-stringify-safe": "^5.0.1",
     "jsonwebtoken": "^9.0.2",
+
     "stringify": "^5.2.0",
     "uuid": "^9.0.1",
-    "winston": "^3.11.0"
+    "winston": "^3.11.0",
+
+    "bluebird": "3.7.2"
+
   },
   "devDependencies": {
     "nodemon": "^3.0.1"
