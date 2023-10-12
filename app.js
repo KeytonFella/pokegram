@@ -12,7 +12,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(logger.logRequest);
 app.get('/', (req, res) => {
-    res.send('Hello and welcome to the Pokegram API!');
+    res.send('Hello! Welcome to the Pokegram API!');
     }
 );
 //app.use(login register router goes here)
