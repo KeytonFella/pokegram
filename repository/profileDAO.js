@@ -49,6 +49,87 @@ function stsGetCallerIdentity(creds) {
 
 // ============================== General Profile Calls ==============================
 // Get one profile
+function getProfileById(profile_id){
+    const params = {
+        TableName: 'poke_profiles',
+        Key: {
+            'profile_id': profile_id 
+        }
+    }
+    return docClient.get(params).promise();
+}
+
+// Get all profile's friends
+function getProfileFriends(profile_id){
+    const params = {
+        TableName: 'poke_profiles',
+        Key: {
+            'profile_id': profile_id 
+        },
+        ProjectionExpression: 'friends'
+    }
+    return docClient.get(params).promise();
+}
+
+// Create new profile 
+function createProfile(profile_id){
+    const params = {
+        TableName: 'poke_profiles',
+        Item: {
+            'profile_id': profile_id,
+        }
+    }
+    return docClient.put(params).promise();
+}
+
+// Add friend to profile friends list
+function addProfileFriend(profile_id, friend){
+    const params = {
+        TableName: 'poke_profiles',
+        Key: {
+            'profile_id': profile_id 
+        },
+        UpdateExpression: 'set #f = list_append(#f, :f)',
+        ExpressionAttributeNames: {
+            '#f': 'friends'
+        },
+        ExpressionAttributeValues: {
+            ':f': [friend]
+        },
+    }
+    return docClient.update(params).promise();
+}
+
+// Update profile bio
+function updateProfileBio(profile_id, bio){
+    const params = {
+        TableName: 'poke_profiles',
+        Key: {
+            'profile_id': profile_id 
+        },
+        UpdateExpression: 'set bio = :b',
+        ExpressionAttributeValues: {
+            ':b': bio
+        }
+    }
+    return docClient.update(params).promise();
+}
+
+// Update profile image
+function updateProfilePic(profile_id, image){
+    const params = {
+        TableName: 'poke_profiles',
+        Key: {
+            'profile_id': profile_id 
+        },
+        UpdateExpression: 'set image = :i',
+        ExpressionAttributeValues: {
+            ':i': image
+        }
+    }
+    return docClient.update(params).promise();
+}
+
 
 
 // ============================== Pokemon Calls ==============================
@@ -58,7 +139,8 @@ function getAllProfilePokemon(profile_id){
         TableName: 'poke_profiles',
         Key: {
             'profile_id': profile_id 
-        }
+        },
+        ProjectionExpression: 'pokemon'
     }
     return docClient.get(params).promise();
 }
@@ -97,5 +179,11 @@ function removeProfilePokemon(profile_id, index){
 module.exports = {
     getAllProfilePokemon, 
     addProfilePokemon, 
-    removeProfilePokemon
+    removeProfilePokemon,
+    getProfileById,
+    getProfileFriends,
+    createProfile,
+    addProfileFriend,
+    updateProfileBio,
+    updateProfilePic
 }

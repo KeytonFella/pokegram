@@ -394,3 +394,7 @@
 2023-10-12T04:11:40.025Z [info]: Method: GET | URL accessed: http://localhost:5500/profiles/1/pokemon
 2023-10-12T04:11:40.025Z [info]: getAllProfilePokemon called
 2023-10-12T04:11:40.290Z [info]: getAllProfilePokemon resolved
+2023-10-12T20:21:00.278Z [info]: getAllProfilePokemon service called
+2023-10-12T20:21:00.699Z [info]: getAllProfilePokemon resolved
+2023-10-12T20:21:38.397Z [info]: getAllProfilePokemon service called
+2023-10-12T20:21:38.791Z [info]: getAllProfilePokemon resolved

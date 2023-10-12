@@ -1,8 +1,78 @@
 const profileDAO = require('../repository/profileDAO');
 
+// ============================== General Profile Service Calls ==============================
+function getProfileById(profile_id){
+    logger.info('getProfileById service called');
+    return new Promise((resolve, reject) => {
+        profileDAO.getProfileById(profile_id).then((data) => {
+            logger.info('getProfileById resolved')
+            resolve(data);
+        }).catch((err) => {
+            logger.error(`Error attempting to getProfileById: ${err}`)
+            reject(err);
+        });
+    });
+}
+
+function createProfile(profile_id){
+    logger.info('createProfile service called');
+    return new Promise((resolve, reject) => {
+        profileDAO.createProfile(profile_id).then((data) => {
+            logger.info('createProfile resolved')
+            resolve(data);
+        }).catch((err) => {
+            logger.error(`Error attempting to createProfile: ${err}`)
+            reject(err);
+        });
+    });
+}
+
+function addProfileFriend(profile_id, friend){
+    logger.info('addProfileFriend service called');
+    return new Promise((resolve, reject) => {
+        profileDAO.addProfileFriend(profile_id, friend).then((data) => {
+            logger.info('addProfileFriend resolved')
+            resolve(data);
+        }).catch((err) => {
+            logger.error(`Error attempting to addProfileFriend: ${err}`)
+            reject(err);
+        });
+    });
+}
+
+function updateProfileBio(profile_id, bio){
+    logger.info('updateProfileBio service called');
+    return new Promise((resolve, reject) => {
+        profileDAO.updateProfileBio(profile_id, bio).then((data) => {
+            logger.info('updateProfileBio resolved')
+            resolve(data);
+        }).catch((err) => {
+            logger.error(`Error attempting to updateProfileBio: ${err}`)
+            reject(err);
+        });
+    });
+}
+
+function updateProfilePic(profile_id, image){
+    logger.info('updateProfilePic service called');
+    return new Promise((resolve, reject) => {
+        profileDAO.updateProfilePic(profile_id, image).then((data) => {
+            logger.info('updateProfilePic resolved')
+            resolve(data);
+        }).catch((err) => {
+            logger.error(`Error attempting to updateProfilePic: ${err}`)
+            reject(err);
+        });
+    });
+}
+
+
+
+// ============================== Profile Pokemon Service Calls ==============================
+
 // Get all pokemon associated with profile
 function getAllProfilePokemon(profile_id){
-    logger.info('getAllProfilePokemon called');
+    logger.info('getAllProfilePokemon service called');
     return new Promise((resolve, reject) => {
         profileDAO.getAllProfilePokemon(profile_id).then((data) => {
             logger.info('getAllProfilePokemon resolved')
@@ -16,7 +86,7 @@ function getAllProfilePokemon(profile_id){
 
 // Add pokemon to profile pokemon list
 function addProfilePokemon(profile_id, pokemon){
-    logger.info('addProfilePokemon called');
+    logger.info('addProfilePokemon service called');
     return new Promise((resolve, reject) => {
         profileDAO.addProfilePokemon(profile_id, pokemon.pokemon).then((data) => {
             logger.info(`Pokemon added: ${pokemon.pokemon}`)
@@ -31,7 +101,7 @@ function addProfilePokemon(profile_id, pokemon){
 
 // Delete pokemon from profile pokemon list
 async function removeProfilePokemon(profile_id, pokemon){
-    logger.info('removeProfilePokemon called');
+    logger.info('removeProfilePokemon service called');
     const profile = await profileDAO.getAllProfilePokemon(profile_id);
     const pokemonList = profile.Item.pokemon;
     const index = pokemonList.indexOf(pokemon);
@@ -47,6 +117,7 @@ async function removeProfilePokemon(profile_id, pokemon){
 
 }
 
+// ============================== Logger ==============================
 // Winston logger setup
 const { createLogger, transports, format} = require('winston');
 
@@ -68,5 +139,10 @@ const logger = createLogger({
 module.exports = {
     getAllProfilePokemon, 
     addProfilePokemon, 
-    removeProfilePokemon
+    removeProfilePokemon,
+    getProfileById,
+    createProfile,
+    addProfileFriend,
+    updateProfileBio,
+    updateProfilePic
 }
