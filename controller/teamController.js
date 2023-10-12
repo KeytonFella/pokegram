@@ -25,9 +25,6 @@ router.post('/teams', mw.validateTeam, (req, res) => {
                 res.statusCode = 400
                 res.send({message: `Team creation failed. ${err}`})
             })
-    } else {
-        res.statusCode = 400
-        res.send({message: "Team validation failed."})
     }
 })
 

@@ -26,6 +26,15 @@ function validateTeam(req, res, next) {
         req.body.valid = false;
         
     } else {
+        //check pokemon levels
+        for(let i = 0; i< team.pokemonList.length; i++) {
+            if(team.pokemonList[i].level > 100 || team.pokemonList[i].level < 0 || !team.pokemonList[i].level){
+                res.statusCode = 400
+                res.send({message: `Error: ${team.pokemonList[i].name}'s level is out of bounds`})
+                req.body.valid = false;
+                next()
+            }
+        }
         req.body.valid = true;
         next();
     }
