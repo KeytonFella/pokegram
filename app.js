@@ -20,7 +20,6 @@ app.use(logger.logRequest);
 app.use(jwt.verifyUser);
 app.use('/api/profiles', profileRouter);
 app.use('/api/trades', tradesRouter);
-
 app.get('/', (req, res) => {
     res.send('Hello and welcome to the Pokegram API!');
     }

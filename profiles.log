@@ -214,3 +214,4 @@
 2023-10-10T04:33:28.717Z [info]: Method: GET | URL accessed: http://localhost:3000/profiles/1/pokemon
 2023-10-10T04:33:28.718Z [info]: getAllProfilePokemon called
 2023-10-10T04:33:29.028Z [info]: getAllProfilePokemon resolved
+2023-10-12T18:58:33.507Z [info]: Method: POST | URL accessed: http://localhost:5500/teams | Status: 200, undefined

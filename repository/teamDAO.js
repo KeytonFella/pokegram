@@ -45,13 +45,14 @@ AWS.config.update({
 docClient = new AWS.DynamoDB.DocumentClient();
 
 //TODO: Attach team to user id
-function createTeam(team_id, name, pokemonList) {
+function createTeam(team_id, name, pokemonList, user_id) {
     const params = {
         TableName: 'teams',
         Item: {
             team_id,
             name,
-            pokemonList
+            pokemonList,
+            user_id
         }
     }
     return docClient.put(params).promise();

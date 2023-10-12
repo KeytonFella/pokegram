@@ -3,29 +3,33 @@ const router = express.Router();
 const bodyParser = require('body-parser');
 const teamService = require('../service/teamService')
 const mw = require('../utility/middleware/teamMW.js')
-
+const jwUtil = require('../utility/jwt_util.js')
 
 router.use(bodyParser.json());
 
 
 
 router.post('/teams', mw.validateTeam, (req, res) => {
+    const token = req.headers.authorization.split(' ')[0]
     const team = req.body
-    if(req.body.valid) {
-        console.log("valid team")
-        
-        teamService.createTeam(team.name, team.pokemonList)
-            .then((data) => {
-                res.statusCode = 200;
-                res.send({
-                    message: `Team submitted: ${data}`
+    jwUtil.verifyTokenAndReturnPayload(token)
+        .then((payload) => {
+        if(req.body.valid) {
+            console.log("valid team")
+            
+            teamService.createTeam(team.name, team.pokemonList, payload.user_id)
+                .then((data) => {
+                    res.statusCode = 200;
+                    res.send({
+                        message: `Team submitted: ${data}`
+                    })
                 })
-            })
-            .catch((err) => {
-                res.statusCode = 400
-                res.send({message: `Team creation failed. ${err}`})
-            })
-    }
+                .catch((err) => {
+                    res.statusCode = 400
+                    res.send({message: `Team creation failed. ${err}`})
+                })
+        }
+    })
 })
 
 router.get('/teams/:team_id', (req,res) => {
