@@ -20,6 +20,7 @@ app.use(logger.logRequest);
 app.use(jwt.verifyUser);
 app.use('/api/profiles', profileRouter);
 app.use('/api/trades', tradesRouter);
+app.use('/api/teams', teamRouter);
 app.get('/', (req, res) => {
     res.send('Hello and welcome to the Pokegram API!');
     }
@@ -37,7 +38,7 @@ dynamoDB.listTables({}, (err, data) => {
     }
 });
 
-app.use(teamRouter);
+
 
 
 

@@ -9,15 +9,16 @@ router.use(bodyParser.json());
 
 
 
-router.post('/teams', mw.validateTeam, (req, res) => {
-    const token = req.headers.authorization.split(' ')[0]
+router.post('', mw.validateTeam, (req, res) => {
+    //const token = req.headers.authorization.split(' ')[0]
     const team = req.body
-    jwUtil.verifyTokenAndReturnPayload(token)
-        .then((payload) => {
+    console.log("Attempting to post team")
+    //jwUtil.verifyTokenAndReturnPayload(token)
+      //  .then((payload) => {
         if(req.body.valid) {
             console.log("valid team")
             
-            teamService.createTeam(team.name, team.pokemonList, payload.user_id)
+            teamService.createTeam(team.name, team.pokemonList, team.user_id)
                 .then((data) => {
                     res.statusCode = 200;
                     res.send({
@@ -29,10 +30,10 @@ router.post('/teams', mw.validateTeam, (req, res) => {
                     res.send({message: `Team creation failed. ${err}`})
                 })
         }
-    })
+    //})
 })
 
-router.get('/teams/:team_id', (req,res) => {
+router.get('/:team_id', (req,res) => {
     
     const id = req.params.team_id
 
@@ -46,7 +47,7 @@ router.get('/teams/:team_id', (req,res) => {
     })
 })
 
-router.put('/teams/:team_id', mw.validateTeam, (req, res) => {
+router.put('/:team_id', mw.validateTeam, (req, res) => {
     const id = req.params.team_id
     const body = req.body
     if(req.body.valid) {
