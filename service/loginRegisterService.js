@@ -1,8 +1,9 @@
-const dao = require('../daos/loginRegisterDao');
-const util = require('../util/util.js');
-const logger = require("../logger/logger.js");
+const dao = require('../repository/loginRegisterDao');
+const jwt_util = require('../utility/jwt_util.js');
+const gen_id = require('../utility/gen_uuid.js');
+//const logger = require("../logger/logger.js");
 
-async function validateRegister(username, password){
+async function validateRegister(username, password, uuid){
 /*     (                  # Start of group
         (?=.*\d)          # must contains one digit from 0-9
         (?=.*[a-z])       # must contains one lowercase characters
@@ -16,10 +17,11 @@ async function validateRegister(username, password){
     regex = /((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{6,20})/;
     //use regex to test for password validation
     if(password && regex.test(password)){
+        let uuid = gen_id();
         try {
-            await dao.registerAccount(username, password, util.genUUID);
+            await dao.registerAccount(username, password, uuid);
         } catch (error) {
-            logger.error("error trying to create account: " + error);
+            console.error("error trying to create account: " + error);
             return null;
         }
         return {username};
@@ -32,16 +34,19 @@ async function validateRegister(username, password){
 
 
 async function validateLogin(username, password){
+    //try-catch?
+
     // calls the dao to check login
     const userData = await dao.retrieveByUsername(username);
     //only try to access the Users password if not null 
     if(userData?.Item?.password === password){
-        return {username};
+        user_id = userData.Item.user_id;
+        let token = jwt_util.createJWT(user_id, username);
+        return {username, user_id, token};
     }else{
         return null;
     }
 }
-
 
 module.exports = {
     validateLogin, validateRegister

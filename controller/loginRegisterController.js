@@ -2,14 +2,14 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const router = express.Router();
 const myService = require('../service/loginRegisterService');
+
 //const logger = require("../logger/logger.js");
 
 router.use(bodyParser.json());
 
 /* Post Account with a unique username and valid password  */
-router.post('/register', async (req, res) => {
+router.post('/users', async (req, res) => {
     const {username, password} = req.body;
-
     // service method to validate input
     // on success, return 200, with user info
     const userInfo = await myService.validateRegister(username, password);
@@ -41,8 +41,10 @@ router.post('/login', async (req, res) => {
         console.log(userInfo);
         res.status(200);
         res.send({
-            message: "Successful Login",
+            //message: "Successful Login",
             username: userInfo.username,
+            user_id: userInfo.user_id,
+            token: userInfo.token
         })
     }else{
         res.status(400);
