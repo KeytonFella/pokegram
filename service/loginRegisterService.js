@@ -16,7 +16,7 @@ async function validateRegister(username, password, uuid){
 
     regex = /((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{6,20})/;
     //use regex to test for password validation
-    if(password && regex.test(password)){
+    if(password && regex.test(password) && username){
         let uuid = gen_id();
         try {
             await dao.registerAccount(username, password, uuid);
@@ -34,16 +34,24 @@ async function validateRegister(username, password, uuid){
 
 
 async function validateLogin(username, password){
-    //try-catch?
+    if( !(username || password)){
+        console.log("empty username or password");
+        return null;
+    }
 
     // calls the dao to check login
-    const userData = await dao.retrieveByUsername(username);
-    //only try to access the Users password if not null 
-    if(userData?.Item?.password === password){
-        user_id = userData.Item.user_id;
-        let token = jwt_util.createJWT(user_id, username);
-        return {username, user_id, token};
-    }else{
+    try {
+        const userData = await dao.retrieveByUsername(username);
+        //only try to access the Users password if not null 
+        if(userData?.Item?.password === password){
+            user_id = userData.Item.user_id;
+            let token = jwt_util.createJWT(user_id, username);
+            return {username, user_id, token};
+        }else{
+            return null;
+        }
+    } catch (error) {
+        console.log(error);
         return null;
     }
 }
