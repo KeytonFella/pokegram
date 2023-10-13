@@ -1,3 +1,3 @@
 #!/bin/bash
-cd /home/ubuntu/tr-poke-sm
+cd /home/ubuntu/pokegram
 npm install

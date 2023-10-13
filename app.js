@@ -9,6 +9,9 @@ const AWS = require('aws-sdk')
 
 const profileRouter = require('./controller/profileController');
 const tradesRouter = require('./controller/tradesController');
+/* const profileRouter = require('./controller/profileController');
+const tradesRouter = require('./controller/tradesController'); */
+const loginRegisterRouter = require('./controller/loginRegisterController');
 const logger = require('./utility/middleware/logger');
 const jwt = require('./utility/jwt_util')
 
@@ -21,24 +24,14 @@ app.use(jwt.verifyUser);
 app.use('/api/profiles', profileRouter);
 app.use('/api/trades', tradesRouter);
 app.use('/api/teams', teamRouter);
+
+/* app.use('/api/profiles', profileRouter);
+app.use('/api/trades', tradesRouter); */
+app.use('/', loginRegisterRouter)
 app.get('/', (req, res) => {
     res.send('Hello and welcome to the Pokegram API!');
     }
 );
-
-const dynamoDB = new AWS.DynamoDB()
-
-dynamoDB.listTables({}, (err, data) => {
-    if(err) {
-        console.error('Error', err);
-    }else{
-        console.log('Tables:', data.TableNames);
-        console.log('Full Data: ', data);
-        
-    }
-});
-
-
 
 
 

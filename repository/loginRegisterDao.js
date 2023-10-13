@@ -1,14 +1,14 @@
 // ============================= AWS DynamoDB  Setup =============================
-
+/* 
 // Load the AWS SDK for Node.js
 const AWS = require('aws-sdk');
-
-// set  you aws region
+// Set the region 
 AWS.config.update({
-    region: 'us-east-2'
+    region: 'us-east-2',
+
 });
 
-let roleToAssume = {RoleArn: 'arn:aws:iam::053796667043:role/PeterNepomuceno',
+let roleToAssume = {RoleArn: 'arn:aws:iam::053796667043:role/ArinAihara',
 RoleSessionName: 'session1',
 DurationSeconds: 900,};
 let roleCreds;
@@ -43,54 +43,48 @@ function stsGetCallerIdentity(creds) {
             console.log(data.Arn);
         }
     });    
-}
+} */
+
+const AWS = require('aws-sdk');
+
+AWS.config.update({
+    region: 'us-west-2'
+});
+
+const docClient = new AWS.DynamoDB.DocumentClient();
 
 // ============================== DynamoDB Functions ==============================
-
-// Get all pokemon associated with profile
-function getAllProfilePokemon(profile_id){
+const TABLENAME = 'users';
+function retrieveByUsername(username){
     const params = {
-        TableName: 'poke_profiles',
+        TableName: TABLENAME,
         Key: {
-            'profile_id': profile_id 
+            username
         }
-    }
+    };
     return docClient.get(params).promise();
 }
 
-// Add pokemon to profile pokemon list
-function addProfilePokemon(profile_id, pokemon){
+function registerAccount(username, password, user_id, street_name="", city=" ", state=" ", zip=" "){
+    console.log("creating account  " +" "+username+" "+ password);
     const params = {
-        TableName: 'poke_profiles',
-        Key: {
-            'profile_id': profile_id,
-        },
-        UpdateExpression: 'set #p = list_append(#p, :p)',
-        ExpressionAttributeNames: {
-            '#p': 'pokemon'
-        },
-        ExpressionAttributeValues: {
-            ':p': [pokemon]
-        },
+        TableName: TABLENAME,
+        ConditionExpression: 'attribute_not_exists(username)',
+        Item: {
+            username,
+            password,
+            user_id,
+            address: {
+                street_name,
+                city,
+                state,
+                zip
+            }
+        }
     }
-    return docClient.update(params).promise();
-}
-
-// Delete pokemon from profile pokemon list
-function removeProfilePokemon(profile_id, index){
-    const params = {
-        TableName: 'poke_profiles',
-        Key: {
-            'profile_id': profile_id
-        },
-        UpdateExpression: `remove pokemon[${index}]`,
-
-    }
-    return docClient.update(params).promise();
+    return docClient.put(params).promise();
 }
 
 module.exports = {
-    getAllProfilePokemon, 
-    addProfilePokemon, 
-    removeProfilePokemon
+    retrieveByUsername, registerAccount
 }
