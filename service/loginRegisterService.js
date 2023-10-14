@@ -14,7 +14,7 @@ async function validateRegister(username, password, uuid){
       ex. abc123!@#A
 */
 
-    regex = /((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{6,20})/;
+    regex = /((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{8,20})/;
     //use regex to test for password validation
     if(password && regex.test(password) && username){
         let uuid = gen_id();

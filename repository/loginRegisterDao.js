@@ -44,7 +44,9 @@ function stsGetCallerIdentity(creds) {
         }
     });    
 } */
-
+/* 
+    personal database setup
+*/
 const AWS = require('aws-sdk');
 
 AWS.config.update({
