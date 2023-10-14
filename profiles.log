@@ -1,3 +1,53 @@
+2023-10-08T19:01:36.538Z [info]: Method: GET | URL accessed: http://localhost:3000/1/pokemon
+2023-10-08T19:01:46.514Z [info]: Method: PUT | URL accessed: http://localhost:3000/1/pokemon/add
+2023-10-08T19:01:52.350Z [info]: Method: GET | URL accessed: http://localhost:3000/1/pokemon
+2023-10-08T19:02:02.476Z [info]: Method: PUT | URL accessed: http://localhost:3000/1/pokemon/remove
+2023-10-08T19:23:14.104Z [info]: Method: GET | URL accessed: http://localhost:3000/profiles//1/pokemon
+2023-10-12T21:42:40.699Z [info]: Method: GET | URL accessed: http://localhost:3000/ws | Status: 200, undefined
+2023-10-12T21:44:49.194Z [info]: Method: GET | URL accessed: http://localhost:3000/ws | Status: 200, undefined
+2023-10-12T21:45:56.316Z [info]: Method: POST | URL accessed: http://localhost:3000/register | Status: 200, undefined
+2023-10-12T21:46:13.177Z [info]: Method: POST | URL accessed: http://localhost:3000/login | Status: 200, undefined
+2023-10-12T21:49:06.187Z [info]: Method: GET | URL accessed: http://localhost:3000/ws | Status: 200, undefined
+2023-10-12T21:49:53.849Z [info]: Method: POST | URL accessed: http://localhost:3000/ | Status: 200, undefined
+2023-10-12T21:50:40.143Z [info]: Method: POST | URL accessed: http://localhost:3000/ | Status: 200, undefined
+2023-10-12T21:51:35.921Z [info]: Method: POST | URL accessed: http://localhost:3000/ | Status: 200, undefined
+2023-10-12T21:53:09.157Z [info]: Method: POST | URL accessed: http://localhost:3000/ | Status: 200, undefined
+2023-10-12T21:53:20.591Z [info]: Method: GET | URL accessed: http://localhost:3000/ | Status: 200, undefined
+2023-10-12T21:53:29.432Z [info]: Method: POST | URL accessed: http://localhost:3000/ | Status: 200, undefined
+2023-10-12T21:53:34.086Z [info]: Method: POST | URL accessed: http://localhost:3000/register | Status: 200, undefined
+2023-10-12T22:15:08.818Z [info]: Method: POST | URL accessed: http://localhost:3000/register | Status: 200, undefined
+2023-10-12T22:16:14.905Z [info]: Method: POST | URL accessed: http://localhost:3000/api/register | Status: 200, undefined
+2023-10-12T22:16:27.241Z [info]: Method: POST | URL accessed: http://localhost:3000/api/register | Status: 200, undefined
+2023-10-12T22:16:52.605Z [info]: Method: POST | URL accessed: http://localhost:3000/api/register | Status: 200, undefined
+2023-10-13T02:43:32.120Z [info]: Method: POST | URL accessed: http://localhost:3000/user | Status: 200, undefined
+2023-10-13T02:44:20.537Z [info]: Method: POST | URL accessed: http://localhost:3000/user | Status: 200, undefined
+2023-10-13T02:45:00.564Z [info]: Method: POST | URL accessed: http://localhost:3000/user | Status: 200, undefined
+2023-10-13T02:51:31.738Z [info]: Method: POST | URL accessed: http://localhost:3000/user | Status: 200, undefined
+2023-10-13T02:51:50.825Z [info]: Method: POST | URL accessed: http://localhost:3000/user | Status: 200, undefined
+2023-10-13T02:52:00.769Z [info]: Method: POST | URL accessed: http://localhost:3000/users | Status: 200, undefined
+2023-10-13T02:52:22.788Z [info]: Method: POST | URL accessed: http://localhost:3000/api/users | Status: 200, undefined
+2023-10-13T02:52:33.488Z [info]: Method: POST | URL accessed: http://localhost:3000/users | Status: 200, undefined
+2023-10-13T02:53:36.041Z [info]: Method: POST | URL accessed: http://localhost:3000/users | Status: 200, undefined
+2023-10-13T02:54:50.139Z [info]: Method: POST | URL accessed: http://localhost:3000/users | Status: 200, undefined
+2023-10-13T03:27:04.277Z [info]: Method: POST | URL accessed: http://localhost:3000/login | Status: 200, undefined
+2023-10-13T03:31:51.481Z [info]: Method: POST | URL accessed: http://localhost:3000/users | Status: 200, undefined
+2023-10-13T03:51:31.163Z [info]: Method: POST | URL accessed: http://localhost:3000/users | Status: 200, undefined
+2023-10-13T03:52:29.728Z [info]: Method: POST | URL accessed: http://localhost:3000/users | Status: 200, undefined
+2023-10-13T03:52:33.281Z [info]: Method: POST | URL accessed: http://localhost:3000/login | Status: 200, undefined
+2023-10-13T03:53:26.977Z [info]: Method: POST | URL accessed: http://localhost:3000/login | Status: 200, undefined
+2023-10-13T03:54:23.585Z [info]: Method: POST | URL accessed: http://localhost:3000/login | Status: 200, undefined
+2023-10-13T03:55:04.927Z [info]: Method: POST | URL accessed: http://localhost:3000/users | Status: 200, undefined
+2023-10-13T03:55:15.727Z [info]: Method: POST | URL accessed: http://localhost:3000/login | Status: 200, undefined
+2023-10-13T04:02:28.006Z [info]: Method: POST | URL accessed: http://localhost:3000/users | Status: 200, undefined
+2023-10-13T04:03:02.186Z [info]: Method: POST | URL accessed: http://localhost:3000/users | Status: 200, undefined
+2023-10-13T04:05:32.756Z [info]: Method: POST | URL accessed: http://localhost:3000/users | Status: 200, undefined
+2023-10-13T04:09:20.526Z [info]: Method: POST | URL accessed: http://localhost:3000/users | Status: 200, undefined
+2023-10-13T04:10:14.590Z [info]: Method: POST | URL accessed: http://localhost:3000/login | Status: 200, undefined
+2023-10-13T04:12:24.334Z [info]: Method: POST | URL accessed: http://localhost:3000/login | Status: 200, undefined
+2023-10-13T04:13:12.113Z [info]: Method: POST | URL accessed: http://localhost:3000/login | Status: 200, undefined
+2023-10-13T04:13:52.943Z [info]: Method: POST | URL accessed: http://localhost:3000/login | Status: 200, undefined
+2023-10-13T04:14:27.552Z [info]: Method: POST | URL accessed: http://localhost:3000/login | Status: 200, undefined
+2023-10-13T04:27:25.068Z [info]: Method: POST | URL accessed: http://localhost:3000/login | Status: 200, undefined
 2023-10-09T21:38:48.942Z [info]: Method: GET | URL accessed: http://localhost:3000/profiles/1/pokemon
 2023-10-09T21:38:48.944Z [info]: getAllProfilePokemon called
 2023-10-09T21:38:48.955Z [info]: Method: GET | URL accessed: http://localhost:3000/profiles/1/pokemon
