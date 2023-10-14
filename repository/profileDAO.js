@@ -1,49 +1,13 @@
-/* // ============================= AWS DynamoDB  Setup =============================
-
-// Load the AWS SDK for Node.js
+// ============================= AWS DynamoDB  Setup =============================
 const AWS = require('aws-sdk');
-// Set the region 
+
+// set  you aws region
 AWS.config.update({
-    region: 'us-east-2',
-
+    region: 'us-east-2'
 });
 
-let roleToAssume = {RoleArn: 'arn:aws:iam::053796667043:role/ArinAihara',
-RoleSessionName: 'session1',
-DurationSeconds: 900,};
-let roleCreds;
-
-// Create the STS service object    
-let sts = new AWS.STS({apiVersion: '2011-06-15'});
-let docClient;  
-
-//Assume Role
-sts.assumeRole(roleToAssume, function(err, data) {
-    if (err) console.log(err, err.stack);
-    else{
-        roleCreds = {accessKeyId: data.Credentials.AccessKeyId,
-            secretAccessKey: data.Credentials.SecretAccessKey,
-            sessionToken: data.Credentials.SessionToken};
-            docClient = new AWS.DynamoDB.DocumentClient({accessKeyId: roleCreds.accessKeyId, secretAccessKey: roleCreds.secretAccessKey, sessionToken: roleCreds.sessionToken});  
-            stsGetCallerIdentity(roleCreds);
-        }
-});
-
-//Get Arn of current identity
-function stsGetCallerIdentity(creds) {
-    var stsParams = {credentials: creds };
-    // Create STS service object
-    var sts = new AWS.STS(stsParams);
-        
-    sts.getCallerIdentity({}, function(err, data) {
-        if (err) {
-            console.log(err, err.stack);
-        }
-        else {
-            console.log(data.Arn);
-        }
-    });    
-} */
+// create a dynamoDB client
+const docClient = new AWS.DynamoDB.DocumentClient();
 
 // ============================== DynamoDB Functions ==============================
 
