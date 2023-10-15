@@ -1,62 +1,76 @@
-// ============================= AWS DynamoDB  Setup =============================
-// Load the AWS SDK for Node.js
+// // ============================= AWS DynamoDB  Setup =============================
+// // Load the AWS SDK for Node.js
+// const AWS = require('aws-sdk');
+
+// // set  you aws region
+// AWS.config.update({
+//     region: 'us-east-2',
+// });
+
+// let roleToAssume = {RoleArn: 'arn:aws:iam::053796667043:role/ArinAihara',
+// RoleSessionName: 'session1',
+// DurationSeconds: 900,};
+// // Create the STS service object    
+// let sts = new AWS.STS({apiVersion: '2011-06-15'});
+
+// let roleCreds;
+// let docClient;  
+// let s3;
+// const {S3Client, GetObjectCommand, PutObjectCommand} = require('@aws-sdk/client-s3');
+// const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
+
+// //Assume Role
+// sts.assumeRole(roleToAssume, function(err, data) {
+//     if (err) console.log(err, err.stack);
+//     else{
+//         roleCreds = {accessKeyId: data.Credentials.AccessKeyId,
+//             secretAccessKey: data.Credentials.SecretAccessKey,
+//             sessionToken: data.Credentials.SessionToken
+//         };
+//         docClient = new AWS.DynamoDB.DocumentClient({accessKeyId: roleCreds.accessKeyId, secretAccessKey: roleCreds.secretAccessKey, sessionToken: roleCreds.sessionToken});  
+//         s3 = new S3Client({
+//             region: bucketRegion, 
+//             credentials: {
+//                 accessKeyId: roleCreds.accessKeyId,
+//                 secretAccessKey: roleCreds.secretAccessKey,
+//                 sessionToken: roleCreds.sessionToken
+//             }});
+//         stsGetCallerIdentity(roleCreds);
+//         }
+// });
+
+// const bucketName = 'pokegram-profile-photos';
+// const bucketRegion = 'us-east-2';
+
+// //Get Arn of current identity
+// function stsGetCallerIdentity(creds) {
+//     var stsParams = {credentials: creds };
+//     // Create STS service object
+//     var sts = new AWS.STS(stsParams);
+        
+//     sts.getCallerIdentity({}, function(err, data) {
+//         if (err) {
+//             console.log(err, err.stack);
+//         }
+//         else {
+//             console.log(data.Arn);
+//         }
+//     });    
+// }
+
 const AWS = require('aws-sdk');
-
-// set  you aws region
-AWS.config.update({
-    region: 'us-east-2',
-});
-
-let roleToAssume = {RoleArn: 'arn:aws:iam::053796667043:role/ArinAihara',
-RoleSessionName: 'session1',
-DurationSeconds: 900,};
-// Create the STS service object    
-let sts = new AWS.STS({apiVersion: '2011-06-15'});
-
-let roleCreds;
-let docClient;  
-let s3;
 const {S3Client, GetObjectCommand, PutObjectCommand} = require('@aws-sdk/client-s3');
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 
-//Assume Role
-sts.assumeRole(roleToAssume, function(err, data) {
-    if (err) console.log(err, err.stack);
-    else{
-        roleCreds = {accessKeyId: data.Credentials.AccessKeyId,
-            secretAccessKey: data.Credentials.SecretAccessKey,
-            sessionToken: data.Credentials.SessionToken
-        };
-        docClient = new AWS.DynamoDB.DocumentClient({accessKeyId: roleCreds.accessKeyId, secretAccessKey: roleCreds.secretAccessKey, sessionToken: roleCreds.sessionToken});  
-        s3 = new S3Client({
-            region: bucketRegion, 
-            credentials: {
-                accessKeyId: roleCreds.accessKeyId,
-                secretAccessKey: roleCreds.secretAccessKey,
-                sessionToken: roleCreds.sessionToken
-            }});
-        stsGetCallerIdentity(roleCreds);
-        }
+AWS.config.update({
+    region: 'us-east-2'
 });
 
-const bucketName = 'pokegram-profile-photos';
-const bucketRegion = 'us-east-2';
+const docClient = new AWS.DynamoDB.DocumentClient();
+const s3 = new S3Client({region: 'us-east-2'});
+const TABLE_NAME = TABLE_NAME;
+const BUCKET_NAME = 'pokegram-profile-photos';
 
-//Get Arn of current identity
-function stsGetCallerIdentity(creds) {
-    var stsParams = {credentials: creds };
-    // Create STS service object
-    var sts = new AWS.STS(stsParams);
-        
-    sts.getCallerIdentity({}, function(err, data) {
-        if (err) {
-            console.log(err, err.stack);
-        }
-        else {
-            console.log(data.Arn);
-        }
-    });    
-}
 
 // ============================== DynamoDB Functions ==============================
 
@@ -64,7 +78,7 @@ function stsGetCallerIdentity(creds) {
 // Get one profile
 function getProfileById(profile_id){
     const params = {
-        TableName: 'poke_profiles',
+        TableName: TABLE_NAME,
         Key: {
             'profile_id': profile_id 
         }
@@ -76,7 +90,7 @@ function getProfileById(profile_id){
 // Get photo from s3 bucket
 async function getPhotoFromBucket(name){
     const params = {
-        Bucket: bucketName,
+        Bucket: BUCKET_NAME,
         Key: name,
     }
     const command = new GetObjectCommand(params);
@@ -87,7 +101,7 @@ async function getPhotoFromBucket(name){
 // Get all profile's friends
 function getProfileFriends(profile_id){
     const params = {
-        TableName: 'poke_profiles',
+        TableName: TABLE_NAME,
         Key: {
             'profile_id': profile_id 
         },
@@ -99,7 +113,7 @@ function getProfileFriends(profile_id){
 // Create new profile 
 function createProfile(profile_id){
     const params = {
-        TableName: 'poke_profiles',
+        TableName: TABLE_NAME,
         Item: {
             'profile_id': profile_id,
             'bio': '',
@@ -114,7 +128,7 @@ function createProfile(profile_id){
 // Add friend to profile friends list
 function addProfileFriend(profile_id, friend){
     const params = {
-        TableName: 'poke_profiles',
+        TableName: TABLE_NAME,
         Key: {
             'profile_id': profile_id 
         },
@@ -132,7 +146,7 @@ function addProfileFriend(profile_id, friend){
 // Update profile bio
 function updateProfileBio(profile_id, bio){
     const params = {
-        TableName: 'poke_profiles',
+        TableName: TABLE_NAME,
         Key: {
             'profile_id': profile_id 
         },
@@ -147,7 +161,7 @@ function updateProfileBio(profile_id, bio){
 // Update profile image
 function updateProfilePic(profile_id, image){
     const params = {
-        TableName: 'poke_profiles',
+        TableName: TABLE_NAME,
         Key: {
             'profile_id': profile_id 
         },
@@ -162,7 +176,7 @@ function updateProfilePic(profile_id, image){
 // Add photo to s3 bucket
 async function addPhotoToBucket(name, buffer, mimetype){
     const params = {
-        Bucket: bucketName,
+        Bucket: BUCKET_NAME,
         Key: name,
         Body: buffer,
         ContentType: mimetype,
@@ -176,7 +190,7 @@ async function addPhotoToBucket(name, buffer, mimetype){
 // Get all pokemon associated with profile
 function getAllProfilePokemon(profile_id){
     const params = {
-        TableName: 'poke_profiles',
+        TableName: TABLE_NAME,
         Key: {
             'profile_id': profile_id 
         },
@@ -188,7 +202,7 @@ function getAllProfilePokemon(profile_id){
 // Add pokemon to profile pokemon list
 function addProfilePokemon(profile_id, pokemon){
     const params = {
-        TableName: 'poke_profiles',
+        TableName: TABLE_NAME,
         Key: {
             'profile_id': profile_id,
         },
@@ -206,7 +220,7 @@ function addProfilePokemon(profile_id, pokemon){
 // Delete pokemon from profile pokemon list
 function removeProfilePokemon(profile_id, index){
     const params = {
-        TableName: 'poke_profiles',
+        TableName: TABLE_NAME,
         Key: {
             'profile_id': profile_id
         },
