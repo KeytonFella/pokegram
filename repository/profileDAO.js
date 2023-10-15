@@ -18,6 +18,8 @@ let docClient;
 let s3;
 const {S3Client, GetObjectCommand, PutObjectCommand} = require('@aws-sdk/client-s3');
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
+const bucketName = 'pokegram-profile-photos';
+const bucketRegion = 'us-east-2';
 
 //Assume Role
 sts.assumeRole(roleToAssume, function(err, data) {
@@ -38,9 +40,6 @@ sts.assumeRole(roleToAssume, function(err, data) {
         stsGetCallerIdentity(roleCreds);
         }
 });
-
-const bucketName = 'pokegram-profile-photos';
-const bucketRegion = 'us-east-2';
 
 //Get Arn of current identity
 function stsGetCallerIdentity(creds) {
