@@ -1,12 +1,20 @@
 const profileDAO = require('../repository/profileDAO');
+const sharp = require('sharp');
 
 // ============================== General Profile Service Calls ==============================
-function getProfileById(profile_id){
+// Get one profile by id
+async function getProfileById(profile_id){
     logger.info('getProfileById service called');
     return new Promise((resolve, reject) => {
         profileDAO.getProfileById(profile_id).then((data) => {
-            logger.info('getProfileById resolved')
-            resolve(data);
+            profileDAO.getPhotoFromBucket(data.Item.profile_picture).then((url) => {
+                data.image_url = url;
+                logger.info('getProfileById resolved')
+                resolve(data);
+            }).catch((err) => {
+                logger.error(`Error attempting to getPhotoUrl: ${err}`)
+                reject(err);
+            });
         }).catch((err) => {
             logger.error(`Error attempting to getProfileById: ${err}`)
             reject(err);
@@ -14,6 +22,36 @@ function getProfileById(profile_id){
     });
 }
 
+// Get photo url from S3 bucket
+async function getPhotoUrl(image_name){
+    logger.info('getPhotoUrl service called'); 
+    return new Promise((resolve, reject) => {
+        profileDAO.getPhotoUrl(image_name).then((data) => {
+            logger.info('getPhotoUrl resolved')
+            resolve(data);
+        }).catch((err) => {
+            logger.error(`Error attempting to getPhotoUrl: ${err}`)
+            reject(err);
+        });
+    });
+}
+    
+
+// Get all profile's friends
+function getProfileFriends(profile_id){
+    logger.info('getProfileFriends service called');
+    return new Promise((resolve, reject) => {
+        profileDAO.getProfileFriends(profile_id).then((data) => {
+            logger.info('getProfileFriends resolved')
+            resolve(data);
+        }).catch((err) => {
+            logger.error(`Error attempting to getProfileFriends: ${err}`)
+            reject(err);
+        });
+    });
+}
+
+// Create new profile (empty initially)
 function createProfile(profile_id){
     logger.info('createProfile service called');
     return new Promise((resolve, reject) => {
@@ -27,6 +65,7 @@ function createProfile(profile_id){
     });
 }
 
+// Add friend to profile friends list
 function addProfileFriend(profile_id, friend){
     logger.info('addProfileFriend service called');
     return new Promise((resolve, reject) => {
@@ -40,6 +79,7 @@ function addProfileFriend(profile_id, friend){
     });
 }
 
+// Update profile bio
 function updateProfileBio(profile_id, bio){
     logger.info('updateProfileBio service called');
     return new Promise((resolve, reject) => {
@@ -53,19 +93,29 @@ function updateProfileBio(profile_id, bio){
     });
 }
 
-function updateProfilePic(profile_id, image){
+// Update profile pic
+async function updateProfilePic(profile_id, image){
     logger.info('updateProfilePic service called');
+    const buffer = await sharp(image.buffer).resize({height: 320, width: 320, fit: 'contain'}).toFormat('png').toBuffer();
+    const name = `${profile_id}.png`;
+
+    const response = await profileDAO.addPhotoToBucket(name, buffer, image.mimetype);
     return new Promise((resolve, reject) => {
-        profileDAO.updateProfilePic(profile_id, image).then((data) => {
-            logger.info('updateProfilePic resolved')
-            resolve(data);
-        }).catch((err) => {
+        if(response){
+            profileDAO.updateProfilePic(profile_id, name).then((data) => {
+                logger.info('updateProfilePic resolved')
+                resolve(data);
+
+            }).catch((err) => {
+                logger.error(`Error attempting to updateProfilePic: ${err}`)
+                reject(err);
+            });
+        }else{
             logger.error(`Error attempting to updateProfilePic: ${err}`)
             reject(err);
-        });
+        }
     });
 }
-
 
 
 // ============================== Profile Pokemon Service Calls ==============================
@@ -141,6 +191,8 @@ module.exports = {
     addProfilePokemon, 
     removeProfilePokemon,
     getProfileById,
+    getPhotoUrl,
+    getProfileFriends,
     createProfile,
     addProfileFriend,
     updateProfileBio,
