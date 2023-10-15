@@ -1,10 +1,10 @@
 // ============================= AWS DynamoDB  Setup =============================
 // Load the AWS SDK for Node.js
 const AWS = require('aws-sdk');
-// Set the region 
+
+// set  you aws region
 AWS.config.update({
     region: 'us-east-2',
-
 });
 
 let roleToAssume = {RoleArn: 'arn:aws:iam::053796667043:role/ArinAihara',
