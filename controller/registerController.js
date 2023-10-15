@@ -1,0 +1,51 @@
+const express = require('express');
+const bodyParser = require('body-parser');
+const router = express.Router();
+const registerService = require('../service/registerService');
+const AWS = require('aws-sdk');
+const AmazonCognitoIdentity = require('amazon-cognito-identity-js');
+// create user pool
+//CHANGE THESE SETTINGS 
+AWS.config.update({region: 'us-east-2'});
+const poolData = {
+    UserPoolId: "us-east-2_5xg9IcqVJ",
+    ClientId: "28sfbmcm11hgjohd82sk1ds4ie"
+};
+const userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
+
+//const logger = require("../logger/logger.js");
+
+router.use(bodyParser.json());
+// registers a user using AWS cognito and then
+// pass the userID from 
+router.post("/users", async (req, res) => {
+    const { username, password, email } = req.body;
+    const attributeList = [
+        new AmazonCognitoIdentity.CognitoUserAttribute({
+            Name: "email",
+            Value: email
+        }),
+    ];
+    userPool.signUp(username, password, attributeList, null, async (err, result) => {
+        if(err){
+            return res.status(400).send(err.message || JSON.stringify(err));
+        }
+        //Add the new user to our own DB
+        console.log(result);
+        const userId = await registerService.addCognitoToDb(result.userSub);
+        //if we couldnt add user id to the db then throw error 
+        if(!userId){
+            return res.status(500).send({
+                message: "error adding user to DB"
+            })
+        }
+        console.log("result from Cognito:", result);
+        res.send({ 
+            message: "User registered successfully!", 
+            user: result.user
+        })
+    })
+})
+
+
+module.exports = router;

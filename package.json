@@ -9,15 +9,16 @@
   "author": "Andres Guzman, Arin Aihara, Joshua Sanchez, Keyton Friske, Peter Nepomuceno",
   "license": "ISC",
   "dependencies": {
+    "amazon-cognito-identity-js": "^6.3.6",
     "aws-sdk": "^2.1469.0",
-    "bluebird": "^3.7.2",
+    "bluebird": "3.7.2",
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
     "dynamodb-geo": "^0.4.0",
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.2",
-    "winston": "^3.11.0",
-    "bluebird": "3.7.2"
+    "jwks-rsa": "^3.1.0",
+    "winston": "^3.11.0"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"
