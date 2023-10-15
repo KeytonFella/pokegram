@@ -8,9 +8,12 @@ async function getProfileById(profile_id){
     return new Promise((resolve, reject) => {
         profileDAO.getProfileById(profile_id).then((data) => {
             profileDAO.getPhotoFromBucket(data.Item.profile_picture).then((url) => {
-                data.image_url = url;
+                let profile = {
+                    bio: data.Item.bio,
+                    image_url: url
+                }
                 logger.info('getProfileById resolved')
-                resolve(data);
+                resolve(profile);
             }).catch((err) => {
                 logger.error(`Error attempting to getPhotoUrl: ${err}`)
                 reject(err);
