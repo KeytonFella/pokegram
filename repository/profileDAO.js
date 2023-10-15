@@ -18,8 +18,6 @@ let docClient;
 let s3;
 const {S3Client, GetObjectCommand, PutObjectCommand} = require('@aws-sdk/client-s3');
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
-const bucketName = 'pokegram-profile-photos';
-const bucketRegion = 'us-east-2';
 
 //Assume Role
 sts.assumeRole(roleToAssume, function(err, data) {
@@ -63,7 +61,7 @@ function stsGetCallerIdentity(creds) {
 // Get one profile
 function getProfileById(profile_id){
     const params = {
-        TableName: 'poke_profiles',
+        TableName: TABLE_NAME,
         Key: {
             'profile_id': profile_id 
         }
@@ -75,7 +73,7 @@ function getProfileById(profile_id){
 // Get photo from s3 bucket
 async function getPhotoFromBucket(name){
     const params = {
-        Bucket: bucketName,
+        Bucket: BUCKET_NAME,
         Key: name,
     }
     const command = new GetObjectCommand(params);
@@ -86,7 +84,7 @@ async function getPhotoFromBucket(name){
 // Get all profile's friends
 function getProfileFriends(profile_id){
     const params = {
-        TableName: 'poke_profiles',
+        TableName: TABLE_NAME,
         Key: {
             'profile_id': profile_id 
         },
@@ -98,7 +96,7 @@ function getProfileFriends(profile_id){
 // Create new profile 
 function createProfile(profile_id){
     const params = {
-        TableName: 'poke_profiles',
+        TableName: TABLE_NAME,
         Item: {
             'profile_id': profile_id,
             'bio': '',
@@ -113,7 +111,7 @@ function createProfile(profile_id){
 // Add friend to profile friends list
 function addProfileFriend(profile_id, friend){
     const params = {
-        TableName: 'poke_profiles',
+        TableName: TABLE_NAME,
         Key: {
             'profile_id': profile_id 
         },
@@ -131,7 +129,7 @@ function addProfileFriend(profile_id, friend){
 // Update profile bio
 function updateProfileBio(profile_id, bio){
     const params = {
-        TableName: 'poke_profiles',
+        TableName: TABLE_NAME,
         Key: {
             'profile_id': profile_id 
         },
@@ -146,7 +144,7 @@ function updateProfileBio(profile_id, bio){
 // Update profile image
 function updateProfilePic(profile_id, image){
     const params = {
-        TableName: 'poke_profiles',
+        TableName: TABLE_NAME,
         Key: {
             'profile_id': profile_id 
         },
@@ -161,7 +159,7 @@ function updateProfilePic(profile_id, image){
 // Add photo to s3 bucket
 async function addPhotoToBucket(name, buffer, mimetype){
     const params = {
-        Bucket: bucketName,
+        Bucket: BUCKET_NAME,
         Key: name,
         Body: buffer,
         ContentType: mimetype,
@@ -175,7 +173,7 @@ async function addPhotoToBucket(name, buffer, mimetype){
 // Get all pokemon associated with profile
 function getAllProfilePokemon(profile_id){
     const params = {
-        TableName: 'poke_profiles',
+        TableName: TABLE_NAME,
         Key: {
             'profile_id': profile_id 
         },
@@ -187,7 +185,7 @@ function getAllProfilePokemon(profile_id){
 // Add pokemon to profile pokemon list
 function addProfilePokemon(profile_id, pokemon){
     const params = {
-        TableName: 'poke_profiles',
+        TableName: TABLE_NAME,
         Key: {
             'profile_id': profile_id,
         },
@@ -205,7 +203,7 @@ function addProfilePokemon(profile_id, pokemon){
 // Delete pokemon from profile pokemon list
 function removeProfilePokemon(profile_id, index){
     const params = {
-        TableName: 'poke_profiles',
+        TableName: TABLE_NAME,
         Key: {
             'profile_id': profile_id
         },
