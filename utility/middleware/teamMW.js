@@ -9,6 +9,7 @@ function validateTeam(req, res, next) {
     console.log("teamname: " + team.teamName)
     console.log(team.pokemonList)
     console.log(team.pokemonList.length)
+    
     // Team must have a name and a range of 1 - 6 pokemon
     if (!team.teamName) {
         console.log("Team not ok")
@@ -26,15 +27,45 @@ function validateTeam(req, res, next) {
         req.body.valid = false;
         
     } else {
-
-        //TODO: Check user's input are actual names of pokemon
+        let goOn = true;
+        for(let h = 0; h < team.pokemonList.length; h++) {
+            console.log('h = ',h)
+            //TODO: Check user's input are actual names of pokemon
+            const lower = team.pokemonList[h].pokemonName.toLowerCase()
+            const pokeapi = `https://pokeapi.co/api/v2/pokemon/${lower}`
+            console.log(pokeapi)
+            if(goOn == true) {
+                fetch(pokeapi).then((response) => {
+                    // console.log(`${lower} response:`)
+                    // console.log(response)
+                    console.log("fetching api")
+                    if(response.status === 404) {
+                        console.log("404")
+                        goOn = false
+                        res.statusCode = 400
+                        res.send({message: `Error: ${team.pokemonList[h].pokemonName} is not a real pokemon`})
+                        req.body.valid = false;
+                        return
+                    } 
+                })
+                //.catch((e) => {
+                //     console.log("catching error")
+                //     goOn = false
+                //     req.body.valid = false;
+                //     res.statusCode = 400
+                //     res.send({message: "error fetching pokemon from API: ", e})
+                    
+                // })
+            }   
+            
+        }
+        
         //check pokemon levels
         for(let i = 0; i< team.pokemonList.length; i++) {
             if(team.pokemonList[i].level > 100 || team.pokemonList[i].level < 0 || !team.pokemonList[i].level){
+                req.body.valid = false;
                 res.statusCode = 400
                 res.send({message: `Error: ${team.pokemonList[i].name}'s level is out of bounds`})
-                req.body.valid = false;
-                next()
             }
         }
         req.body.valid = true;
