@@ -1,5 +1,5 @@
 // ============================= AWS DynamoDB  Setup =============================
-/* 
+ 
 // Load the AWS SDK for Node.js
 const AWS = require('aws-sdk');
 // Set the region 
@@ -8,7 +8,7 @@ AWS.config.update({
 
 });
 
-let roleToAssume = {RoleArn: 'arn:aws:iam::053796667043:role/ArinAihara',
+let roleToAssume = {RoleArn: 'arn:aws:iam::053796667043:role/PeterNepomuceno',
 RoleSessionName: 'session1',
 DurationSeconds: 900,};
 let roleCreds;
@@ -43,8 +43,8 @@ function stsGetCallerIdentity(creds) {
             console.log(data.Arn);
         }
     });    
-} */
-
+} 
+/*
 const AWS = require('aws-sdk');
 
 AWS.config.update({
@@ -52,9 +52,9 @@ AWS.config.update({
 });
 
 const docClient = new AWS.DynamoDB.DocumentClient();
-
+*/
 // ============================== DynamoDB Functions ==============================
-const TABLENAME = 'users';
+const TABLENAME = 'users_table';
 function retrieveByUsername(username){
     const params = {
         TableName: TABLENAME,

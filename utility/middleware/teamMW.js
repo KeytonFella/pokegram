@@ -5,12 +5,12 @@ function validateTeam(req, res, next) {
     console.log("Validating team...")
     console.log("req.body = " + req.body)
     const team = req.body
-    console.log("validating team " + team)
-    console.log(team.name)
+    console.log("validating team " + JSON.stringify(team))
+    console.log("teamname: " + team.teamName)
     console.log(team.pokemonList)
     console.log(team.pokemonList.length)
     // Team must have a name and a range of 1 - 6 pokemon
-    if (!team.name) {
+    if (!team.teamName) {
         console.log("Team not ok")
         res.statusCode = 400
         res.send({messsage: "Error: Team is missing a name"})
@@ -26,15 +26,17 @@ function validateTeam(req, res, next) {
         req.body.valid = false;
         
     } else {
+
+        //TODO: Check user's input are actual names of pokemon
         //check pokemon levels
-        // for(let i = 0; i< team.pokemonList.length; i++) {
-        //     if(team.pokemonList[i].level > 100 || team.pokemonList[i].level < 0 || !team.pokemonList[i].level){
-        //         res.statusCode = 400
-        //         res.send({message: `Error: ${team.pokemonList[i].name}'s level is out of bounds`})
-        //         req.body.valid = false;
-        //         next()
-        //     }
-        // }
+        for(let i = 0; i< team.pokemonList.length; i++) {
+            if(team.pokemonList[i].level > 100 || team.pokemonList[i].level < 0 || !team.pokemonList[i].level){
+                res.statusCode = 400
+                res.send({message: `Error: ${team.pokemonList[i].name}'s level is out of bounds`})
+                req.body.valid = false;
+                next()
+            }
+        }
         req.body.valid = true;
         next();
     }

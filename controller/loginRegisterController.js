@@ -20,7 +20,7 @@ router.post('/users', async (req, res) => {
             message: "Successfuly created account",
             username: userInfo.username,
         })
-    }else{
+    }else{ 
         res.status(400);
         res.send({
             message: "Unsuccessful Account Creation"

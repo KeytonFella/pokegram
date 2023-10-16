@@ -18,7 +18,7 @@ router.post('', mw.validateTeam, (req, res) => {
         if(req.body.valid) {
             console.log("valid team")
             
-            teamService.createTeam(team.name, team.pokemonList, team.user_id)
+            teamService.createTeam(team.teamName, team.pokemonList, team.user_id)
                 .then((data) => {
                     res.statusCode = 200;
                     res.send({

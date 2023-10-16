@@ -20,7 +20,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(logger.logRequest);
 //app.use(login register router goes here)
-app.use(jwt.verifyUser);
+//app.use(jwt.verifyUser);
 app.use('/api/profiles', profileRouter);
 app.use('/api/trades', tradesRouter);
 app.use('/api/teams', teamRouter);
