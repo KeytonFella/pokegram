@@ -1,6 +1,77 @@
 const express = require('express');
 const profileRouter = express.Router();
+const multer  = require('multer')
+const upload = multer()
 const profileService = require('../service/profileService');
+
+
+// ============================== Profile calls =========================================
+// Get profile by id
+profileRouter.get('/:profile_id', (req, res) => {
+    profileService.getProfileById(req.params.profile_id).then((data) => {
+        res.send(data);
+        res.status(200);
+    }).catch((err) => {
+        res.status(500);
+        res.send({message: err});
+    });
+});
+
+// Get profile's friend list
+profileRouter.get('/:profile_id/friends', (req, res) => {
+    profileService.getProfileFriends(req.params.profile_id).then((data) => {
+        res.status(200);
+        res.send(data);
+    }).catch((err) => {
+        res.status(500);
+        res.send({message: err});
+    });
+});
+
+// Create new profile
+profileRouter.post('/:profile_id/create', (req, res) => {
+    profileService.createProfile(req.params.profile_id).then((data) => {
+        res.status(201);
+        res.send({message: `Profile ${req.params.profile_id} created`});
+    }).catch((err) => {
+        res.status(500);
+        res.send({message: err});
+    });
+});
+
+// Add friend to profile friend list
+profileRouter.put('/:profile_id/friends/add', (req, res) => {
+    profileService.addProfileFriend(req.params.profile_id, req.body.friend).then((data) => {
+        res.status(200);
+        res.send({message: `${req.body.friend} added to ${req.params.profile_id} friends list`});
+    }).catch((err) => {
+        res.status(500);
+        res.send({message: err});
+    }); 
+});
+
+// Update profile bio
+profileRouter.put('/:profile_id/update/bio', (req, res) => {
+    profileService.updateProfileBio(req.params.profile_id, req.body.bio).then((data) => {
+        res.status(200);
+        res.send({message: `Bio updated for ${req.params.profile_id}`});
+    }).catch((err) => {
+        res.status(500);
+        res.send({message: err});
+    });
+});
+
+// Update profile photo
+profileRouter.put('/:profile_id/update/photo', upload.single('image'), (req, res) => {
+    const image = req.file;
+    profileService.updateProfilePic(req.params.profile_id, image).then((data) => {
+        res.status(200);
+        res.send({message: `Photo updated for ${req.params.profile_id}`});
+    }).catch((err) => {
+        res.status(500);
+        res.send({message: err});
+    });
+});
 
 //============================= Profile pokemon calls =========================================
 // Get all pokemon associated with profile
@@ -19,7 +90,7 @@ profileRouter.put('/:profile_id/pokemon/add', (req, res) => {
     const pokemon = req.body;
     profileService.addProfilePokemon(req.params.profile_id,  pokemon).then((data) => {
         res.status(200);
-        res.send({message: `${pokemon} added to profile`});
+        res.send({message: `${pokemon.pokemon} added to profile`});
     }).catch((err) => {
         res.status(500);
         res.send({message: err});
@@ -38,6 +109,5 @@ profileRouter.put('/:profile_id/pokemon/remove', (req, res) => {
     });
 });
 
-// ============================== Profile calls =========================================
 
 module.exports = profileRouter;
