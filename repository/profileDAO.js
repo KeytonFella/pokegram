@@ -68,7 +68,7 @@ AWS.config.update({
 
 const docClient = new AWS.DynamoDB.DocumentClient();
 const s3 = new S3Client({region: 'us-east-2'});
-const TABLE_NAME = TABLE_NAME;
+const TABLE_NAME = poke-profiles;
 const BUCKET_NAME = 'pokegram-profile-photos';
 
 
