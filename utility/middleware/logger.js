@@ -1,6 +1,3 @@
-// ======================== Input Validation ========================
-
-
 // ======================== Route Access Logger ========================
 // Winston logger setup
 const { createLogger, transports, format} = require('winston');
