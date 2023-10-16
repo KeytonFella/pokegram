@@ -58,10 +58,11 @@ router.put('/:team_id', mw.validateTeam, (req, res) => {
             res.statusCode = 400
             res.send({message: err})
         })
-    } else {
-        res.statusCode = 400
-        res.send({message: "Team validation failed"})
-    }
+    } 
+    // else {
+    //     res.statusCode = 400
+    //     res.send({message: "Team validation failed"})
+    // }
 })
 
 module.exports = router
