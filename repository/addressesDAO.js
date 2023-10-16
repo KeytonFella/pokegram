@@ -7,11 +7,7 @@ AWS.config.update({
     region: 'us-east-2',
 });
 
-<<<<<<< HEAD
-let roleToAssume = {RoleArn: 'arn:aws:iam::053796667043:role/PeterNepomuceno',
-=======
 let roleToAssume = {RoleArn: 'arn:aws:iam::053796667043:role/ArinAihara',
->>>>>>> 95b3af982cb384f0d33a650635f8ec0822267de0
 RoleSessionName: 'session1',
 DurationSeconds: 900,};
 // Create the STS service object    
