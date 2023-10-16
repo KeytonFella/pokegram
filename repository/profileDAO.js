@@ -18,6 +18,9 @@ let docClient;
 let s3;
 const {S3Client, GetObjectCommand, PutObjectCommand} = require('@aws-sdk/client-s3');
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
+const BUCKET_NAME = 'pokegram-profile-photos'
+const BUCKET_REGION = 'us-east-2'
+const TABLE_NAME = 'poke_profiles'
 
 //Assume Role
 sts.assumeRole(roleToAssume, function(err, data) {
@@ -29,7 +32,7 @@ sts.assumeRole(roleToAssume, function(err, data) {
         };
         docClient = new AWS.DynamoDB.DocumentClient({accessKeyId: roleCreds.accessKeyId, secretAccessKey: roleCreds.secretAccessKey, sessionToken: roleCreds.sessionToken});  
         s3 = new S3Client({
-            region: bucketRegion, 
+            region: BUCKET_REGION, 
             credentials: {
                 accessKeyId: roleCreds.accessKeyId,
                 secretAccessKey: roleCreds.secretAccessKey,

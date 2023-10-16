@@ -1,20 +1,19 @@
 // ============================= AWS DynamoDB  Setup =============================
-/* 
 // Load the AWS SDK for Node.js
 const AWS = require('aws-sdk');
-// Set the region 
+
+// set  you aws region
 AWS.config.update({
     region: 'us-east-2',
-
 });
 
 let roleToAssume = {RoleArn: 'arn:aws:iam::053796667043:role/ArinAihara',
 RoleSessionName: 'session1',
 DurationSeconds: 900,};
-let roleCreds;
-
 // Create the STS service object    
 let sts = new AWS.STS({apiVersion: '2011-06-15'});
+
+let roleCreds;
 let docClient;  
 
 //Assume Role
@@ -23,9 +22,10 @@ sts.assumeRole(roleToAssume, function(err, data) {
     else{
         roleCreds = {accessKeyId: data.Credentials.AccessKeyId,
             secretAccessKey: data.Credentials.SecretAccessKey,
-            sessionToken: data.Credentials.SessionToken};
-            docClient = new AWS.DynamoDB.DocumentClient({accessKeyId: roleCreds.accessKeyId, secretAccessKey: roleCreds.secretAccessKey, sessionToken: roleCreds.sessionToken});  
-            stsGetCallerIdentity(roleCreds);
+            sessionToken: data.Credentials.SessionToken
+        };
+        docClient = new AWS.DynamoDB.DocumentClient({accessKeyId: roleCreds.accessKeyId, secretAccessKey: roleCreds.secretAccessKey, sessionToken: roleCreds.sessionToken});  
+        stsGetCallerIdentity(roleCreds);
         }
 });
 
@@ -43,51 +43,34 @@ function stsGetCallerIdentity(creds) {
             console.log(data.Arn);
         }
     });    
-} */
-/* 
-    personal database setup
-*/
-const AWS = require('aws-sdk');
+}
 
-AWS.config.update({
-    region: 'us-east-2'
-});
-
-const docClient = new AWS.DynamoDB.DocumentClient();
+const TABLE_NAME = 'users_table';
 
 // ============================== DynamoDB Functions ==============================
-const TABLENAME = 'users';
-function retrieveByUsername(username){
+
+// Get a user's address based on their user_id
+function getAddress(user_id){
     const params = {
-        TableName: TABLENAME,
+        TableName: TABLE_NAME,
         Key: {
-            username
-        }
+            user_id: user_id,
+        },
+        ProjectionExpression: 'address'
     };
     return docClient.get(params).promise();
 }
 
-function registerAccount(username, password, user_id, street_number="",street_name="", city=" ", state=" ", zip=" "){
-    console.log("creating account  " +" "+username+" "+ password);
+// Query entire table of users
+function getAllAddresses(){
     const params = {
-        TableName: TABLENAME,
-        ConditionExpression: 'attribute_not_exists(username)',
-        Item: {
-            username,
-            password,
-            user_id,
-            address: {
-                street_number,
-                street_name,
-                city,
-                state,
-                zip
-            }
-        }
-    }
-    return docClient.put(params).promise();
+        TableName: TABLE_NAME,
+        ProjectionExpression: 'user_id, username, address'
+    };
+    return docClient.scan(params).promise();
 }
 
 module.exports = {
-    retrieveByUsername, registerAccount
-}
+    getAddress,
+    getAllAddresses
+};
