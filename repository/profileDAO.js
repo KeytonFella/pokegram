@@ -1,7 +1,5 @@
 // ============================= AWS DynamoDB  Setup =============================
 // Load the AWS SDK for Node.js
-const AWS = require('aws-sdk');
-
 AWS.config.update({
     region: 'us-east-2'
 });
