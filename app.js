@@ -9,8 +9,7 @@ const registerRouter = require('./controller/registerController');
 const loginRouter = require('./controller/loginController');
 const addressesRouter = require('./controller/addressesController');
 const logger = require('./utility/middleware/logger');
-const jwt = require('./utility/jwt_util');
-const jwks = require('./utility/jwks_util');
+const jwks = require('./utility/middleware/jwks_util');
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -19,11 +18,10 @@ app.get('/', (req, res) => {
     res.send('Hello! Welcome to the Pokegram API!');
     }
 );
-//app.use('/', loginRegisterRouter)
-//app.use(jwt.verifyUser);
 
 app.use('/api/', registerRouter);
 app.use('/api/', loginRouter);
+
 app.get("/unprotected", (req, res) => {
     res.send({message: 'you accessed unprotected data! req.user should be empty', data: req.user});
 })
