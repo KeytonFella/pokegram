@@ -5,21 +5,21 @@ const { SecretsManagerClient, GetSecretValueCommand} = require("@aws-sdk/client-
   
 const secret_name = "prod/GG/key";
 const client = new SecretsManagerClient({region: "us-east-2"});
-// let response;
-// try {
-//     response = client.send(
-//       new GetSecretValueCommand({
-//         SecretId: secret_name,
-//         VersionStage: "AWSCURRENT", // VersionStage defaults to AWSCURRENT if unspecified
-//       })
-//       ).then((data) => {
-//             response = data;
-//         }).catch((err) => { console.log(err) });
-//       console.log(response)
-//   } catch (error) {
-//       throw error;
-//   }
-const API_KEY = "notrealkey" //response.SecretString;
+let response;
+try {
+    response = client.send(
+      new GetSecretValueCommand({
+        SecretId: secret_name,
+        VersionStage: "AWSCURRENT", // VersionStage defaults to AWSCURRENT if unspecified
+      })
+      ).then((data) => {
+            response = data;
+        }).catch((err) => { console.log(err) });
+      console.log(response)
+  } catch (error) {
+      throw error;
+  }
+const API_KEY = response.SecretString;
 const GOOGLE_MAPS_API = 'https://maps.googleapis.com/maps/api/geocode/json?address='
 
 // ============================== Geocoding Service Calls ==============================

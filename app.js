@@ -45,7 +45,7 @@ app.get("/protected", (req, res) => {
 
 app.use('/api/profiles', profileRouter);
 app.use('/api/trades', tradesRouter);
-//app.use('/api/addresses', addressesRouter);
+app.use('/api/addresses', addressesRouter);
 app.use('/api/teams', teamRouter);
 
 app.listen(port, () => {
