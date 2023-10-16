@@ -8,17 +8,9 @@ const friendsService = require('../service/friendsService.js');
 router.use(bodyParser.json());
 
 /* Get a users friends list but only if they are logged in   */
-router.get('/users/:user_id/friends', async (req, res) => {
-    
-    //the user ids friends list we are trying to access
-    const{user_id_target} = req.params;
-    //the user id of the json token
-    console.log(req.body.currentUserId);
-    console.log(req.body);
-    console.log(req.params);
-
+router.get('/:user_id/friends', async (req, res) => {
     //will return friends list or null
-    const friendsList = await friendsService.getFriends();
+    const friendsList = await friendsService.getFriends(req.params.user_id);
     //if no friends list was retrieved throw an error. Might change status  code
     if(friendsList === null){
         return res.status(404).send({
@@ -30,12 +22,17 @@ router.get('/users/:user_id/friends', async (req, res) => {
             friendsList
         })
     }
-
-
-
 });
 
 
+
+
+/* if(req.body.currentUserId != req.params){
+        return res.status(403).send({
+            message: "Error, You are not allowed to view this users list"
+        })
+    } */
+    
 //////////////////////////this should be for a post or delete
  /* Compare the user.user_id friends list we are trying to 
         access with the user_id of the current logged in user

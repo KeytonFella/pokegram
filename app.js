@@ -7,6 +7,7 @@ const profileRouter = require('./controller/profileController');
 const tradesRouter = require('./controller/tradesController');
 const registerRouter = require('./controller/registerController');
 const loginRouter = require('./controller/loginController');
+const friendsRouter = require('./controller/friendsController');
 const logger = require('./utility/middleware/logger');
 const jwt = require('./utility/jwt_util');
 const jwks = require('./utility/jwks_util');
@@ -34,6 +35,7 @@ app.get("/protected", (req, res) => {
 
 app.use('/api/profiles', profileRouter);
 app.use('/api/trades', tradesRouter);
+app.use('/api/users', friendsRouter);
 
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);

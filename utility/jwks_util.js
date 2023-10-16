@@ -36,6 +36,8 @@ function verifyUserJWKS(req,res,next) {
         console.log("decoded: ", decoded);
         //set req properties from the decoded token
         req.user = decoded;
+        req.body.currentUserId = decoded.sub;
+        req.body.currentUsername = decoded.username;
         next();
     });
 }
