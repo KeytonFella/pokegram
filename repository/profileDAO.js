@@ -84,18 +84,6 @@ async function getPhotoFromBucket(name){
     return signedUrl;
 }
 
-// Get all profile's friends
-function getProfileFriends(profile_id){
-    const params = {
-        TableName: TABLE_NAME,
-        Key: {
-            'profile_id': profile_id 
-        },
-        ProjectionExpression: 'friends'
-    }
-    return docClient.get(params).promise();
-}
-
 // Create new profile 
 function createProfile(profile_id){
     const params = {
@@ -103,30 +91,11 @@ function createProfile(profile_id){
         Item: {
             'profile_id': profile_id,
             'bio': '',
-            'friends': [],
             'pokemon': [],
             'profile_picture': ''
         }
     }
     return docClient.put(params).promise();
-}
-
-// Add friend to profile friends list
-function addProfileFriend(profile_id, friend){
-    const params = {
-        TableName: TABLE_NAME,
-        Key: {
-            'profile_id': profile_id 
-        },
-        UpdateExpression: 'set #f = list_append(#f, :f)',
-        ExpressionAttributeNames: {
-            '#f': 'friends'
-        },
-        ExpressionAttributeValues: {
-            ':f': [friend]
-        },
-    }
-    return docClient.update(params).promise();
 }
 
 // Update profile bio
@@ -221,9 +190,7 @@ module.exports = {
     addProfilePokemon, 
     removeProfilePokemon,
     getProfileById,
-    getProfileFriends,
     createProfile,
-    addProfileFriend,
     updateProfileBio,
     updateProfilePic,
     addPhotoToBucket,

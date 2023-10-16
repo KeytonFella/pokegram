@@ -17,16 +17,6 @@ profileRouter.get('/:profile_id', (req, res) => {
     });
 });
 
-// Get profile's friend list
-profileRouter.get('/:profile_id/friends', (req, res) => {
-    profileService.getProfileFriends(req.params.profile_id).then((data) => {
-        res.status(200);
-        res.send(data);
-    }).catch((err) => {
-        res.status(500);
-        res.send({message: err});
-    });
-});
 
 // Create new profile
 profileRouter.post('/:profile_id/create', (req, res) => {
@@ -39,16 +29,6 @@ profileRouter.post('/:profile_id/create', (req, res) => {
     });
 });
 
-// Add friend to profile friend list
-profileRouter.put('/:profile_id/friends/add', (req, res) => {
-    profileService.addProfileFriend(req.params.profile_id, req.body.friend).then((data) => {
-        res.status(200);
-        res.send({message: `${req.body.friend} added to ${req.params.profile_id} friends list`});
-    }).catch((err) => {
-        res.status(500);
-        res.send({message: err});
-    }); 
-});
 
 // Update profile bio
 profileRouter.put('/:profile_id/update/bio', (req, res) => {

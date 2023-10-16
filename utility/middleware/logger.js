@@ -13,7 +13,6 @@ const logger = createLogger({
     ),
     transports: [
         new transports.Console(), // log to the console
-        new transports.File({ filename: 'profiles.log'}), // log to a file
     ]
 })
 
