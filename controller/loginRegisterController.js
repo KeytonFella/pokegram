@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const router = express.Router();
-const myService = require('../service/loginRegisterService');
+const myService = require('../service/registerService');
 
 //const logger = require("../logger/logger.js");
 
