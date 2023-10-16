@@ -166,9 +166,7 @@ module.exports = {
     removeProfilePokemon,
     getProfileById,
     getPhotoUrl,
-    getProfileFriends,
     createProfile,
-    addProfileFriend,
     updateProfileBio,
     updateProfilePic
 }
