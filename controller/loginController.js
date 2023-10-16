@@ -32,8 +32,9 @@ router.post("/login", (req, res) => {
 
     const cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
     cognitoUser.authenticateUser(authenticationDetails, {
-        //console.log(session);
+        
         onSuccess: (session) => {
+            console.log("session: ",session);
             res.send({message: "Login Successful", 
             accessToken: session.accessToken
             })
@@ -44,7 +45,7 @@ router.post("/login", (req, res) => {
     });
 });
 
-
+//might add error catch for wrong params 
 //confirm endpoint may be optional with lambda presignup triggers
 // confirm
 router.post("/confirm", (req, res) => {

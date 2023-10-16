@@ -13,13 +13,15 @@ const docClient = new AWS.DynamoDB.DocumentClient();
 // ============================== DynamoDB Functions ==============================
 const TABLENAME = 'users';
 
-function addCognitoToDb(user_id, street_name="", city=" ", state=" ", zip=" "){
+function addCognitoToDb(user_id, username,  street_name="", city=" ", state=" ", zip=" "){
     console.log('in the dao function register');
+    console.log(user_id);
     const params = {
         TableName: TABLENAME,
         ConditionExpression: 'attribute_not_exists(user_id)',
         Item: {
             user_id,
+            username,
             address: {
                 street_name,
                 city,

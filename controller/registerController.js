@@ -30,16 +30,16 @@ router.post("/users", async (req, res) => {
         if(err){
             return res.status(400).send(err.message || JSON.stringify(err));
         }
+        console.log("result from Cognito:", result);
         //Add the new user to our own DB
-        console.log(result);
-        const userId = await registerService.addCognitoToDb(result.userSub);
+        console.log(result.userSub);
+        const userId = await registerService.addCognitoToDb(result.userSub, result.user.username);
         //if we couldnt add user id to the db then throw error 
         if(!userId){
             return res.status(500).send({
                 message: "error adding user to DB"
             })
         }
-        console.log("result from Cognito:", result);
         res.send({ 
             message: "User registered successfully!", 
             user: result.user
