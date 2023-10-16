@@ -1,5 +1,5 @@
 // ============================= AWS DynamoDB  Setup =============================
- 
+/* 
 // Load the AWS SDK for Node.js
 const AWS = require('aws-sdk');
 // Set the region 
@@ -8,7 +8,7 @@ AWS.config.update({
 
 });
 
-let roleToAssume = {RoleArn: 'arn:aws:iam::053796667043:role/PeterNepomuceno',
+let roleToAssume = {RoleArn: 'arn:aws:iam::053796667043:role/ArinAihara',
 RoleSessionName: 'session1',
 DurationSeconds: 900,};
 let roleCreds;
@@ -43,18 +43,20 @@ function stsGetCallerIdentity(creds) {
             console.log(data.Arn);
         }
     });    
-} 
-/*
+} */
+/* 
+    personal database setup
+*/
 const AWS = require('aws-sdk');
 
 AWS.config.update({
-    region: 'us-west-2'
+    region: 'us-east-2'
 });
 
 const docClient = new AWS.DynamoDB.DocumentClient();
-*/
+
 // ============================== DynamoDB Functions ==============================
-const TABLENAME = 'users_table';
+const TABLENAME = 'users';
 function retrieveByUsername(username){
     const params = {
         TableName: TABLENAME,
@@ -65,7 +67,7 @@ function retrieveByUsername(username){
     return docClient.get(params).promise();
 }
 
-function registerAccount(username, password, user_id, street_name="", city=" ", state=" ", zip=" "){
+function registerAccount(username, password, user_id, street_number="",street_name="", city=" ", state=" ", zip=" "){
     console.log("creating account  " +" "+username+" "+ password);
     const params = {
         TableName: TABLENAME,
@@ -75,6 +77,7 @@ function registerAccount(username, password, user_id, street_name="", city=" ", 
             password,
             user_id,
             address: {
+                street_number,
                 street_name,
                 city,
                 state,

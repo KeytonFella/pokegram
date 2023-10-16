@@ -1,74 +1,15 @@
-// // ============================= AWS DynamoDB  Setup =============================
-// // Load the AWS SDK for Node.js
-// const AWS = require('aws-sdk');
-
-// // set  you aws region
-// AWS.config.update({
-//     region: 'us-east-2',
-// });
-
-// let roleToAssume = {RoleArn: 'arn:aws:iam::053796667043:role/ArinAihara',
-// RoleSessionName: 'session1',
-// DurationSeconds: 900,};
-// // Create the STS service object    
-// let sts = new AWS.STS({apiVersion: '2011-06-15'});
-
-// let roleCreds;
-// let docClient;  
-// let s3;
-// const {S3Client, GetObjectCommand, PutObjectCommand} = require('@aws-sdk/client-s3');
-// const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
-
-// //Assume Role
-// sts.assumeRole(roleToAssume, function(err, data) {
-//     if (err) console.log(err, err.stack);
-//     else{
-//         roleCreds = {accessKeyId: data.Credentials.AccessKeyId,
-//             secretAccessKey: data.Credentials.SecretAccessKey,
-//             sessionToken: data.Credentials.SessionToken
-//         };
-//         docClient = new AWS.DynamoDB.DocumentClient({accessKeyId: roleCreds.accessKeyId, secretAccessKey: roleCreds.secretAccessKey, sessionToken: roleCreds.sessionToken});  
-//         s3 = new S3Client({
-//             region: bucketRegion, 
-//             credentials: {
-//                 accessKeyId: roleCreds.accessKeyId,
-//                 secretAccessKey: roleCreds.secretAccessKey,
-//                 sessionToken: roleCreds.sessionToken
-//             }});
-//         stsGetCallerIdentity(roleCreds);
-//         }
-// });
-
-// const bucketName = 'pokegram-profile-photos';
-// const bucketRegion = 'us-east-2';
-
-// //Get Arn of current identity
-// function stsGetCallerIdentity(creds) {
-//     var stsParams = {credentials: creds };
-//     // Create STS service object
-//     var sts = new AWS.STS(stsParams);
-        
-//     sts.getCallerIdentity({}, function(err, data) {
-//         if (err) {
-//             console.log(err, err.stack);
-//         }
-//         else {
-//             console.log(data.Arn);
-//         }
-//     });    
-// }
-
-const AWS = require('aws-sdk');
-const {S3Client, GetObjectCommand, PutObjectCommand} = require('@aws-sdk/client-s3');
-const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
-
+// ============================= AWS DynamoDB  Setup =============================
+// Load the AWS SDK for Node.js
+const AWS = require('aws-sdk')
 AWS.config.update({
     region: 'us-east-2'
 });
 
 const docClient = new AWS.DynamoDB.DocumentClient();
+const {S3Client, GetObjectCommand, PutObjectCommand} = require('@aws-sdk/client-s3');
+const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 const s3 = new S3Client({region: 'us-east-2'});
-const TABLE_NAME = 'poke_profiles';
+const TABLE_NAME = "poke-profiles";
 const BUCKET_NAME = 'pokegram-profile-photos';
 
 
@@ -98,18 +39,6 @@ async function getPhotoFromBucket(name){
     return signedUrl;
 }
 
-// Get all profile's friends
-function getProfileFriends(profile_id){
-    const params = {
-        TableName: TABLE_NAME,
-        Key: {
-            'profile_id': profile_id 
-        },
-        ProjectionExpression: 'friends'
-    }
-    return docClient.get(params).promise();
-}
-
 // Create new profile 
 function createProfile(profile_id){
     const params = {
@@ -117,30 +46,11 @@ function createProfile(profile_id){
         Item: {
             'profile_id': profile_id,
             'bio': '',
-            'friends': [],
             'pokemon': [],
             'profile_picture': ''
         }
     }
     return docClient.put(params).promise();
-}
-
-// Add friend to profile friends list
-function addProfileFriend(profile_id, friend){
-    const params = {
-        TableName: TABLE_NAME,
-        Key: {
-            'profile_id': profile_id 
-        },
-        UpdateExpression: 'set #f = list_append(#f, :f)',
-        ExpressionAttributeNames: {
-            '#f': 'friends'
-        },
-        ExpressionAttributeValues: {
-            ':f': [friend]
-        },
-    }
-    return docClient.update(params).promise();
 }
 
 // Update profile bio
@@ -235,9 +145,7 @@ module.exports = {
     addProfilePokemon, 
     removeProfilePokemon,
     getProfileById,
-    getProfileFriends,
     createProfile,
-    addProfileFriend,
     updateProfileBio,
     updateProfilePic,
     addPhotoToBucket,
