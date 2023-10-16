@@ -40,20 +40,6 @@ async function getPhotoUrl(image_name){
 }
     
 
-// Get all profile's friends
-function getProfileFriends(profile_id){
-    logger.info('getProfileFriends service called');
-    return new Promise((resolve, reject) => {
-        profileDAO.getProfileFriends(profile_id).then((data) => {
-            logger.info('getProfileFriends resolved')
-            resolve(data);
-        }).catch((err) => {
-            logger.error(`Error attempting to getProfileFriends: ${err}`)
-            reject(err);
-        });
-    });
-}
-
 // Create new profile (empty initially)
 function createProfile(profile_id){
     logger.info('createProfile service called');
@@ -63,20 +49,6 @@ function createProfile(profile_id){
             resolve(data);
         }).catch((err) => {
             logger.error(`Error attempting to createProfile: ${err}`)
-            reject(err);
-        });
-    });
-}
-
-// Add friend to profile friends list
-function addProfileFriend(profile_id, friend){
-    logger.info('addProfileFriend service called');
-    return new Promise((resolve, reject) => {
-        profileDAO.addProfileFriend(profile_id, friend).then((data) => {
-            logger.info('addProfileFriend resolved')
-            resolve(data);
-        }).catch((err) => {
-            logger.error(`Error attempting to addProfileFriend: ${err}`)
             reject(err);
         });
     });
@@ -185,7 +157,6 @@ const logger = createLogger({
     ),
     transports: [
         new transports.Console(), // log to the console
-        new transports.File({ filename: 'profiles.log'}), // log to a file
     ]
 })
 
