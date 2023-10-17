@@ -1,24 +1,24 @@
 const addressesDAO = require('../repository/addressesDAO');
 const axios = require('axios');
-//const dotenv = require('dotenv');
-
-
+const dotenv = require('dotenv');
 const { SecretsManagerClient, GetSecretValueCommand} = require("@aws-sdk/client-secrets-manager");
   
 const secret_name = "prod/GG/key";
 const client = new SecretsManagerClient({region: "us-east-2"});
 let response;
 try {
-response = await client.send(
-    new GetSecretValueCommand({
-    SecretId: secret_name,
-    VersionStage: "AWSCURRENT", // VersionStage defaults to AWSCURRENT if unspecified
-    })
-);
-} catch (error) {
-
-throw error;
-}
+    response = client.send(
+      new GetSecretValueCommand({
+        SecretId: secret_name,
+        VersionStage: "AWSCURRENT", // VersionStage defaults to AWSCURRENT if unspecified
+      })
+      ).then((data) => {
+            response = data;
+        }).catch((err) => { console.log(err) });
+      console.log(response)
+  } catch (error) {
+      throw error;
+  }
 const API_KEY = response.SecretString;
 const GOOGLE_MAPS_API = 'https://maps.googleapis.com/maps/api/geocode/json?address='
 
