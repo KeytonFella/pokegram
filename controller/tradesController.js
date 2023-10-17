@@ -28,7 +28,7 @@ router.post('', async (req, res) => {
 
 router.get('list', async (req, res) => {
     try{
-        const data = await tradesService.retrieveTradeDataByUser(req.params.currentUserId)
+        const data = await tradesService.retrieveTradeDataByUser(req.body.currentUserId)
         if(data.bool){
             res.send({
                 message: data.message,
