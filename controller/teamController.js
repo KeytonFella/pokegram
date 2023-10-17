@@ -3,7 +3,7 @@ const router = express.Router();
 const bodyParser = require('body-parser');
 const teamService = require('../service/teamService')
 const mw = require('../utility/middleware/teamMW.js')
-const jwUtil = require('../utility/jwt_util.js')
+//const jwUtil = require('../utility/jwt_util.js')
 
 router.use(bodyParser.json());
 
