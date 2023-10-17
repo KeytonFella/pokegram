@@ -1,16 +1,75 @@
-// ============================= AWS DynamoDB  Setup =============================
-// Load the AWS SDK for Node.js
+// // ============================= AWS DynamoDB  Setup =============================
+// const AWS = require('aws-sdk');
+// // Load the AWS SDK for Node.js
+// AWS.config.update({
+//     region: 'us-east-2'
+// });
+
+// const docClient = new AWS.DynamoDB.DocumentClient();
+// const {S3Client, GetObjectCommand, PutObjectCommand} = require('@aws-sdk/client-s3');
+// const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
+// const s3 = new S3Client({region: 'us-east-2'});
+// const TABLE_NAME = "poke-profiles";
+// const BUCKET_NAME = 'pokegram-profile-photos';
+
+// ============================= Local AWS STS Setup =============================
+const AWS = require('aws-sdk');
+
+// set  you aws region
 AWS.config.update({
-    region: 'us-east-2'
+    region: 'us-east-2',
 });
 
-const docClient = new AWS.DynamoDB.DocumentClient();
+let roleToAssume = {RoleArn: 'arn:aws:iam::053796667043:role/ArinAihara',
+RoleSessionName: 'session1',
+DurationSeconds: 900,};
+// Create the STS service object    
+let sts = new AWS.STS({apiVersion: '2011-06-15'});
+
+let roleCreds;
+let docClient;  
+let s3;
 const {S3Client, GetObjectCommand, PutObjectCommand} = require('@aws-sdk/client-s3');
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
-const s3 = new S3Client({region: 'us-east-2'});
-const TABLE_NAME = "poke-profiles";
-const BUCKET_NAME = 'pokegram-profile-photos';
+const BUCKET_NAME = 'pokegram-profile-photos'
+const BUCKET_REGION = 'us-east-2'
+const TABLE_NAME = 'poke_profiles'
 
+//Assume Role
+sts.assumeRole(roleToAssume, function(err, data) {
+    if (err) console.log(err, err.stack);
+    else{
+        roleCreds = {accessKeyId: data.Credentials.AccessKeyId,
+            secretAccessKey: data.Credentials.SecretAccessKey,
+            sessionToken: data.Credentials.SessionToken
+        };
+        docClient = new AWS.DynamoDB.DocumentClient({accessKeyId: roleCreds.accessKeyId, secretAccessKey: roleCreds.secretAccessKey, sessionToken: roleCreds.sessionToken});  
+        s3 = new S3Client({
+            region: BUCKET_REGION, 
+            credentials: {
+                accessKeyId: roleCreds.accessKeyId,
+                secretAccessKey: roleCreds.secretAccessKey,
+                sessionToken: roleCreds.sessionToken
+            }});
+        stsGetCallerIdentity(roleCreds);
+        }
+});
+
+//Get Arn of current identity
+function stsGetCallerIdentity(creds) {
+    var stsParams = {credentials: creds };
+    // Create STS service object
+    var sts = new AWS.STS(stsParams);
+        
+    sts.getCallerIdentity({}, function(err, data) {
+        if (err) {
+            console.log(err, err.stack);
+        }
+        else {
+            console.log(data.Arn);
+        }
+    });    
+}
 
 // ============================== DynamoDB Functions ==============================
 
