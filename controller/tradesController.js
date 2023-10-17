@@ -26,9 +26,30 @@ router.post('', async (req, res) => {
     }
 })
 
+router.get('list', async (req, res) => {
+    try{
+        const data = await tradesService.retrieveTradeDataByUser(req.body.currentUserId)
+        if(data.bool){
+            res.send({
+                message: data.message,
+                data: data.data
+            })
+        }else{
+            res.status(400).send({
+                error: data.message,
+            });
+        }
+    }catch(err){
+        res.status(500).send({
+            message: 'An error occurred',
+            error: `${err}`
+        })
+    }
+})
+
 router.get('', async (req, res) => {
     try{
-        const data = await tradesService.findTrades(req.params.user)
+        const data = await tradesService.findTrades(req.body.currentUserId)
         if(data.bool){
             res.send({
                 message: data.message,
