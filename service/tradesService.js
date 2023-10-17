@@ -1,5 +1,5 @@
 const tradesDAO = require('../repository/tradesDAO');
-const jwtUtil = require('../utility/jwt_util');
+//const jwtUtil = require('../utility/middleware/jwks_util');
 
 module.exports = {
     submitTradeData,
