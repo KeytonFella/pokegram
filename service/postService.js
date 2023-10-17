@@ -22,7 +22,7 @@ async function addImage(image_buffer){
 async function getUsersPosts(user_id){
     try{
         const data = await PostDAO.getUsersPostsDAO(user_id);
-        return {bool: true, message: "Image Added Successfully", content: data};
+        return {bool: true, message: "User Posts Successful", content: data};
     }catch(err){
         return {bool: false, message: `${err}`};
     }
