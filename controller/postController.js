@@ -54,7 +54,7 @@ postRouter.get('/user', async (req, res) => {
         const data = await postService.getUsersPosts(user_id);
         if(data.bool){
             res.status(201).send({
-                items: data.content
+                data: data.content.Items
             })
         }else{
             res.status(400).send({

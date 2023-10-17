@@ -5,6 +5,7 @@ module.exports = {
     submitTradeData,
     findTrades,
     updateDesireList,
+    retrieveTradeDataByUser,
     updateSurrenderList
 }
 
@@ -34,6 +35,16 @@ async function updateSurrenderList(user_id, new_surrender_list){
         return {bool: false, message: `${err}`};
     }
 }
+
+async function retrieveTradeDataByUser(user_id){
+    try{
+        const currentUserData = await tradesDAO.retrieveTradeDataByUser(user_id);
+        return {bool: true, message: "Here is your current trade data", data: currentUserData}
+    }catch(err){
+        return {bool: false, message: `${err}`};
+    }
+}
+
 
 async function findTrades(user_id){
     try{

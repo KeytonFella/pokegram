@@ -13,6 +13,7 @@ const tradesRouter = require('./controller/tradesController');
 const registerRouter = require('./controller/registerController');
 const loginRouter = require('./controller/loginController');
 const addressesRouter = require('./controller/addressesController');
+const postRouter = require('./controller/postController')
 const logger = require('./utility/middleware/logger');
 const jwks = require('./utility/middleware/jwks_util');
 
@@ -45,6 +46,7 @@ app.use('/api/profiles', profileRouter);
 app.use('/api/trades', tradesRouter);
 app.use('/api/addresses', addressesRouter);
 app.use('/api/teams', teamRouter);
+app.use('/api/post', postRouter);
 
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
