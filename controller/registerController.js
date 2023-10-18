@@ -38,7 +38,8 @@ router.post("/users", async (req, res) => {
         if(!userId){
             //remove user from db
             return res.status(500).send({
-                message: "error adding user to DB"
+                message: "error adding user to DB",
+                CognitoUser: result.user
             })
         }
         res.send({ 
