@@ -4,7 +4,6 @@ const bodyParser = require('body-parser');
 const teamService = require('../service/teamService')
 const mw = require('../utility/middleware/teamMW.js')
 
-
 router.use(bodyParser.json());
 
 

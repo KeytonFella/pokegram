@@ -10,8 +10,10 @@ const docClient = new AWS.DynamoDB.DocumentClient();
 
 module.exports = {
     submitTradeData,
-    updateDesireList,
-    updateSurrenderList,
+    addDesireList,
+    removeDesireList,
+    addSurrenderList,
+    removeSurrenderList,
     retrieveTradeDataByUser,
     retrieveAllTradeData
 }
@@ -30,39 +32,61 @@ function submitTradeData(user_id, username, desire_list, surrender_list){
     return docClient.put(params).promise();
 }
 
-function updateDesireList(user_id, desire_list){
+function addDesireList(user_id, pokemon){
     const params = {
         TableName: "poke_trades",
         Key: {
             user_id
         },
-        UpdateExpression: 'set #d = :desire_list',
+        UpdateExpression: 'set #d = list_append(#d, :p)',
         ConditionExpression: 'attribute_exists(user_id)',
         ExpressionAttributeNames:{
             '#d': 'desire_list'
         },
         ExpressionAttributeValues:{
-            ':desire_list': desire_list
+            ':p': [pokemon]
         }
     };
     return docClient.update(params).promise();
 }
 
-function updateSurrenderList(user_id, surrender_list){
+function removeDesireList(user_id, index){
     const params = {
         TableName: "poke_trades",
         Key: {
             user_id
         },
-        UpdateExpression: 'set #s = :surrender_list',
+        UpdateExpression: `remove desire_list[${index}]`,
+    }
+    return docClient.update(params).promise();
+}
+
+function addSurrenderList(user_id, pokemon){
+    const params = {
+        TableName: "poke_trades",
+        Key: {
+            user_id
+        },
+        UpdateExpression: 'set #s = list_append(#s, :p)',
         ConditionExpression: 'attribute_exists(user_id)',
         ExpressionAttributeNames:{
-            '#d': 'surrender_list'
+            '#s': 'surrender_list'
         },
         ExpressionAttributeValues:{
-            ':surrender_list': surrender_list
+            ':p': [pokemon]
         }
     };
+    return docClient.update(params).promise();
+}
+
+function removeSurrenderList(user_id, index){
+    const params = {
+        TableName: "poke_trades",
+        Key: {
+            user_id
+        },
+        UpdateExpression: `remove surrender_list[${index}]`,
+    }
     return docClient.update(params).promise();
 }
 

@@ -1,8 +1,21 @@
 const express = require('express');
 const router = express.Router();
 const tradesService = require('../service/tradesService');
+const axios = require('axios');
 
 module.exports = router;
+
+async function validatePokemon(req, res, next){
+    try{
+        const data = await axios.get(`https://pokeapi.co/api/v2/pokemon/${req.body.pokemon.toLowerCase()}`)
+        req.body.pokemon_id = data.data.id;
+        next();
+    }catch(err){
+        res.status(400).send({
+            message: "Not a valid pokemon"
+        })
+    }
+}
 
 //add trade
 router.post('', async (req, res) => {
@@ -18,27 +31,6 @@ router.post('', async (req, res) => {
                 message: data.message
             })
         }      
-    }catch(err){
-        res.status(500).send({
-            message: 'An error occurred',
-            error: `${err}`
-        })
-    }
-})
-
-router.get('list', async (req, res) => {
-    try{
-        const data = await tradesService.retrieveTradeDataByUser(req.body.currentUserId)
-        if(data.bool){
-            res.send({
-                message: data.message,
-                data: data.data
-            })
-        }else{
-            res.status(400).send({
-                error: data.message,
-            });
-        }
     }catch(err){
         res.status(500).send({
             message: 'An error occurred',
@@ -68,19 +60,17 @@ router.get('', async (req, res) => {
     }
 })
 
-router.put('desire-list', async (req, res) => {
-    const body = req.body;
+router.get('/data', async (req, res) => {
     try{
-        const data = await tradesService.updateDesireList(body.currentUserId, body.desire_list)
+        const data = await tradesService.retrieveTradeDataByUser(req.body.currentUserId)
         if(data.bool){
             res.send({
-                message: data.message,
-                trades: data.data
+                trades: data.data.Item
             })
         }else{
             res.status(400).send({
                 error: data.message,
-            })
+            });
         }
     }catch(err){
         res.status(500).send({
@@ -90,20 +80,72 @@ router.put('desire-list', async (req, res) => {
     }
 })
 
-router.put('surrender-list', async (req, res) => {
+router.put('/desire-list', validatePokemon, async (req, res) => {
     const body = req.body;
     try{
-        const data = await tradesService.updateSurrenderList(body.currentUserId, body.surrender_list)
-        if(data.bool){
-            res.send({
-                message: data.message,
-                trades: data.data
-            })
-        }else{
-            res.status(400).send({
-                error: data.message,
-            })
+        if(body.action === "remove"){
+            const data = await tradesService.removeDesireList(body.currentUserId, body.pokemon_id)
+            if(data.bool){
+                res.send({
+                    message: data.message,
+                    trades: data.data
+                })
+            }else{
+                res.status(400).send({
+                    error: data.message,
+                })
+            }
         }
+        if(body.action === "add"){
+            const data = await tradesService.addDesireList(body.currentUserId, body.pokemon_id)
+            if(data.bool){
+                res.send({
+                    message: data.message,
+                    trades: data.data
+                })
+            }else{
+                res.status(400).send({
+                    error: data.message,
+                })
+            }
+        }    
+    }catch(err){
+        res.status(500).send({
+            message: 'An error occurred',
+            error: `${err}`
+        })
+    }
+})
+
+router.put('/surrender-list', validatePokemon, async (req, res) => {
+    const body = req.body;
+    try{
+        if(body.action === "remove"){
+            const data = await tradesService.removeSurrenderList(body.currentUserId, body.pokemon_id)
+            if(data.bool){
+                res.send({
+                    message: data.message,
+                    trades: data.data
+                })
+            }else{
+                res.status(400).send({
+                    error: data.message,
+                })
+            }
+        }
+        if(body.action === "add"){
+            const data = await tradesService.addSurrenderList(body.currentUserId, body.pokemon_id)
+            if(data.bool){
+                res.send({
+                    message: data.message,
+                    trades: data.data
+                })
+            }else{
+                res.status(400).send({
+                    error: data.message,
+                })
+            }
+        }    
     }catch(err){
         res.status(500).send({
             message: 'An error occurred',

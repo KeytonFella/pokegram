@@ -8,8 +8,8 @@ const AmazonCognitoIdentity = require('amazon-cognito-identity-js');
 //CHANGE THESE SETTINGS 
 AWS.config.update({region: 'us-east-2'});
 const poolData = {
-    UserPoolId: "us-east-2_5xg9IcqVJ",
-    ClientId: "28sfbmcm11hgjohd82sk1ds4ie"
+    UserPoolId: "us-east-2_XJLFbeldD",
+    ClientId: "58trb2u03nrfonuju7gassvee7"
 };
 const userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
 
@@ -36,8 +36,10 @@ router.post("/users", async (req, res) => {
         const userId = await registerService.addCognitoToDb(result.userSub, result.user.username);
         //if we couldnt add user id to the db then throw error 
         if(!userId){
+            //remove user from db
             return res.status(500).send({
-                message: "error adding user to DB"
+                message: "error adding user to DB",
+                CognitoUser: result.user
             })
         }
         res.send({ 
