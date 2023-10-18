@@ -49,30 +49,20 @@ function createTeam(name, pokemonList, user_id) {
     const params = {
         TableName: 'teams_table',
         Item: {
+            user_id,
             name,
-            pokemonList,
-            user_id
+            pokemonList
         }
     }
     return docClient.put(params).promise();
 }
 
-// function getTeamById(team_id) {
-//     const params = {
-//         TableName: 'teams',
-//         Key: {team_id}
-//     }
-//     return docClient.get(params).promise()
-// }
-
-function getTeamByUserId(user_id) {
+function getTeamById(user_id) {
     const params = {
         TableName: 'teams_table',
-        Key: {
-            user_id
-        }
-    };
-    return docClient.get(params).promise();
+        Key: {user_id}
+    }
+    return docClient.get(params).promise()
 }
 
 function updateTeamById(user_id, name, pokemonList) {
@@ -81,7 +71,7 @@ function updateTeamById(user_id, name, pokemonList) {
         Key: {user_id},
         UpdateExpression: 'set #n = :value, #p = :value2',
         ExpressionAttributeNames: {
-            '#n': 'teamName',
+            '#n': 'name',
             '#p': 'pokemonList'
         },
         ExpressionAttributeValues: {
@@ -93,5 +83,5 @@ function updateTeamById(user_id, name, pokemonList) {
 }
 
 module.exports = {
-    createTeam, updateTeamById, getTeamByUserId
+    createTeam, getTeamById, updateTeamById
 }
