@@ -48,7 +48,7 @@ function createProfile(profile_id){
             'profile_id': profile_id,
             'bio': '',
             'pokemon': [],
-            'profile_picture': ''
+            'profile_picture': 'default.jpg'
         }
     }
     return docClient.put(params).promise();
