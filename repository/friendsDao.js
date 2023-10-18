@@ -1,6 +1,3 @@
-
-
-// const { TagResourceCommand } = require('@aws-sdk/client-secrets-manager');
 // const AWS = require('aws-sdk');
 
 // // Set your AWS region
@@ -60,7 +57,7 @@
 /* 
     personal database setup
 */
-
+const { TagResourceCommand } = require('@aws-sdk/client-secrets-manager');
 const AWS = require('aws-sdk');
 
 AWS.config.update({
