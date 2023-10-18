@@ -1,12 +1,13 @@
 const jwt = require('jsonwebtoken');
 const jwksClient = require('jwks-rsa');
 const region = 'us-east-2';
-const userPoolId = "us-east-2_5xg9IcqVJ";
+const userPoolId = "us-east-2_XJLFbeldD";
 
 
 const client = jwksClient({
     jwksUri: `https://cognito-idp.${region}.amazonaws.com/${userPoolId}/.well-known/jwks.json`
 })
+
 
 function getKey(header, callback) {
     client.getSigningKey(header.kid, function(err, key){
@@ -22,11 +23,12 @@ function getKey(header, callback) {
 
 //when the callback finishes we get the decoded token
 function verifyUserJWKS(req,res,next) {
-    console.log("calling middleware");
+    console.log("calling middleware jwks");
     if(!(req.headers && req.headers.authorization)){
         return res.status(401).send({message: "No Authorization Headers"});
     }
     const token = req.headers.authorization.split(' ')[1]; // Bearer <token>
+   
 
     jwt.verify(token, getKey, { algorithms: ['RS256']}, (err, decoded) => {
         if(err){
