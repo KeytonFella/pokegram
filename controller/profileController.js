@@ -68,7 +68,7 @@ profileRouter.get('/:profile_id/pokemon', (req, res) => {
 // Add pokemon in profile pokemon list
 profileRouter.put('/:profile_id/pokemon', (req, res) => {
     const pokemon = req.body.pokemon;
-    const action = req.body.action;
+    const action = req.body.action.toLowerCase();
 
     if(action === "add"){
         profileService.addProfilePokemon(req.params.profile_id,  pokemon).then((data) => {
