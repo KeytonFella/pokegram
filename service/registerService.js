@@ -9,9 +9,15 @@ async function addCognitoToDb(user_id, username){
         console.log("username ",username);
         await registerDao.addCognitoToDb(user_id, username);
         console.log("added to db" );
-        await profileDao.createProfile(user_id);
-        console.log("added to profiles" );
-        return user_id;
+        try {
+            await profileDao.createProfile(user_id);
+            console.log("added to profiles" );
+            return user_id;
+            
+        } catch (error) {
+            console.log("erorr trying to add to poke profiles");
+            return null;
+        }
     } catch (error) {
         console.error("error in registerService", error);
         return null;
