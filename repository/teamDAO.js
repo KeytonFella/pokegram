@@ -38,11 +38,11 @@ function stsGetCallerIdentity(creds) {
     });    
 }
 
-AWS.config.update({
-    region: 'us-east-2'
-})
+// AWS.config.update({
+//     region: 'us-east-2'
+// })
 
-docClient = new AWS.DynamoDB.DocumentClient();
+// docClient = new AWS.DynamoDB.DocumentClient();
 
 //TODO: Attach team to user id
 function createTeam(team_id, name, pokemonList, user_id) {

@@ -3,18 +3,16 @@ const router = express.Router();
 const bodyParser = require('body-parser');
 const teamService = require('../service/teamService')
 const mw = require('../utility/middleware/teamMW.js')
-//const jwUtil = require('../utility/jwt_util.js')
+
 
 router.use(bodyParser.json());
 
 
 
 router.post('', mw.validateTeam, (req, res) => {
-    //const token = req.headers.authorization.split(' ')[0]
     const team = req.body
     console.log("Attempting to post team")
-    //jwUtil.verifyTokenAndReturnPayload(token)
-      //  .then((payload) => {
+    
         if(req.body.valid) {
             console.log("valid team")
             
@@ -30,7 +28,7 @@ router.post('', mw.validateTeam, (req, res) => {
                     res.send({message: `Team creation failed. ${err}`})
                 })
         }
-    //})
+   
 })
 
 router.get('/:team_id', (req,res) => {
@@ -59,10 +57,10 @@ router.put('/:team_id', mw.validateTeam, (req, res) => {
             res.send({message: err})
         })
     } 
-    // else {
-    //     res.statusCode = 400
-    //     res.send({message: "Team validation failed"})
-    // }
+    else {
+        res.statusCode = 400
+        res.send({message: "Team validation failed"})
+    }
 })
 
 module.exports = router
