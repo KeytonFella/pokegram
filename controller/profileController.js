@@ -19,7 +19,7 @@ profileRouter.get('/:profile_id', (req, res) => {
 
 
 // Create new profile
-profileRouter.post('/:profile_id/create', (req, res) => {
+profileRouter.post('/:profile_id', (req, res) => {
     profileService.createProfile(req.params.profile_id).then((data) => {
         res.status(201);
         res.send({message: `Profile ${req.params.profile_id} created`});
@@ -31,7 +31,7 @@ profileRouter.post('/:profile_id/create', (req, res) => {
 
 
 // Update profile bio
-profileRouter.put('/:profile_id/update/bio', (req, res) => {
+profileRouter.put('/:profile_id/bio', (req, res) => {
     profileService.updateProfileBio(req.params.profile_id, req.body.bio).then((data) => {
         res.status(200);
         res.send({message: `Bio updated for ${req.params.profile_id}`});
@@ -42,7 +42,7 @@ profileRouter.put('/:profile_id/update/bio', (req, res) => {
 });
 
 // Update profile photo
-profileRouter.put('/:profile_id/update/photo', upload.single('image'), (req, res) => {
+profileRouter.put('/:profile_id/photo', upload.single('image'), (req, res) => {
     const image = req.file;
     profileService.updateProfilePic(req.params.profile_id, image).then((data) => {
         res.status(200);
@@ -66,28 +66,42 @@ profileRouter.get('/:profile_id/pokemon', (req, res) => {
 });
 
 // Add pokemon in profile pokemon list
-profileRouter.put('/:profile_id/pokemon/add', (req, res) => {
-    const pokemon = req.body;
-    profileService.addProfilePokemon(req.params.profile_id,  pokemon).then((data) => {
-        res.status(200);
-        res.send({message: `${pokemon.pokemon} added to profile`});
-    }).catch((err) => {
-        res.status(500);
-        res.send({message: err});
-    });
+profileRouter.put('/:profile_id/pokemon', (req, res) => {
+    const pokemon = req.body.pokemon;
+    const action = req.body.action.toLowerCase();
+
+    if(action === "add"){
+        profileService.addProfilePokemon(req.params.profile_id,  pokemon).then((data) => {
+            res.status(200);
+            res.send({message: `${pokemon} added to profile`});
+        }).catch((err) => {
+            res.status(500);
+            res.send({message: err});
+        });
+    }else if(action === "remove"){
+        profileService.removeProfilePokemon(req.params.profile_id, pokemon).then((data) => {
+            res.status(204);
+            res.send({message: `${pokemon} removed from profile`});
+        }).catch((err) => {
+            res.status(500);
+            res.send({message: err});
+        });
+    }else{
+        res.status(400).send({error: "Invalid action. Action should either be 'add' or 'remove'"})
+    }
 });
 
 // Delete pokemon in profile pokemon list
-profileRouter.put('/:profile_id/pokemon/remove', (req, res) => {
-    const pokemon = req.body.pokemon;
-    profileService.removeProfilePokemon(req.params.profile_id, pokemon).then((data) => {
-        res.status(204);
-        res.send({message: `${pokemon} removed from profile`});
-    }).catch((err) => {
-        res.status(500);
-        res.send({message: err});
-    });
-});
+// profileRouter.put('/:profile_id/pokemon/remove', (req, res) => {
+//     const pokemon = req.body.pokemon;
+//     profileService.removeProfilePokemon(req.params.profile_id, pokemon).then((data) => {
+//         res.status(204);
+//         res.send({message: `${pokemon} removed from profile`});
+//     }).catch((err) => {
+//         res.status(500);
+//         res.send({message: err});
+//     });
+// });
 
 
 module.exports = profileRouter;

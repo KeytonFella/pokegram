@@ -1,12 +1,13 @@
 const tradesDAO = require('../repository/tradesDAO');
-//const jwtUtil = require('../utility/middleware/jwks_util');
 
 module.exports = {
     submitTradeData,
     findTrades,
-    updateDesireList,
-    retrieveTradeDataByUser,
-    updateSurrenderList
+    addDesireList,
+    addSurrenderList,
+    removeDesireList,
+    removeSurrenderList,
+    retrieveTradeDataByUser
 }
 
 async function submitTradeData(user_id, username, desire_list, surrender_list){    
@@ -18,18 +19,40 @@ async function submitTradeData(user_id, username, desire_list, surrender_list){
     }
 }
 
-async function updateDesireList(user_id, new_desire_list){
+async function addDesireList(user_id, pokemon){
     try{
-        const data = await tradesDAO.updateDesireList(user_id, new_desire_list);
+        const data = await tradesDAO.addDesireList(user_id, pokemon);
         return {bool: true, message: "Trade data updated successfully"};
     }catch(err){
         return {bool: false, message: `${err}`};
     }
 }
 
-async function updateSurrenderList(user_id, new_surrender_list){
+async function addSurrenderList(user_id, pokemon){
     try{
-        const data = await tradesDAO.updateSurrenderList(user_id, new_surrender_list);
+        const data = await tradesDAO.addSurrenderList(user_id, pokemon);
+        return {bool: true, message: "Trade data updated successfully"};
+    }catch(err){
+        return {bool: false, message: `${err}`};
+    }
+}
+
+async function removeDesireList(user_id, pokemon){
+    try{
+        const currentUserData = await tradesDAO.retrieveTradeDataByUser(user_id);
+        const index = currentUserData.Item.desire_list.indexOf(pokemon);
+        const data = await tradesDAO.removeDesireList(user_id, index);
+        return {bool: true, message: "Trade data updated successfully"};
+    }catch(err){
+        return {bool: false, message: `${err}`};
+    }
+}
+
+async function removeSurrenderList(user_id, pokemon){
+    try{
+        const currentUserData = await tradesDAO.retrieveTradeDataByUser(user_id);
+        const index = currentUserData.Item.surrender_list.indexOf(pokemon);
+        const data = await tradesDAO.removeSurrenderList(user_id, index);
         return {bool: true, message: "Trade data updated successfully"};
     }catch(err){
         return {bool: false, message: `${err}`};
@@ -39,12 +62,11 @@ async function updateSurrenderList(user_id, new_surrender_list){
 async function retrieveTradeDataByUser(user_id){
     try{
         const currentUserData = await tradesDAO.retrieveTradeDataByUser(user_id);
-        return {bool: true, message: "Here is your current trade data", data: currentUserData}
+        return {bool: true, message: "Here is your trade data", data: currentUserData};
     }catch(err){
         return {bool: false, message: `${err}`};
     }
 }
-
 
 async function findTrades(user_id){
     try{
