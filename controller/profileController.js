@@ -73,7 +73,7 @@ profileRouter.put('/:profile_id/pokemon', (req, res) => {
     if(action === "add"){
         profileService.addProfilePokemon(req.params.profile_id,  pokemon).then((data) => {
             res.status(200);
-            res.send({message: `${pokemon.pokemon} added to profile`});
+            res.send({message: `${pokemon} added to profile`});
         }).catch((err) => {
             res.status(500);
             res.send({message: err});
