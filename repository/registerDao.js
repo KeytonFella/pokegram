@@ -1,8 +1,4 @@
 
-
-
-
-
 const AWS = require('aws-sdk');
 
 // Set your AWS region
@@ -13,7 +9,7 @@ AWS.config.update({
 let roleToAssume = {
     RoleArn: 'arn:aws:iam::053796667043:role/AndresGuzman',
     RoleSessionName: 'session1',
-    DurationSeconds: 1000000,
+    DurationSeconds: 1000,
 };
 
 // Create the STS service object    
@@ -58,16 +54,7 @@ function stsGetCallerIdentity(creds) {
         }
     });    
 }
-
-
-
-
-
-
-
-
-
-
+docClient = new AWS.DynamoDB.DocumentClient();
 
 /* 
     personal database setup
@@ -79,8 +66,8 @@ AWS.config.update({
     region: 'us-east-2'
 });
 
-const docClient = new AWS.DynamoDB.DocumentClient();
- */
+docClient = new AWS.DynamoDB.DocumentClient();
+*/
 
 // ============================== DynamoDB Functions ==============================
 const TABLENAME = 'users_table';
@@ -104,6 +91,12 @@ function addCognitoToDb(user_id, username,  street_name="", city=" ", state=" ",
               }]
         }
     };
+
+    if (!docClient) {
+        console.error('docClient is not initialized yet');
+        return Promise.reject(new Error('docClient is not initialized'));
+    }
+    
     return docClient.put(params).promise();
 }
 
