@@ -1,5 +1,6 @@
 
 
+const { TagResourceCommand } = require('@aws-sdk/client-secrets-manager');
 const AWS = require('aws-sdk');
 
 // Set your AWS region
@@ -83,7 +84,39 @@ function getFriends(userId){
     return docClient.query(params).promise();
 }
 
+function getUserById(userId){
+    const params = {
+        TableName: TABLENAME,
+        KeyConditionExpression: 'user_id = :user_id',
+        ProjectionExpression: 'user_id, username', // Only get the 'id and username' attribute
+        ExpressionAttributeValues: {
+            ':user_id': userId
+        }
+    };
+    return docClient.query(params).promise();
+}
+
+function addFriend(user_id, friend_id, friend_username){
+        const newFriend = {
+            user_id: friend_id,
+            username: friend_username // You'll need to fetch or determine this
+        };
+        const params = {
+            TableName: TABLENAME,
+          Key: {
+            'user_id': user_id
+          },
+          UpdateExpression: 'SET friends = list_append(friends, :newFriend)',
+          ExpressionAttributeValues: {
+            ':newFriend': [newFriend]
+          },
+          ReturnValues: 'UPDATED_NEW'
+        };
+        return docClient.update(params).promise();
+    
+}
+
 
 module.exports = {
-    getFriends
+    getFriends, addFriend, getUserById
 }

@@ -34,7 +34,7 @@ router.post("/login", (req, res) => {
     cognitoUser.authenticateUser(authenticationDetails, {
         
         onSuccess: (session) => {
-            //console.log("session: ",session);
+            console.log("session: ",session);
             res.send({message: "Login Successful", 
             accessToken: session.accessToken
             })

@@ -13,7 +13,7 @@ AWS.config.update({
 let roleToAssume = {
     RoleArn: 'arn:aws:iam::053796667043:role/AndresGuzman',
     RoleSessionName: 'session1',
-    DurationSeconds: 900,
+    DurationSeconds: 1000000,
 };
 
 // Create the STS service object    
