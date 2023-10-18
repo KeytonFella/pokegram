@@ -31,12 +31,12 @@ router.post('', mw.validateTeam, (req, res) => {
    
 })
 
-router.get('/:team_id', (req,res) => {
+router.get('/:user_id', (req,res) => {
     
-    const id = req.params.team_id
+    const id = req.params.user_id
 
 
-    teamService.getTeamById(id)
+    teamService.getTeamByUserId(id)
     .then((data) => {
         res.send({body: data.Item})
     }).catch((err) => {
@@ -45,17 +45,28 @@ router.get('/:team_id', (req,res) => {
     })
 })
 
-router.put('/:team_id', mw.validateTeam, (req, res) => {
-    const id = req.params.team_id
+// router.get('', (req, res) => {
+//     const id = String(req.query.user_id)
+//     console.log("user_id:", id)
+//     teamService.getTeamByUserId(id)
+//     .then((data) => {
+//         res.send({body: data.Item})
+//     }).catch((err) => {
+//         res.send({message: err})
+//     })
+// })
+
+router.put('/:user_id', mw.validateTeam, (req, res) => {
+    const id = req.params.user_id
     const body = req.body
     if(req.body.valid) {
-    teamService.updateTeamById(id, body.name, body.pokemonList)
-        .then((data) => {
-            res.send({message: `Successfully updated team ${data}`})
-        }).catch((err) => {
-            res.statusCode = 400
-            res.send({message: err})
-        })
+        teamService.updateTeamById(id, body.teamName, body.pokemonList)
+            .then((data) => {
+                res.send({message: `Successfully updated team ${data}`})
+            }).catch((err) => {
+                res.statusCode = 400
+                res.send({message: err})
+            })
     } 
     else {
         res.statusCode = 400
