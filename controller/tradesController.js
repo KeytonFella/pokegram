@@ -39,9 +39,9 @@ router.post('', async (req, res) => {
     }
 })
 
-router.get('/:user_id', async (req, res) => {
+router.get('', async (req, res) => {
     try{
-        const data = await tradesService.findTrades(req.params.user_id)
+        const data = await tradesService.findTrades(req.body.currentUserId)
         if(data.bool){
             res.send({
                 message: data.message,
@@ -60,9 +60,9 @@ router.get('/:user_id', async (req, res) => {
     }
 })
 
-router.get('/:user_id/data', async (req, res) => {
+router.get('/data', async (req, res) => {
     try{
-        const data = await tradesService.retrieveTradeDataByUser(req.params.user_id)
+        const data = await tradesService.retrieveTradeDataByUser(req.body.currentUserId)
         if(data.bool){
             res.send({
                 trades: data.data.Item
@@ -80,11 +80,11 @@ router.get('/:user_id/data', async (req, res) => {
     }
 })
 
-router.put('/:user_id/desire-list', validatePokemon, async (req, res) => {
+router.put('/desire-list', validatePokemon, async (req, res) => {
     const body = req.body;
     try{
         if(body.action === "remove"){
-            const data = await tradesService.removeDesireList(req.params.user_id, body.pokemon_id)
+            const data = await tradesService.removeDesireList(body.currentUserId, body.pokemon_id)
             if(data.bool){
                 res.send({
                     message: data.message,
@@ -97,7 +97,7 @@ router.put('/:user_id/desire-list', validatePokemon, async (req, res) => {
             }
         }
         if(body.action === "add"){
-            const data = await tradesService.addDesireList(req.params.user_id, body.pokemon_id)
+            const data = await tradesService.addDesireList(body.currentUserId, body.pokemon_id)
             if(data.bool){
                 res.send({
                     message: data.message,
@@ -117,11 +117,11 @@ router.put('/:user_id/desire-list', validatePokemon, async (req, res) => {
     }
 })
 
-router.put('/:user_id/surrender-list', validatePokemon, async (req, res) => {
+router.put('/surrender-list', validatePokemon, async (req, res) => {
     const body = req.body;
     try{
         if(body.action === "remove"){
-            const data = await tradesService.removeSurrenderList(req.params.user_id, body.pokemon_id)
+            const data = await tradesService.removeSurrenderList(body.currentUserId, body.pokemon_id)
             if(data.bool){
                 res.send({
                     message: data.message,
@@ -134,7 +134,7 @@ router.put('/:user_id/surrender-list', validatePokemon, async (req, res) => {
             }
         }
         if(body.action === "add"){
-            const data = await tradesService.addSurrenderList(req.params.user_id, body.pokemon_id)
+            const data = await tradesService.addSurrenderList(body.currentUserId, body.pokemon_id)
             if(data.bool){
                 res.send({
                     message: data.message,
