@@ -1,4 +1,6 @@
 
+
+const { TagResourceCommand } = require('@aws-sdk/client-secrets-manager');
 const AWS = require('aws-sdk');
 
 // Set your AWS region
@@ -9,7 +11,7 @@ AWS.config.update({
 let roleToAssume = {
     RoleArn: 'arn:aws:iam::053796667043:role/AndresGuzman',
     RoleSessionName: 'session1',
-    DurationSeconds: 1000,
+    DurationSeconds: 900,
 };
 
 // Create the STS service object    
@@ -54,7 +56,6 @@ function stsGetCallerIdentity(creds) {
         }
     });    
 }
-docClient = new AWS.DynamoDB.DocumentClient();
 
 /* 
     personal database setup
@@ -66,40 +67,56 @@ AWS.config.update({
     region: 'us-east-2'
 });
 
-docClient = new AWS.DynamoDB.DocumentClient();
-*/
-
+const docClient = new AWS.DynamoDB.DocumentClient();
+ */
 // ============================== DynamoDB Functions ==============================
 const TABLENAME = 'users_table';
 
-function addCognitoToDb(user_id, username,  street_name="", city=" ", state=" ", zip=" "){
+function getFriends(userId){
     const params = {
         TableName: TABLENAME,
-        ConditionExpression: 'attribute_not_exists(user_id)',
-        Item: {
-            user_id,
-            username,
-            address: {
-                street_name,
-                city,
-                state,
-                zip
-            },
-            friends: [{
-                user_id: "0ac11b24-e532-4d15-b36d-74d3e3d88dc3",
-                username: "ash_ketchum"
-              }]
+        KeyConditionExpression: 'user_id = :user_id',
+        ProjectionExpression: 'friends', // Only get the 'friends' attribute
+        ExpressionAttributeValues: {
+            ':user_id': userId
         }
     };
-
-    if (!docClient) {
-        console.error('docClient is not initialized yet');
-        return Promise.reject(new Error('docClient is not initialized'));
-    }
-    
-    return docClient.put(params).promise();
+    return docClient.query(params).promise();
 }
 
+function getUserById(userId){
+    const params = {
+        TableName: TABLENAME,
+        KeyConditionExpression: 'user_id = :user_id',
+        ProjectionExpression: 'user_id, username', // Only get the 'id and username' attribute
+        ExpressionAttributeValues: {
+            ':user_id': userId
+        }
+    };
+    return docClient.query(params).promise();
+}
+
+function addFriend(user_id, friend_id, friend_username){
+        const newFriend = {
+            user_id: friend_id,
+            username: friend_username // You'll need to fetch or determine this
+        };
+        const params = {
+            TableName: TABLENAME,
+          Key: {
+            'user_id': user_id
+          },
+          UpdateExpression: 'SET friends = list_append(friends, :newFriend)',
+          ExpressionAttributeValues: {
+            ':newFriend': [newFriend]
+          },
+          ReturnValues: 'UPDATED_NEW'
+        };
+        return docClient.update(params).promise();
+    
+}
+
+
 module.exports = {
-    addCognitoToDb
+    getFriends, addFriend, getUserById
 }

@@ -1,6 +1,6 @@
 // ============================= AWS DynamoDB  Setup =============================
 // Load the AWS SDK for Node.js
-const AWS = require('aws-sdk')
+const AWS = require('aws-sdk');
 
 AWS.config.update({
     region: 'us-east-2'
@@ -10,7 +10,7 @@ const docClient = new AWS.DynamoDB.DocumentClient();
 const {S3Client, GetObjectCommand, PutObjectCommand} = require('@aws-sdk/client-s3');
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 const s3 = new S3Client({region: 'us-east-2'});
-const TABLE_NAME = "poke-profiles";
+const TABLE_NAME = "poke_profiles";
 const BUCKET_NAME = 'pokegram-profile-photos';
 
 
@@ -48,7 +48,7 @@ function createProfile(profile_id){
             'profile_id': profile_id,
             'bio': '',
             'pokemon': [],
-            'profile_picture': ''
+            'profile_picture': 'default.jpg'
         }
     }
     return docClient.put(params).promise();
