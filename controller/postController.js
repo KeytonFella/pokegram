@@ -86,9 +86,6 @@ postRouter.get('/image', async (req, res) => { //not async because of the nature
             error: `${err}`
         });
     }
-    
-    const readStream = 
-    readStream.pipe(res);
 });
 
 
