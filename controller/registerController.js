@@ -15,19 +15,20 @@ router.post("/users", async (req, res) => {
     const { username, password, email } = req.body;
     let result;
     // Try to register the user with Cognito
-    result = await registerService.signUp(username, password, email);
-    // Log the result for debugging
-    console.log("after cognito add in controller", result);
-    // If the Cognito registration failed, send an error response
-    if(!result){
+    try{
+        result = await registerService.signUp(username, password, email);
+    }catch (error) {
         console.log("error adding user to Cognito");
         return res.status(500).send({
             message: "error adding user to Cognito",
             CognitoUser: result.user
         });
     }
+    // Log the result for debugging
+    //console.log("after cognito add in controller", result);
+
     // Try to add the user to the users_table in DynamoDB
-    const usersDbResponse = await registerService.addCognitoToUsersDb(result.userSub, result.user.username);
+    const usersDbResponse = await registerService.addCognitoToUsersDb(result?.userSub, result?.user?.username);
     // Log the result for debugging
     console.log("the usersDbresponse", usersDbResponse);
     // If adding to the users_table failed, send an error response
@@ -52,7 +53,10 @@ router.post("/users", async (req, res) => {
     // If everything succeeded, send a success response
     res.send({ 
         message: "User registered successfully!", 
+        user_id: result.userSub,
+        username: result.user.username,
         user: result.user
+    
     });
     return;
 });

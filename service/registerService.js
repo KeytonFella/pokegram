@@ -40,7 +40,6 @@ async function signUp(username, password, email){
     try {
         // Attempt to sign up user through Cognito
         const result = await cognito.signUp(username, password, email);
-        console.log(result);
         return result; // Return the result if successful
     } catch (error) {
         console.log("error with signing up ", username);
@@ -53,6 +52,7 @@ async function deleteFromUsersDb(user_id){
     try {
         // Attempt to delete user from DynamoDB
         const result = await registerDao.deleteUser(user_id);
+        console.log("deleted user from users db", result);
         if(result.Attributes.user_id !== user_id){return false};
         return true; // Return true if successful
     } catch (error) {
