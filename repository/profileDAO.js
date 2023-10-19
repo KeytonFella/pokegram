@@ -3,10 +3,10 @@
 const AWS = require('aws-sdk');
 
 AWS.config.update({
-    region: 'us-east-2'
+    region: 'us-east-2',
 });
 
-const docClient = new AWS.DynamoDB.DocumentClient();
+// Create the STS service object    
 const {S3Client, GetObjectCommand, PutObjectCommand} = require('@aws-sdk/client-s3');
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 const s3 = new S3Client({region: 'us-east-2'});

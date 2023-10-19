@@ -12,15 +12,16 @@ router.post("/users", async (req, res) => {
     let result;
 
     result = await registerService.signUp(username, password, email);
-    console.log("after cognito add in controller", result)
+    console.log("after cognito add in controller", result);
     if(!result){
         console.log("error adding user to Cognito");
         return res.status(500).send({
             message: "error adding user to Cognito",
             CognitoUser: result.user
         })
-    }        
+    }
     
+        
     const usersDbResponse = await registerService.addCognitoToUsersDb(result.userSub, result.user.username);
     console.log("the usersDbresponse", usersDbResponse);
     if (!usersDbResponse) {
