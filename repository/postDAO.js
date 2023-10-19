@@ -5,6 +5,8 @@ AWS.config.update({
 
 });
 const BUCKET_NAME_PHOTO = "poke-post-image-bucket";
+//"poke-post-image-bucket
+
 const docClient = new AWS.DynamoDB.DocumentClient();
 const {S3Client, GetObjectCommand, PutObjectCommand} = require('@aws-sdk/client-s3');
 const s3 = new S3Client({region: 'us-east-2'});

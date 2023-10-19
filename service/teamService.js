@@ -14,7 +14,7 @@ function createTeam(name, list, user_id) {
                 reject(err)
             })
     })
-    
+  
 }
 
 // function getTeamById(team_id) {

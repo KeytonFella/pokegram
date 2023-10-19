@@ -17,6 +17,16 @@ profileRouter.get('/:profile_id', (req, res) => {
     });
 });
 
+profileRouter.get('/:profile_id/username', (req, res) => {
+    profileService.getUsernameByProfileID(req.params.profile_id).then((data) => {
+        res.send(data);
+        res.status(200);
+    }).catch((err) => {
+        res.status(500);
+        res.send({message: err});
+    });
+});
+
 
 // Create new profile
 profileRouter.post('/:profile_id', (req, res) => {

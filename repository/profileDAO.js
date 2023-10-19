@@ -28,6 +28,16 @@ function getProfileById(profile_id){
     return docClient.get(params).promise();
 }
 
+function getUsernameByProfileIDDAO(profile_id){//added by Josh
+    const params = {
+        TableName: "users_table",
+        Key: {
+            'user_id': profile_id 
+        }
+    }
+    return docClient.get(params).promise();
+}
+
 
 // Get photo from s3 bucket
 async function getPhotoFromBucket(name){
@@ -150,5 +160,6 @@ module.exports = {
     updateProfileBio,
     updateProfilePic,
     addPhotoToBucket,
-    getPhotoFromBucket
+    getPhotoFromBucket,
+    getUsernameByProfileIDDAO //added by josh
 }

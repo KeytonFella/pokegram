@@ -1,6 +1,6 @@
 const AWS = require('aws-sdk');
 
-let docClient;
+// let docClient;
 // var roleToAssume = {RoleArn: 'arn:aws:iam::053796667043:role/PeterNepomuceno',
 //                     RoleSessionName: 'session1',
 //                     DurationSeconds: 900,};
@@ -41,7 +41,7 @@ AWS.config.update({
     region: 'us-east-2'
 })
 
-//const docClient = new AWS.DynamoDB.DocumentClient();
+const docClient = new AWS.DynamoDB.DocumentClient();
 
 function createTeam(teamName, pokemonList, user_id) {
     const params = {
