@@ -1,63 +1,60 @@
 
 const registerDao = require('../repository/registerDao');
 const profileDao = require('../repository/profileDAO');
-const cognito = require('../utility/aws/cognito');
+const AWS = require('aws-sdk')
+AWS.config.update({region: 'us-east-2'});
+const poolData = {
+    UserPoolId: "us-east-2_XJLFbeldD",
+    ClientId: "58trb2u03nrfonuju7gassvee7"
+};
+const CognitoIdentityServiceProvider = AWS.CognitoIdentityServiceProvider;
+var client = new CognitoIdentityServiceProvider({
+    apiVersion: '2016-04-19',
+    region: 'us-east-2'
+});
+console.log(AWS.config);
 
 
-// Function to add a user to the users_table in DynamoDB
-async function addCognitoToUsersDb(user_id, username){
+//////////////////////////////////
+async function addCognitoToDb(user_id, username){
+    //the params to delete a user
+    const cognitoParams = {
+        UserPoolId: "us-east-2_XJLFbeldD",
+        Username: username
+    };
     try {
-        // Attempt to add user to DynamoDB through DAO (Data Access Object)
         await registerDao.addCognitoToDb(user_id, username);
-        console.log("added to db");
-        return true; // Return true if successful
+        console.log("added to db" );
+        try {
+            await profileDao.createProfile(user_id);
+            console.log("added to profiles" );
+            return user_id;
+        } catch (error) {
+            console.error("error trying to add to poke profiles");
+                //Delete the user from cognito if it did not get added to the users_table
+            try {
+                await client.adminDeleteUser(cognitoParams).promise();
+                console.log('Successfully deleted user from Cognito User Pool');
+                return null;
+            } catch (cognitoError) {
+                console.error(username);
+                console.error('Failed to delete user from Cognito User Pool', cognitoError);
+                return null;
+            }
+        }
     } catch (error) {
-        console.error("error trying to add user to the users_table", error);
-        // If there's an error, delete the user from Cognito
-        await cognito.deleteUser(username);
-        return false; // Return false if there's an error
-    }
-}
-
-// Function to add a profile for the user in the profiles_table
-async function addCognitoToProfilesDb(user_id, username){
-    try {
-        // Attempt to create a profile in DynamoDB
-        await profileDao.createProfile(user_id);
-        console.log("added to profiles");
-        return true; // Return true if successful
-    } catch (error) {
-        console.log("error trying to add to profiles_table", error);
-        // If there's an error, delete the user from both the profiles_table and Cognito
-        await deleteFromUsersDb(user_id);
-        await cognito.deleteUser(username);
-        return false; // Return false if there's an error
-    }
-}
-
-// Function to sign up a user through Cognito
-async function signUp(username, password, email){
-    try {
-        // Attempt to sign up user through Cognito
-        const result = await cognito.signUp(username, password, email);
-        console.log(result);
-        return result; // Return the result if successful
-    } catch (error) {
-        console.log("error with signing up ", username);
-        return false; // Return false if there's an error
-    }
-}
-
-// Function to delete a user from the users_table in DynamoDB
-async function deleteFromUsersDb(user_id){
-    try {
-        // Attempt to delete user from DynamoDB
-        const result = await registerDao.deleteUser(user_id);
-        if(result.Attributes.user_id !== user_id){return false};
-        return true; // Return true if successful
-    } catch (error) {
-        console.error("error trying to delete user from users_db", error);
-        return false; // Return false if there's an error
+        console.error("error in registerService adding to users_table", error);
+        //Delete the user from cognito if it did not get added to the users_table
+        try {
+            console.log("cognito params",cognitoParams)
+            await client.adminDeleteUser(cognitoParams).promise();
+            console.log('Successfully deleted user from Cognito User Pool');
+            return null;
+        } catch (cognitoError) {
+            console.error('2Failed to delete user from Cognito User Pool', cognitoError);
+            return null;
+        }
+        return null;
     }
 }
 
