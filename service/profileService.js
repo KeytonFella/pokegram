@@ -24,6 +24,21 @@ async function getProfileById(profile_id){
         });
     });
 }
+async function getUsernameByProfileID(profile_id){
+    logger.info('getUsernameByProfileID service called');
+    return new Promise((resolve, reject) => {
+        profileDAO.getUsernameByProfileIDDAO(profile_id).then((data) => {
+            let username = {
+                username: data.Item.username,
+            }
+            resolve(username);
+        }).catch((err) => {
+            logger.error(`Error attempting to getUsernameByProfileID: ${err}`)
+            reject(err);
+        }); 
+    });
+}
+
 
 // Get photo url from S3 bucket
 async function getPhotoUrl(image_name){
@@ -168,5 +183,6 @@ module.exports = {
     getPhotoUrl,
     createProfile,
     updateProfileBio,
-    updateProfilePic
+    updateProfilePic,
+    getUsernameByProfileID //added by Josh
 }
