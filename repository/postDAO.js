@@ -4,8 +4,14 @@ AWS.config.update({
     region: 'us-east-2',
 
 });
+const BUCKET_NAME_PHOTO = "poke-post-image-bucket";
+//post-image-bucket-demo: Josh's local bucket for testing
+//poke-post-image-bucket: Backend pipeline used for prod 
+const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 const docClient = new AWS.DynamoDB.DocumentClient();
-const s3 = new AWS.S3();
+const {S3Client, GetObjectCommand, PutObjectCommand} = require('@aws-sdk/client-s3');
+const s3 = new S3Client({region: 'us-east-2'});
+
 function PostDAO(post_id, user_id_fk, text_body, image_s3_id, tags){
     const params = {
         TableName: "poke_posts_table",
@@ -19,13 +25,15 @@ function PostDAO(post_id, user_id_fk, text_body, image_s3_id, tags){
     };
     return docClient.put(params).promise();
 }
-function PostImageDAO(image_id, image_buffer){
+async function PostImageDAO(name, buffer, mimetype){
     const params = {
-            Bucket: 'poke-post-image-bucket',
-            Key: image_id, // Provide a unique key for each image
-            Body: image_buffer,
-    };
-    return s3.upload(params).promise();
+        Bucket: BUCKET_NAME_PHOTO,
+        Key: name,
+        Body: buffer,
+        ContentType: mimetype,
+    }
+    const command = new PutObjectCommand(params);
+    return await s3.send(command);
 };
 function getUsersPostsDAO(user_id) {
     const params = {
@@ -41,12 +49,15 @@ function getUsersPostsDAO(user_id) {
     };
     return docClient.query(params).promise();
 }
-function getImageDAO(image_id){
+async function getImageDAO(image_id){
     const params = {
-            Bucket: 'poke-post-image-bucket',
-            Key: image_id
-    };
-    return s3.getObject(params).createReadStream();
+        Bucket: BUCKET_NAME_PHOTO,
+        Key: image_id,
+    }
+    const command = new GetObjectCommand(params);
+    const signedUrl = await getSignedUrl(s3, command, {expiresIn: 3600});
+    return signedUrl;
+
 };
 module.exports = {
     PostDAO,
