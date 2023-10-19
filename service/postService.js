@@ -1,5 +1,7 @@
 const PostDAO = require('../repository/postDAO');
 const uuid = require('uuid');
+const sharp = require('sharp');
+
 async function addPost(user_id_fk, text_body, image_s3_id, tags){
     let post_id = uuid.v4()
     try{
@@ -10,10 +12,13 @@ async function addPost(user_id_fk, text_body, image_s3_id, tags){
     }
 
 }
-async function addImage(image_buffer){
+async function addImage(image){
     let image_id = uuid.v4()
     try{
-        const data = await PostDAO.PostImageDAO(image_id, image_buffer);
+        const buffer = await sharp(image.buffer).toFormat('png').toBuffer();
+        const name = `${image_id}.png`;
+
+        const data = await PostDAO.PostImageDAO(name, buffer, image.mimetype);
         return {bool: true, message: "Image Added Successfully", image_id: image_id, data: data};
     }catch(err){
         return {bool: false, message: `${err}`};
