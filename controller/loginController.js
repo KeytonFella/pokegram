@@ -13,8 +13,7 @@ router.post("/login", async (req, res) => {
     const {success, result} = await loginService.login(username, password);
     if(!success){
         return res.status(400).send({
-            message: `error logging in to Cognito ${result}`,
-            
+            message: `error logging in to Cognito ${result}`
         });
     }
     const accessToken = result.accessToken;
