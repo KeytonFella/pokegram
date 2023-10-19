@@ -80,7 +80,7 @@ profileRouter.put('/:profile_id/pokemon', (req, res) => {
         });
     }else if(action === "remove"){
         profileService.removeProfilePokemon(req.params.profile_id, pokemon).then((data) => {
-            res.status(204);
+            res.status(200);
             res.send({message: `${pokemon} removed from profile`});
         }).catch((err) => {
             res.status(500);
