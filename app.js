@@ -38,6 +38,7 @@ app.get("/unprotected", (req, res) => {
     res.send({message: 'you accessed unprotected data! req.user should be empty', data: req.user});
 })
 app.use(jwks.verifyUserJWKS);
+
 //protected
 app.get("/protected", (req, res) => {
     res.send({message: 'you accessed protected data!', data: req.user});

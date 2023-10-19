@@ -21,7 +21,7 @@ function PostDAO(post_id, user_id_fk, text_body, image_s3_id, tags){
 }
 function PostImageDAO(image_id, image_buffer){
     const params = {
-            Bucket: 'post-image-bucket-demo',
+            Bucket: 'poke-post-image-bucket',
             Key: image_id, // Provide a unique key for each image
             Body: image_buffer,
     };
@@ -43,7 +43,7 @@ function getUsersPostsDAO(user_id) {
 }
 function getImageDAO(image_id){
     const params = {
-            Bucket: 'post-image-bucket-demo',
+            Bucket: 'poke-post-image-bucket',
             Key: image_id
     };
     return s3.getObject(params).createReadStream();
