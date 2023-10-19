@@ -15,7 +15,7 @@ async function addPost(user_id_fk, text_body, image_s3_id, tags){
 async function addImage(image){
     let image_id = uuid.v4()
     try{
-        const buffer = await sharp(image.buffer).resize({height: 320, width: 320, fit: 'contain'}).toFormat('png').toBuffer();
+        const buffer = await sharp(image.buffer).toFormat('png').toBuffer();
         const name = `${image_id}.png`;
         const data = await PostDAO.PostImageDAO(name, buffer, image.mimetype);
         return {bool: true, message: "Image Added Successfully", image_id: image_id, data: data};

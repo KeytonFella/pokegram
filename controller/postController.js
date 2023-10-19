@@ -32,7 +32,7 @@ postRouter.post('/image', upload.single('image'), (req, res) => {
     postService.addImage(image).then((data) => { 
         if(data.bool) {     
             res.status(201).send({
-                image_id: data.image_id
+                image_id: data.image_id + ".png"
             })
         } else {
             res.status(400).send({
@@ -73,7 +73,7 @@ postRouter.get('/image', async (req, res) => { //not async because of the nature
         const data = await postService.getImage(req.query.image_id);
         if(data.bool){
             res.status(201).send({
-                image_url:data.image_url
+                image_url: data.image_url
             })
         }else{
             res.status(400).send({
