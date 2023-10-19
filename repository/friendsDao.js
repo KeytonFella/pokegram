@@ -12,7 +12,10 @@ AWS.config.update({
 const docClient = new AWS.DynamoDB.DocumentClient();
 
 // ============================== DynamoDB Functions ==============================
-const TABLENAME = 'users';
+//local
+/* const TABLENAME = 'users'; */
+
+const TABLENAME = 'users_table';
 
 function getFriends(userId){
     const params = {

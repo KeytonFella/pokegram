@@ -13,7 +13,12 @@ docClient = new AWS.DynamoDB.DocumentClient();
 
 
 // ============================== DynamoDB Functions ==============================
-const TABLENAME = 'users';
+//local
+/* const TABLENAME = 'users';
+ */
+
+const TABLENAME = 'users_table';
+
 
 //function to add a user to DynamoDB from a cognito users sub and username
 function addCognitoToDb(user_id, username, street_number="",  street_name="", city=" ", state=" ", zip=" "){

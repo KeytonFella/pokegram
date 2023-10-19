@@ -3,9 +3,16 @@ const CognitoIdentityServiceProvider = AWS.CognitoIdentityServiceProvider;
 const AmazonCognitoIdentity = require('amazon-cognito-identity-js');
 AWS.config.update({region: 'us-east-2'});
 const poolData = {
+    UserPoolId: "us-east-2_XJLFbeldD",
+    ClientId: "58trb2u03nrfonuju7gassvee7"
+};
+
+//local
+/* const poolData = {
     UserPoolId: "us-east-2_SVgVNVFdr",
     ClientId: "3l8bh4r7c24rhueak49m3da774"
-};
+}; */
+
 const userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
 
 var client = new CognitoIdentityServiceProvider({
