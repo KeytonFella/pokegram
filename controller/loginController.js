@@ -17,10 +17,10 @@ router.post("/login", async (req, res) => {
             result
         });
     }
-
+    const accessToken = result.accessToken;
     return res.status(200).send({
         message: "Successful login to Cognito",
-        result
+        accessToken
     });
     
 });
