@@ -10,17 +10,23 @@ const params = {
     SecretId: 'prod/GG/key'
 };
 
-const API_KEY = async () => {
+let API_KEY;
+function getAPIKey(){
     try{
-        const data = await secretsManager.getSecretValue(params).promise();
-        const secret = JSON.parse(data.SecretString);
-        console.log(secret.API_KEY)
-        return secret;
+        return secretsManager.getSecretValue(params).promise();
     }catch (error) {
         console.error('Error fetching secret:', error);
         throw error;
     }
 }
+getAPIKey().then((data) => {
+    const secret = JSON.parse(data.SecretString);
+    API_KEY = secret.API_KEY;
+    console.log(API_KEY)
+}).catch((err) => {
+    console.error('Error fetching secret:', err);
+    throw err;
+});
 
 const GOOGLE_MAPS_API = 'https://maps.googleapis.com/maps/api/geocode/json?address='
 
