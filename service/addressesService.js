@@ -21,7 +21,12 @@ async function getKey(){
         throw error;
     }
 }
-const API_KEY = await getKey();
+let API_KEY;
+getKey().then((data) => {
+    API_KEY = data.API_KEY;
+}).catch((err) => {
+    console.log(err);
+});
 const GOOGLE_MAPS_API = 'https://maps.googleapis.com/maps/api/geocode/json?address='
 
 // ============================== Geocoding Service Calls ==============================
