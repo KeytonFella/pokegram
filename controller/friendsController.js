@@ -29,6 +29,13 @@ router.get('/:user_id/friends', async (req, res) => {
 router.put('/:user_id/friends', async (req, res) => {
     //check friend exists, check user's freinds list, add if not in list alreaady 
     if (req.body.currentUserId === req.params.user_id) {
+        //if same id or username as user
+        if(req.body.friend_id === req.body.currentUserId || req.body.currentUserName === req.body?.friend_username){
+            return res.status(403).send({
+                message: "You can't add yourself to your friends list"
+            })
+        }
+
         const friendResponse = await friendsService.addFriend(req.body.currentUserId, req.body.friend_id);
         //console.log("response", friendResponse);
         if(!friendResponse || friendResponse.length === 0){
