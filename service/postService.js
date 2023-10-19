@@ -31,8 +31,13 @@ async function getUsersPosts(user_id){
         return {bool: false, message: `${err}`};
     }
 }
-function getImage(image_id){
-   return PostDAO.getImageDAO(image_id)
+async function getImage(image_id){
+    try{
+        const data = await PostDAO.getImageDAO(image_id)
+        return {bool: true, message: "User Posts Successful", image_url: data};
+    }catch(err){
+        return {bool: false, message: `${err}`};
+    }
 }
 module.exports = {
     addPost,
