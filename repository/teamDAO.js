@@ -71,13 +71,13 @@ function getTeamByUserId(user_id) {
     return docClient.get(params).promise()
 }
 
-function updateTeamById(user_id, name, pokemonList) {
+function updateTeamById(user_id, teamName, pokemonList) {
     const params = {
         TableName: 'teams_table',
         Key: {user_id},
         UpdateExpression: 'set #n = :value, #p = :value2',
         ExpressionAttributeNames: {
-            '#n': 'name',
+            '#n': 'teamName',
             '#p': 'pokemonList'
         },
         ExpressionAttributeValues: {
