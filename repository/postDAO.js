@@ -6,7 +6,9 @@ AWS.config.update({
 });
 const BUCKET_NAME_PHOTO = "poke-post-image-bucket";
 const docClient = new AWS.DynamoDB.DocumentClient();
-const s3 = new AWS.S3();
+const {S3Client, GetObjectCommand, PutObjectCommand} = require('@aws-sdk/client-s3');
+const s3 = new S3Client({region: 'us-east-2'});
+
 function PostDAO(post_id, user_id_fk, text_body, image_s3_id, tags){
     const params = {
         TableName: "poke_posts_table",
