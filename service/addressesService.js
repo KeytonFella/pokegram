@@ -10,7 +10,7 @@ const params = {
     SecretId: 'prod/GG/key'
 };
 
-async function getKey(){
+const API_KEY = async () => {
     try{
         const data = await secretsManager.getSecretValue(params).promise();
         const secret = JSON.parse(data.SecretString);
@@ -21,12 +21,6 @@ async function getKey(){
         throw error;
     }
 }
-let API_KEY;
-getKey().then((data) => {
-    API_KEY = data.API_KEY;
-}).catch((err) => {
-    console.log(err);
-});
 const GOOGLE_MAPS_API = 'https://maps.googleapis.com/maps/api/geocode/json?address='
 
 // ============================== Geocoding Service Calls ==============================
