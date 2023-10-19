@@ -72,7 +72,7 @@ docClient = new AWS.DynamoDB.DocumentClient();
 // ============================== DynamoDB Functions ==============================
 const TABLENAME = 'users_table';
 
-function addCognitoToDb(user_id, username,  street_name="", city=" ", state=" ", zip=" "){
+function addCognitoToDb(user_id, username, street_number="", street_name="", city="", state="", zip=""){
     const params = {
         TableName: TABLENAME,
         ConditionExpression: 'attribute_not_exists(user_id)',
@@ -80,6 +80,7 @@ function addCognitoToDb(user_id, username,  street_name="", city=" ", state=" ",
             user_id,
             username,
             address: {
+                street_number,
                 street_name,
                 city,
                 state,

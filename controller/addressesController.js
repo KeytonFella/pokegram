@@ -15,8 +15,9 @@ addressesRouter.get('/user/:user_id', (req, res) => {
 });
 
 // Get all addresses in the same state
-addressesRouter.get('/user/:user_id/others', (req, res) => {
-    addressesService.getAllAddresses(req.params.user_id).then((data) => {
+addressesRouter.post('/user/:user_id/others', (req, res) => {
+    const distance = req.body.distance;
+    addressesService.getAllAddresses(req.params.user_id, distance).then((data) => {
         res.status(200);
         res.send(data);
     }).catch((err) => {
