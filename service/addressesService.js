@@ -20,6 +20,7 @@ try {
       throw error;
   }
 const API_KEY = response.SecretString;
+
 const GOOGLE_MAPS_API = 'https://maps.googleapis.com/maps/api/geocode/json?address='
 
 // ============================== Geocoding Service Calls ==============================
@@ -61,23 +62,27 @@ function getAddress(user_id){
                 // Format address for geocoding
                 let geoAddress = formatAddress(data.Items[i].address);
                 // Create request to Google Maps API
-                const request = axios.get(`${GOOGLE_MAPS_API}${geoAddress}${API_KEY}`).then((res) => {
-                    logger.info('Google Maps API call successful')
-                    // Create user object to push to users list
-                    let user = {
-                        user_id: data.Items[i].user_id,
-                        username: data.Items[i].username,
-                        address: res.data.results[0].geometry.location
-                    }
-                    // Push user to users list
-                    users.push(user);
-                }).catch((err) => {
-                    logger.error(`Error attempting to call Google Maps API: ${err}`)
-                    reject(err);
-                });
-                requests.push(request);
+                if(geoAddress != null){
+                    const request = axios.get(`${GOOGLE_MAPS_API}${geoAddress}${API_KEY}`).then((res) => {
+                        logger.info('Google Maps API call successful')
+                        // Create user object to push to users list
+                        let user = {
+                            user_id: data.Items[i].user_id,
+                            username: data.Items[i].username,
+                            address: res.data.results[0].geometry.location
+                        }
+    
+                        // Push user to users list
+                        users.push(user);
+                    }).catch((err) => {
+                        logger.error(`Error attempting to call Google Maps API: ${err}`)
+                        reject(err);
+                    });
+                    requests.push(request);
+                }
+                console.log(users)
+                // Wait for all requests to resolve
             }
-            // Wait for all requests to resolve
             Promise.all(requests).then(() => {
                 resolve(users);
             }).catch((err) => {
@@ -93,6 +98,9 @@ function getAddress(user_id){
 
 // Format address for geocoding
 function formatAddress(address) {
+    if(!address.street_name){
+        return null;
+    }
     const concatString = `${address.street_number} ${address.street_name} ${address.city} ${address.state} ${address.zip}`;
     return concatString.replace(/\s+/g, '%20');
     
