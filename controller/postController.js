@@ -26,28 +26,27 @@ postRouter.post('/', async (req, res) => {
         });
     }
 });
-
-postRouter.post('/image', upload.single('image'), async (req, res) => {
-    const image_buffer = req.file.buffer;
-    try{
-        const data = await postService.addImage(image_buffer);
-        if(data.bool){
+// Upload Photo
+postRouter.post('/image', upload.single('image'), (req, res) => {
+    const image = req.file;
+    postService.addImage(image).then((data) => { 
+        if(data.bool) {     
             res.status(201).send({
                 image_id: data.image_id
             })
-        }else{
+        } else {
             res.status(400).send({
                 message: data.message
             })
         }      
-    }
-    catch(err) {
+    }).catch((err) => {
         res.status(500).send({
             message: 'An error occurred',
             error: `${err}`
         });
-    }
+    });
 });
+    
 postRouter.get('/user', async (req, res) => {
     const user_id = String(req.query.user_id);
     try{
