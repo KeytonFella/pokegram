@@ -1,26 +1,27 @@
 const addressesDAO = require('../repository/addressesDAO');
 const axios = require('axios');
 
-const { SecretsManagerClient, GetSecretValueCommand} = require("@aws-sdk/client-secrets-manager");
-  
-const secret_name = "prod/GG/key";
-const client = new SecretsManagerClient({region: "us-east-2"});
-let response;
-try {
-    response = client.send(
-      new GetSecretValueCommand({
-        SecretId: secret_name,
-        VersionStage: "AWSCURRENT", // VersionStage defaults to AWSCURRENT if unspecified
-      })
-      ).then((data) => {
-            response = data;
-        }).catch((err) => { console.log(err) });
-      console.log(response)
-  } catch (error) {
-      throw error;
-  }
-const API_KEY = response.SecretString;
+const AWS = require('aws-sdk')
+AWS.config.update({
+    region: 'us-west-1'
+})
+const secretsManager = new AWS.SecretsManager();
+const params = {
+    SecretId: 'prod/GG/key'
+};
 
+async function getKey(){
+    try{
+        const data = await secretsManager.getSecretValue(params).promise();
+        const secret = JSON.parse(data.SecretString);
+        console.log(secret.API_KEY)
+        return secret;
+    }catch (error) {
+        console.error('Error fetching secret:', error);
+        throw error;
+    }
+}
+const API_KEY = await getKey();
 const GOOGLE_MAPS_API = 'https://maps.googleapis.com/maps/api/geocode/json?address='
 
 // ============================== Geocoding Service Calls ==============================
