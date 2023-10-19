@@ -3,7 +3,7 @@ const axios = require('axios');
 
 const AWS = require('aws-sdk')
 AWS.config.update({
-    region: 'us-west-1'
+    region: 'us-east-2'
 })
 const secretsManager = new AWS.SecretsManager();
 const params = {
@@ -21,6 +21,7 @@ const API_KEY = async () => {
         throw error;
     }
 }
+
 const GOOGLE_MAPS_API = 'https://maps.googleapis.com/maps/api/geocode/json?address='
 
 // ============================== Geocoding Service Calls ==============================
