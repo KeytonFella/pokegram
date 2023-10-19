@@ -5,7 +5,6 @@ async function validatePokemonNames(pokemonList) {
 
     for(let h = 0; h < pokemonList.length; h++) {
         console.log('h = ',h)
-        //TODO: Check user's input are actual names of pokemon
         const lower = pokemonList[h].pokemonName.toLowerCase()
         const pokeapi = `https://pokeapi.co/api/v2/pokemon/${lower}`
         console.log(pokeapi)

@@ -2,18 +2,17 @@ const AWS = require('aws-sdk');
 
 let docClient;
 
-AWS.config.update({
-    region: 'us-east-2'
-})
+// AWS.config.update({
+//     region: 'us-east-2'
+// })
 
-docClient = new AWS.DynamoDB.DocumentClient();
+// docClient = new AWS.DynamoDB.DocumentClient();
 
 //TODO: Attach team to user id
-function createTeam(team_id, name, pokemonList, user_id) {
+function createTeam(name, pokemonList, user_id) {
     const params = {
-        TableName: 'teams',
+        TableName: 'teams_table',
         Item: {
-            team_id,
             name,
             pokemonList,
             user_id
@@ -22,21 +21,31 @@ function createTeam(team_id, name, pokemonList, user_id) {
     return docClient.put(params).promise();
 }
 
-function getTeamById(team_id) {
+// function getTeamById(team_id) {
+//     const params = {
+//         TableName: 'teams',
+//         Key: {team_id}
+//     }
+//     return docClient.get(params).promise()
+// }
+
+function getTeamByUserId(user_id) {
     const params = {
-        TableName: 'teams',
-        Key: {team_id}
-    }
-    return docClient.get(params).promise()
+        TableName: 'teams_table',
+        Key: {
+            user_id
+        }
+    };
+    return docClient.get(params).promise();
 }
 
-function updateTeamById(team_id, name, pokemonList) {
+function updateTeamById(user_id, name, pokemonList) {
     const params = {
-        TableName: 'teams',
-        Key: {team_id},
+        TableName: 'teams_table',
+        Key: {user_id},
         UpdateExpression: 'set #n = :value, #p = :value2',
         ExpressionAttributeNames: {
-            '#n': 'name',
+            '#n': 'teamName',
             '#p': 'pokemonList'
         },
         ExpressionAttributeValues: {
@@ -48,5 +57,5 @@ function updateTeamById(team_id, name, pokemonList) {
 }
 
 module.exports = {
-    createTeam, getTeamById, updateTeamById
+    createTeam, updateTeamById, getTeamByUserId
 }
