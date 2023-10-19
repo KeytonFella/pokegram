@@ -113,8 +113,8 @@ function getAllProfilePokemon(profile_id){
 function addProfilePokemon(profile_id, pokemon){
     logger.info('addProfilePokemon service called');
     return new Promise((resolve, reject) => {
-        profileDAO.addProfilePokemon(profile_id, pokemon.pokemon).then((data) => {
-            logger.info(`Pokemon added: ${pokemon.pokemon}`)
+        profileDAO.addProfilePokemon(profile_id, pokemon).then((data) => {
+            logger.info(`Pokemon added: ${pokemon}`)
             resolve(data);
         }).catch((err) => {
             logger.error(`Error attempting to add ${pokemon}: ${err}`)

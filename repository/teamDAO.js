@@ -2,54 +2,53 @@ const AWS = require('aws-sdk');
 
 
 let docClient;
-var roleToAssume = {RoleArn: 'arn:aws:iam::053796667043:role/PeterNepomuceno',
-                    RoleSessionName: 'session1',
-                    DurationSeconds: 900,};
-var roleCreds;
+// var roleToAssume = {RoleArn: 'arn:aws:iam::053796667043:role/PeterNepomuceno',
+//                     RoleSessionName: 'session1',
+//                     DurationSeconds: 900,};
+// var roleCreds;
 
-// Create the STS service object    
-var sts = new AWS.STS({apiVersion: '2011-06-15'});
+// // Create the STS service object    
+// var sts = new AWS.STS({apiVersion: '2011-06-15'});
 
-//Assume Role
-sts.assumeRole(roleToAssume, function(err, data) {
-    if (err) console.log(err, err.stack);
-    else{
-        roleCreds = {accessKeyId: data.Credentials.AccessKeyId,
-                     secretAccessKey: data.Credentials.SecretAccessKey,
-                     sessionToken: data.Credentials.SessionToken};
-        docClient = new AWS.DynamoDB.DocumentClient({accessKeyId: roleCreds.accessKeyId, secretAccessKey: roleCreds.secretAccessKey, sessionToken: roleCreds.sessionToken});
-        stsGetCallerIdentity(roleCreds);
-    }
-});
+// //Assume Role
+// sts.assumeRole(roleToAssume, function(err, data) {
+//     if (err) console.log(err, err.stack);
+//     else{
+//         roleCreds = {accessKeyId: data.Credentials.AccessKeyId,
+//                      secretAccessKey: data.Credentials.SecretAccessKey,
+//                      sessionToken: data.Credentials.SessionToken};
+//         docClient = new AWS.DynamoDB.DocumentClient({accessKeyId: roleCreds.accessKeyId, secretAccessKey: roleCreds.secretAccessKey, sessionToken: roleCreds.sessionToken});
+//         stsGetCallerIdentity(roleCreds);
+//     }
+// });
 
-//Get Arn of current identity
-function stsGetCallerIdentity(creds) {
-    var stsParams = {credentials: creds };
-    // Create STS service object
-    var sts = new AWS.STS(stsParams);
+// //Get Arn of current identity
+// function stsGetCallerIdentity(creds) {
+//     var stsParams = {credentials: creds };
+//     // Create STS service object
+//     var sts = new AWS.STS(stsParams);
         
-    sts.getCallerIdentity({}, function(err, data) {
-        if (err) {
-            console.log(err, err.stack);
-        }
-        else {
-            console.log(data.Arn);
-        }
-    });    
-}
+//     sts.getCallerIdentity({}, function(err, data) {
+//         if (err) {
+//             console.log(err, err.stack);
+//         }
+//         else {
+//             console.log(data.Arn);
+//         }
+//     });    
+// }
 
-AWS.config.update({
-    region: 'us-east-2'
-})
+// AWS.config.update({
+//     region: 'us-east-2'
+// })
 
-docClient = new AWS.DynamoDB.DocumentClient();
+// docClient = new AWS.DynamoDB.DocumentClient();
 
 //TODO: Attach team to user id
-function createTeam(team_id, name, pokemonList, user_id) {
+function createTeam(name, pokemonList, user_id) {
     const params = {
-        TableName: 'teams',
+        TableName: 'teams_table',
         Item: {
-            team_id,
             name,
             pokemonList,
             user_id
@@ -58,21 +57,31 @@ function createTeam(team_id, name, pokemonList, user_id) {
     return docClient.put(params).promise();
 }
 
-function getTeamById(team_id) {
+// function getTeamById(team_id) {
+//     const params = {
+//         TableName: 'teams',
+//         Key: {team_id}
+//     }
+//     return docClient.get(params).promise()
+// }
+
+function getTeamByUserId(user_id) {
     const params = {
-        TableName: 'teams',
-        Key: {team_id}
-    }
-    return docClient.get(params).promise()
+        TableName: 'teams_table',
+        Key: {
+            user_id
+        }
+    };
+    return docClient.get(params).promise();
 }
 
-function updateTeamById(team_id, name, pokemonList) {
+function updateTeamById(user_id, name, pokemonList) {
     const params = {
-        TableName: 'teams',
-        Key: {team_id},
+        TableName: 'teams_table',
+        Key: {user_id},
         UpdateExpression: 'set #n = :value, #p = :value2',
         ExpressionAttributeNames: {
-            '#n': 'name',
+            '#n': 'teamName',
             '#p': 'pokemonList'
         },
         ExpressionAttributeValues: {
@@ -84,5 +93,5 @@ function updateTeamById(team_id, name, pokemonList) {
 }
 
 module.exports = {
-    createTeam, getTeamById, updateTeamById
+    createTeam, updateTeamById, getTeamByUserId
 }

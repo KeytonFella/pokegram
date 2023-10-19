@@ -1,12 +1,12 @@
 const teamDao = require('../repository/teamDAO');
-const {v4: uuidv4} = require('uuid')
+//const {v4: uuidv4} = require('uuid')
 
 //Add team
 function createTeam(name, list, user_id) {
     
     return new Promise((resolve, reject) => {
         console.log("promising...")
-        teamDao.createTeam(uuidv4(), name, list, user_id)
+        teamDao.createTeam(name, list, user_id)
             .then((data) => {
                 resolve(data)
             })
@@ -17,22 +17,34 @@ function createTeam(name, list, user_id) {
     
 }
 
-function getTeamById(team_id) {
-    return new Promise((resolve, reject) => {
-        teamDao.getTeamById(team_id)
-        .then((data) => {
-            resolve(data)
-        })
-        .catch((err) => {
+// function getTeamById(team_id) {
+//     return new Promise((resolve, reject) => {
+//         teamDao.getTeamById(team_id)
+//         .then((data) => {
+//             resolve(data)
+//         })
+//         .catch((err) => {
             
-            reject(err)
-        })
+//             reject(err)
+//         })
+//     })
+// }
+
+function getTeamByUserId(user_id) {
+    return new Promise((resolve, reject) => {
+        teamDao.getTeamByUserId(user_id)
+            .then((data) => {
+                resolve(data)
+            })
+            .catch((err) => {
+                reject(err)
+            })
     })
 }
 
-function updateTeamById(team_id, name, pokemonList) {
+function updateTeamById(user_id, name, pokemonList) {
     return new Promise((resolve, reject) => {
-        teamDao.updateTeamById(team_id, name, pokemonList)
+        teamDao.updateTeamById(user_id, name, pokemonList)
         .then((data) => {
             resolve(data)
         }).catch((err) => {
@@ -42,5 +54,5 @@ function updateTeamById(team_id, name, pokemonList) {
 }
 
 module.exports = {
-    createTeam, getTeamById, updateTeamById
+    createTeam, updateTeamById, getTeamByUserId
 }

@@ -1,6 +1,6 @@
 // ============================= AWS DynamoDB  Setup =============================
 // Load the AWS SDK for Node.js
-const AWS = require('aws-sdk')
+const AWS = require('aws-sdk');
 
 AWS.config.update({
     region: 'us-east-2'
@@ -48,7 +48,7 @@ function createProfile(profile_id){
             'profile_id': profile_id,
             'bio': '',
             'pokemon': [],
-            'profile_picture': ''
+            'profile_picture': 'default.jpg'
         }
     }
     return docClient.put(params).promise();
