@@ -49,7 +49,8 @@ router.get('', async (req, res) => {
             })
         }else{
             res.status(400).send({
-                error: data.message,
+                message: data.message,
+                trades: []
             });
         }
     }catch(err){
