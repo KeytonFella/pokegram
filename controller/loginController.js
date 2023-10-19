@@ -1,70 +1,47 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const router = express.Router();
-//const loginService = require('../service/loginService');
-const AWS = require('aws-sdk');
-const AmazonCognitoIdentity = require('amazon-cognito-identity-js');
-// create user pool
-// CHANGE THESE SETTINGS
-AWS.config.update({region: 'us-east-2'});
-const poolData = {
-    UserPoolId: "us-east-2_XJLFbeldD",
-    ClientId: "58trb2u03nrfonuju7gassvee7"
-};
-const userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
+const loginService = require('../service/loginService');
+
 router.use(bodyParser.json());
 
 // login endpoint
 // POST {username, password}
-// login
-router.post("/login", (req, res) => {
+router.post("/login", async (req, res) => {
     const {username, password} = req.body;
 
-    const authenticationDetails = new AmazonCognitoIdentity.AuthenticationDetails({
-        Username: username,
-        Password: password
-    });
+    const {success, result} = await loginService.login(username, password);
+    if(!success){
+        return res.status(400).send({
+            message: "error logging in to Cognito",
+            result
+        });
+    }
 
-    const userData = {
-        Username: username,
-        Pool: userPool
-    };
-
-    const cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
-    cognitoUser.authenticateUser(authenticationDetails, {
-        
-        onSuccess: (session) => {
-            console.log("session: ",session);
-            res.send({message: "Login Successful", 
-            accessToken: session.accessToken
-            })
-        },
-        onFailure: (err) => {
-            return res.status(400).send(err.message || JSON.stringify(err));
-        },
+    return res.status(200).send({
+        message: "Successful login to Cognito",
+        result
     });
+    
 });
 
 //might add error catch for wrong params 
 //confirm endpoint may be optional with lambda presignup triggers
-// confirm
-router.post("/confirm", (req, res) => {
+router.post("/confirm", async (req, res) => {
     const { username, confirmationCode } = req.body;
 
-    const userData = {
-        Username: username,
-        Pool: userPool
-    };
+    const confirmedResponse = await loginService.confirm(username, confirmationCode);
+    if(!confirmedResponse){
+        return res.status(400).send({
+            message: "error logging in to Cognito",
+            confirmedResponse
+        });
+    }
 
-    const cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
-
-    cognitoUser.confirmRegistration(confirmationCode, true, (err, result) => {
-        if(err){
-            return res.status(400).send(err.message || JSON.stringify(err));
-        }
-
-        res.send({message: "Confirmation Successful", result})
-    })
+    return res.status(200).send({
+        message: "Successful login to Cognito",
+        confirmedResponse
+    });
 })
 
 module.exports = router;
