@@ -26,10 +26,10 @@ postRouter.post('/', async (req, res) => {
         });
     }
 });
-
+// Upload Photo
 postRouter.post('/image', upload.single('image'), (req, res) => {
     const image = req.file;
-   postService.addImage(image).then((data) => { 
+    postService.addImage(image).then((data) => { 
         if(data.bool) {     
             res.status(201).send({
                 image_id: data.image_id
