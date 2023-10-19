@@ -6,8 +6,7 @@ const registerService = require('../service/registerService');
 
 router.use(bodyParser.json());
 // registers a user using AWS cognito and then
-// Importing necessary modules and services
-// ...
+
 
 // POST endpoint to handle user registration
 router.post("/users", async (req, res) => {
@@ -19,7 +18,7 @@ router.post("/users", async (req, res) => {
         result = await registerService.signUp(username, password, email);
     }catch (error) {
         console.log("error adding user to Cognito");
-        return res.status(500).send({
+        return res.status(400).send({
             message: "error adding user to Cognito",
             CognitoUser: result.user
         });

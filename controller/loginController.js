@@ -14,13 +14,13 @@ router.post("/login", async (req, res) => {
     if(!success){
         return res.status(400).send({
             message: "error logging in to Cognito",
-            result
+            result: result
         });
     }
 
     return res.status(200).send({
         message: "Successful login to Cognito",
-        result
+        user: result.accessToken
     });
     
 });
