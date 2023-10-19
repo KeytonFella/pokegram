@@ -3,6 +3,9 @@ const jwksClient = require('jwks-rsa');
 const region = 'us-east-2';
 const userPoolId = "us-east-2_XJLFbeldD";
 
+//local
+/* const userPoolId = "us-east-2_SVgVNVFdr"; */
+
 
 const client = jwksClient({
     jwksUri: `https://cognito-idp.${region}.amazonaws.com/${userPoolId}/.well-known/jwks.json`
