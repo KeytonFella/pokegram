@@ -35,7 +35,7 @@ postRouter.post('/image', upload.single('image'), async (req, res) => {
             res.status(201).send({
                 image_id: data.image_id
             })
-        }else{
+        } else{
             res.status(400).send({
                 message: data.message
             })

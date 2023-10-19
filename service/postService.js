@@ -14,7 +14,7 @@ async function addImage(image_buffer){
     let image_id = uuid.v4()
     try{
         const data = await PostDAO.PostImageDAO(image_id, image_buffer);
-        return {bool: true, message: "Image Added Successfully", image_id: image_id};
+        return {bool: true, message: "Image Added Successfully", image_id: image_id, data: data};
     }catch(err){
         return {bool: false, message: `${err}`};
     }

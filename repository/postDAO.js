@@ -22,8 +22,8 @@ function PostDAO(post_id, user_id_fk, text_body, image_s3_id, tags){
 function PostImageDAO(image_id, image_buffer){
     const params = {
             Bucket: 'poke-post-image-bucket',
-            Key: image_id, // Provide a unique key for each image
-            Body: image_buffer,
+            Key: image_id, 
+            Body: image_buffer
     };
     return s3.upload(params).promise();
 };

@@ -48,6 +48,7 @@ app.use('/api/profiles', profileRouter);
 app.use('/api/trades', tradesRouter);
 app.use('/api/addresses', addressesRouter);
 app.use('/api/teams', teamRouter);
+app.use('api/post/images', express.urlencoded({ extended: true }));
 app.use('/api/post', postRouter);
 app.use('/api/users', friendsRouter);
 
