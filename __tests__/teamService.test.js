@@ -1,6 +1,5 @@
 const service = require('../service/teamService.js')
 const dao = require('../repository/teamDAO.js')
-const controller = require('../repository')
 const mw = require('../utility/middleware/teamMW');
 const { afterEach } = require('node:test');
 

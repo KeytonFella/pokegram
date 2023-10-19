@@ -24,6 +24,21 @@ async function getProfileById(profile_id){
         });
     });
 }
+async function getUsernameByProfileID(profile_id){
+    logger.info('getUsernameByProfileID service called');
+    return new Promise((resolve, reject) => {
+        profileDAO.getUsernameByProfileIDDAO(profile_id).then((data) => {
+            let username = {
+                username: data.Item.username,
+            }
+            resolve(username);
+        }).catch((err) => {
+            logger.error(`Error attempting to getUsernameByProfileID: ${err}`)
+            reject(err);
+        }); 
+    });
+}
+
 
 // Get photo url from S3 bucket
 async function getPhotoUrl(image_name){
@@ -113,8 +128,8 @@ function getAllProfilePokemon(profile_id){
 function addProfilePokemon(profile_id, pokemon){
     logger.info('addProfilePokemon service called');
     return new Promise((resolve, reject) => {
-        profileDAO.addProfilePokemon(profile_id, pokemon.pokemon).then((data) => {
-            logger.info(`Pokemon added: ${pokemon.pokemon}`)
+        profileDAO.addProfilePokemon(profile_id, pokemon).then((data) => {
+            logger.info(`Pokemon added: ${pokemon}`)
             resolve(data);
         }).catch((err) => {
             logger.error(`Error attempting to add ${pokemon}: ${err}`)
@@ -168,5 +183,6 @@ module.exports = {
     getPhotoUrl,
     createProfile,
     updateProfileBio,
-    updateProfilePic
+    updateProfilePic,
+    getUsernameByProfileID //added by Josh
 }

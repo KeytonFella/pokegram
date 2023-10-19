@@ -40,7 +40,7 @@ async function validateTeam(req, res, next) {
     if (!team.teamName) {
         console.log("Team not ok")
         res.statusCode = 400
-        res.send({messsage: "Error: Team is missing a name"})
+        res.send({message: "Error: Team is missing a name"})
         req.body.valid = false;
     } else if (!req.body.pokemonList || !req.body.pokemonList.length) {
 

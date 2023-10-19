@@ -1,7 +1,6 @@
 const AWS = require('aws-sdk');
 
-
-let docClient;
+// let docClient;
 // var roleToAssume = {RoleArn: 'arn:aws:iam::053796667043:role/PeterNepomuceno',
 //                     RoleSessionName: 'session1',
 //                     DurationSeconds: 900,};
@@ -38,44 +37,41 @@ let docClient;
 //     });    
 // }
 
-// AWS.config.update({
-//     region: 'us-east-2'
-// })
+AWS.config.update({
+    region: 'us-east-2'
+})
 
-// docClient = new AWS.DynamoDB.DocumentClient();
+const docClient = new AWS.DynamoDB.DocumentClient();
 
-//TODO: Attach team to user id
-function createTeam(name, pokemonList, user_id) {
+function createTeam(teamName, pokemonList, user_id) {
     const params = {
         TableName: 'teams_table',
         Item: {
-            name,
-            pokemonList,
-            user_id
+            user_id,
+            teamName,
+            pokemonList
         }
+    }
+    if (!docClient) {
+        console.error('docClient is not initialized yet');
+        return Promise.reject(new Error('docClient is not initialized'));
     }
     return docClient.put(params).promise();
 }
 
-// function getTeamById(team_id) {
-//     const params = {
-//         TableName: 'teams',
-//         Key: {team_id}
-//     }
-//     return docClient.get(params).promise()
-// }
-
 function getTeamByUserId(user_id) {
     const params = {
         TableName: 'teams_table',
-        Key: {
-            user_id
-        }
-    };
-    return docClient.get(params).promise();
+        Key: {user_id}
+    }
+    if (!docClient) {
+        console.error('docClient is not initialized yet');
+        return Promise.reject(new Error('docClient is not initialized'));
+    }
+    return docClient.get(params).promise()
 }
 
-function updateTeamById(user_id, name, pokemonList) {
+function updateTeamById(user_id, teamName, pokemonList) {
     const params = {
         TableName: 'teams_table',
         Key: {user_id},
@@ -85,13 +81,15 @@ function updateTeamById(user_id, name, pokemonList) {
             '#p': 'pokemonList'
         },
         ExpressionAttributeValues: {
-            ':value': name,
+            ':value': teamName,
             ':value2': pokemonList
         }
     }
     return docClient.update(params).promise();
 }
 
+
+
 module.exports = {
-    createTeam, updateTeamById, getTeamByUserId
+    createTeam, getTeamByUserId, updateTeamById
 }

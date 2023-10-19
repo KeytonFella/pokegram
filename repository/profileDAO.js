@@ -3,10 +3,10 @@
 const AWS = require('aws-sdk');
 
 AWS.config.update({
-    region: 'us-east-2'
+    region: 'us-east-2',
 });
 
-const docClient = new AWS.DynamoDB.DocumentClient();
+// Create the STS service object    
 const {S3Client, GetObjectCommand, PutObjectCommand} = require('@aws-sdk/client-s3');
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 const s3 = new S3Client({region: 'us-east-2'});
@@ -23,6 +23,16 @@ function getProfileById(profile_id){
         TableName: TABLE_NAME,
         Key: {
             'profile_id': profile_id 
+        }
+    }
+    return docClient.get(params).promise();
+}
+
+function getUsernameByProfileIDDAO(profile_id){//added by Josh
+    const params = {
+        TableName: "users_table",
+        Key: {
+            'user_id': profile_id 
         }
     }
     return docClient.get(params).promise();
@@ -150,5 +160,6 @@ module.exports = {
     updateProfileBio,
     updateProfilePic,
     addPhotoToBucket,
-    getPhotoFromBucket
+    getPhotoFromBucket,
+    getUsernameByProfileIDDAO //added by josh
 }

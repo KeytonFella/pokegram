@@ -11,7 +11,7 @@ router.use(bodyParser.json());
 router.post('', mw.validateTeam, (req, res) => {
     const team = req.body
     console.log("Attempting to post team")
-    
+    console.log(team)
         if(req.body.valid) {
             console.log("valid team")
             
@@ -40,20 +40,9 @@ router.get('/:user_id', (req,res) => {
         res.send({body: data.Item})
     }).catch((err) => {
         res.statusCode = 400
-        res.send({message: err})
+        res.send({message: `Error: ${err}`})
     })
 })
-
-// router.get('', (req, res) => {
-//     const id = String(req.query.user_id)
-//     console.log("user_id:", id)
-//     teamService.getTeamByUserId(id)
-//     .then((data) => {
-//         res.send({body: data.Item})
-//     }).catch((err) => {
-//         res.send({message: err})
-//     })
-// })
 
 router.put('/:user_id', mw.validateTeam, (req, res) => {
     const id = req.params.user_id

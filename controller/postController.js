@@ -26,28 +26,27 @@ postRouter.post('/', async (req, res) => {
         });
     }
 });
-
-postRouter.post('/image', upload.single('image'), async (req, res) => {
-    const image_buffer = req.file.buffer;
-    try{
-        const data = await postService.addImage(image_buffer);
-        if(data.bool){
+// Upload Photo
+postRouter.post('/image', upload.single('image'), (req, res) => {
+    const image = req.file;
+    postService.addImage(image).then((data) => { 
+        if(data.bool) {     
             res.status(201).send({
-                image_id: data.image_id
+                image_id: data.image_id + ".png"
             })
-        }else{
+        } else {
             res.status(400).send({
                 message: data.message
             })
         }      
-    }
-    catch(err) {
+    }).catch((err) => {
         res.status(500).send({
             message: 'An error occurred',
             error: `${err}`
         });
-    }
+    });
 });
+    
 postRouter.get('/user', async (req, res) => {
     const user_id = String(req.query.user_id);
     try{
@@ -69,10 +68,24 @@ postRouter.get('/user', async (req, res) => {
         });
     }
 });
-postRouter.get('/image', (req, res) => { //not async because of the nature of readpiplines. there might be complications later on tho. we'll note it
-    const key = String(req.query.image_id);
-    const readStream = postService.getImage(key);
-    readStream.pipe(res);
+postRouter.get('/image', async (req, res) => { //not async because of the nature of readpiplines. there might be complications later on tho. we'll note it
+    try {
+        const data = await postService.getImage(req.query.image_id);
+        if(data.bool){
+            res.status(201).send({
+                image_url: data.image_url
+            })
+        }else{
+            res.status(400).send({
+                message: data.message
+            })
+        }      
+    } catch(err){
+        res.status(500).send({
+            message: 'An error occurred',
+            error: `${err}`
+        });
+    }
 });
 
 
