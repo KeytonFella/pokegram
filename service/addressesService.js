@@ -83,7 +83,7 @@ async function getAllAddresses(user_id, distance){
                         let user = {
                             user_id: data.Items[i].user_id,
                             username: data.Items[i].username,
-                            address: res.data.results[0].geometry.location
+                            distance: calculateDistance(origin, res.data.results[0].geometry.location)
                         }
                         // Push user to users list
                         users.push(user);
