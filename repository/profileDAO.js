@@ -46,7 +46,8 @@ async function getPhotoFromBucket(name){
         Key: name,
     }
     const command = new GetObjectCommand(params);
-    const signedUrl = await getSignedUrl(s3, command, {expiresIn: 3600});
+    let signedUrl = undefined;
+    {command ? signedUrl = await getSignedUrl(s3, command, {expiresIn: 3600}) : signedUrl = "";}
     return signedUrl;
 }
 
