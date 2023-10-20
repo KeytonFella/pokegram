@@ -1,9 +1,6 @@
-
-/* 
-    personal database setup
-*/
 const { TagResourceCommand } = require('@aws-sdk/client-secrets-manager');
 const AWS = require('aws-sdk');
+const { param } = require('../controller/friendsController');
 
 AWS.config.update({
     region: 'us-east-2'
@@ -12,8 +9,6 @@ AWS.config.update({
 const docClient = new AWS.DynamoDB.DocumentClient();
 
 // ============================== DynamoDB Functions ==============================
-//local
-/* const TABLENAME = 'users'; */
 
 const TABLENAME = 'users_table';
 
@@ -29,17 +24,37 @@ function getFriends(userId){
     return docClient.query(params).promise();
 }
 
-function getUserById(userId){
+//Gets a user based on a key of key_type: user_id or username
+function getUser(key, key_type){
     const params = {
         TableName: TABLENAME,
-        KeyConditionExpression: 'user_id = :user_id',
+        KeyConditionExpression: `${key_type} = :key`,
         ProjectionExpression: 'user_id, username', // Only get the 'id and username' attribute
         ExpressionAttributeValues: {
-            ':user_id': userId
+            ':key': key
         }
     };
+    //user a GSI on the username key if key type is username
+    if(key_type === 'username'){
+        params.IndexName = 'username-index';
+    }
     return docClient.query(params).promise();
 }
+
+/* //query the db using a GSI on username
+function getUserByUsername(){
+    const params = {
+        TableName: TABLENAME,
+        KeyConditionExpression: `${key_type} = :key`,
+        ProjectionExpression: 'user_id, username', // Only get the 'id and username' attribute
+        ExpressionAttributeValues: {
+            ':key': key
+        }
+        
+    }
+    return docClient.query(params).promise();
+} */
+
 
 function addFriend(user_id, friend_id, friend_username){
     const newFriend = {
@@ -74,5 +89,5 @@ function deleteFriend(user_id, friend_index){
 
 
 module.exports = {
-    getFriends, addFriend, getUserById, deleteFriend
+    getFriends, addFriend, getUser, deleteFriend
 }
