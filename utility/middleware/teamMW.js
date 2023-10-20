@@ -78,5 +78,5 @@ async function validateTeam(req, res, next) {
 }
 
 module.exports = {
-    validateTeam
+    validateTeam, validatePokemonNames
 }

@@ -2,6 +2,7 @@ const service = require('../service/teamService.js')
 const dao = require('../repository/teamDAO.js')
 const mw = require('../utility/middleware/teamMW');
 const { afterEach } = require('node:test');
+const { describe } = require('yargs');
 
 jest.mock('../repository/teamDAO.js');
 
@@ -43,5 +44,18 @@ describe('Create Team Service', () => {
 
     afterEach(() => {
         jest.clearAllMocks()
+    })
+})
+
+describe('Team Middleware', () => {
+    it('should reject a team if there are any invalid pokemon names', async() => {
+        const invalidNames= {'teamName': 'team3', 'pokemonList': [
+            {pokemonName: "Notapokemon", level: 2},
+            {pokemonName: "johndoe", level: 5},
+            {pokemonName: "Poliwag", level: 3}
+        ]}
+        mw.validatePokemonNames = jest.fn().mockResolvedValue(invalidNames)
+        const result = await mw.validatePokemonNames(invalidNames)
+        expect(result).toEqual(false)
     })
 })
