@@ -2,52 +2,64 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const router = express.Router();
 const registerService = require('../service/registerService');
-const AWS = require('aws-sdk');
-const AmazonCognitoIdentity = require('amazon-cognito-identity-js');
-// create user pool
-//CHANGE THESE SETTINGS 
-AWS.config.update({region: 'us-east-2'});
-const poolData = {
-    UserPoolId: "us-east-2_XJLFbeldD",
-    ClientId: "58trb2u03nrfonuju7gassvee7"
-};
-const userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
 
-//const logger = require("../logger/logger.js");
 
 router.use(bodyParser.json());
 // registers a user using AWS cognito and then
-// pass the userID from 
+
+
+// POST endpoint to handle user registration
 router.post("/users", async (req, res) => {
+    // Destructure username, password, and email from request body
     const { username, password, email } = req.body;
-    const attributeList = [
-        new AmazonCognitoIdentity.CognitoUserAttribute({
-            Name: "email",
-            Value: email
-        }),
-    ];
-    userPool.signUp(username, password, attributeList, null, async (err, result) => {
-        if(err){
-            return res.status(400).send(err.message || JSON.stringify(err));
-        }
-        //console.log("result from Cognito:", result);
-        //Add the new user to our own DB
-        //console.log(result.userSub);
-        const userId = await registerService.addCognitoToDb(result.userSub, result.user.username);
-        //if we couldnt add user id to the db then throw error 
-        if(!userId){
-            //remove user from db
-            return res.status(500).send({
-                message: "error adding user to DB",
-                CognitoUser: result.user
-            })
-        }
-        res.send({ 
-            message: "User registered successfully!", 
-            user: result.user
-        })
-    })
-})
+    let result;
+    // Try to register the user with Cognito
+    try{
+        result = await registerService.signUp(username, password, email);
+    }catch (error) {
+        console.log("error adding user to Cognito");
+        return res.status(400).send({
+            message: "error adding user to Cognito",
+            CognitoUser: result.user
+        });
+    }
+    // Log the result for debugging
+    //console.log("after cognito add in controller", result);
+
+    // Try to add the user to the users_table in DynamoDB
+    const usersDbResponse = await registerService.addCognitoToUsersDb(result?.userSub, result?.user?.username);
+    // Log the result for debugging
+    console.log("the usersDbresponse", usersDbResponse);
+    // If adding to the users_table failed, send an error response
+    if (!usersDbResponse) {
+        console.error("error trying to add user to the users_table");
+        return res.status(500).send({
+            message: "error adding user to users_table",
+            CognitoUser: result.user
+        });
+    }
+    // Try to add the user profile to another table in DynamoDB
+    const profileDbResponse = await registerService.addCognitoToProfilesDb(result.userSub , result.user.username);
+    // Log the result for debugging
+    console.log("the profileDbresponse", profileDbResponse);
+    // If adding to the profile table failed, send an error response
+    if (!profileDbResponse) {
+        return res.status(500).send({
+            message: "error adding user to profiles Dbtable",
+            CognitoUser: result.user
+        });
+    }
+    // If everything succeeded, send a success response
+    res.send({ 
+        message: "User registered successfully!", 
+        user_id: result.userSub,
+        username: result.user.username,
+        user: result.user
+    
+    });
+    return;
+});
+
 
 
 module.exports = router;
