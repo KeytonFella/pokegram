@@ -26,13 +26,18 @@ router.get('/:user_id/friends', async (req, res) => {
     }
 });
 
+
+
 /* add friends to list by id */
 router.put('/:user_id/friends', async (req, res) => {
     //Our Current user as given by the decoded bearer token
     const user = {id: req.body.currentUserId, username: req.body.currentUserame};
     //The friend_key which can be user_id or username, and spcecify which one to use
     const friendAction = {friend_key: req.body.friend_key, key_type: req.body.key_type};
+    console.log(req);
     console.log("friendAction", friendAction.friend_key, friendAction.key_type);
+    ///key undefiened 
+    
     console.log(friendAction.key_type !== 'username');
     if(friendAction.key_type !== 'username' && friendAction.key_type !== 'user_id'){
         return res.status(400).send({
@@ -60,7 +65,7 @@ router.put('/:user_id/friends', async (req, res) => {
             //console.log("updated friends", friendResponse);
             return res.status(201).send({
             message: "Friend was added!",
-            friendResponse
+            friendsList: friendResponse
         })}
     }else{
         return res.status(403).send({
@@ -113,7 +118,7 @@ router.delete('/:user_id/friends', async (req,res) => {
     if(deletedResponse){
         return res.status(200).send({
             message: ` Friend was deleted from list`,
-            updated_friends: deletedResponse
+            friendsList: deletedResponse
         })
     }
 

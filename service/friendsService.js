@@ -3,7 +3,7 @@ const friendsDao = require('../repository/friendsDao');
 //////////////////////////////////
 async function getFriends(user_id) {
     try { 
-        console.log(user_id);
+        console.log("get friends user id", user_id);
 
         const list = await friendsDao.getFriends(user_id);
         //console.log("list.Items[0] = ", list.Items[0]);
@@ -20,6 +20,9 @@ async function getFriends(user_id) {
 async function addFriend(user_id, friend_key, key_type) {
     try {
         //see if friend exists
+        console.log("friend_key is ", friend_key);
+        console.log("key_type is ", key_type);
+        console.log("uid",user_id);
         const friendResponse = await friendsDao.getUser(friend_key, key_type);
         console.log("friendResponse is", friendResponse);
         const friend = friendResponse.Items[0];
@@ -71,7 +74,7 @@ async function deleteFriend(user_id, friend_key, key_type){
     try {
         // Fetch the current friends list of the user
         const friends = await getFriends(user_id);
-        console.log(friends);
+        console.log("friends in delete", friends);
          //check if list is null or empty
         if (!friends || friends?.length === 0) {
             console.log('User does not have any friends');

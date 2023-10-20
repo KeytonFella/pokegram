@@ -35,6 +35,7 @@ function getUser(key, key_type){
         }
     };
     //user a GSI on the username key if key type is username
+    console.log('key type in dao, ', key_type, key)
     if(key_type === 'username'){
         params.IndexName = 'username-index';
     }
