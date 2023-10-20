@@ -86,7 +86,7 @@ function updateProfileBio(profile_id, bio){
 // Update profile pic
 async function updateProfilePic(profile_id, image){
     logger.info('updateProfilePic service called');
-    const buffer = await sharp(image.buffer).resize({height: 320, width: 320, fit: 'contain'}).toFormat('png').toBuffer();
+    const buffer = await sharp(image.buffer).resize({height: 180, fit: 'contain'}).toFormat('png').toBuffer();
     const name = `${profile_id}.png`;
 
     const response = await profileDAO.addPhotoToBucket(name, buffer, image.mimetype);

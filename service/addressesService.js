@@ -115,7 +115,7 @@ async function getAllAddresses(user_id, distance){
 
 // Format address for geocoding
 function formatAddress(address) {
-    if(!address.street_name){
+    if(!address.street_number || !address.street_name || !address.city || !address.state || !address.zip){
         return null;
     }
     const concatString = `${address.street_number} ${address.street_name} ${address.city} ${address.state} ${address.zip}`;
@@ -125,6 +125,9 @@ function formatAddress(address) {
 
 // Helper function to calculate distance between two sets of coordinates in miles
 function calculateDistance(origin, destination) {
+    if(!origin.lat || !origin.lng || !destination.lat || !destination.lng){
+        return null;
+    }
     const earthRadiusMiles = 3958.8; // Earth's radius in miles
     
     const lat1 = origin.lat;
@@ -169,5 +172,7 @@ const logger = createLogger({
 
 module.exports = {
     getAddress,
-    getAllAddresses
+    getAllAddresses,
+    formatAddress,
+    calculateDistance
 }
