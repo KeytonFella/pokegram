@@ -1,7 +1,3 @@
-
-  //personal database setup
-
-
 const AWS = require('aws-sdk');
 
 AWS.config.update({
@@ -13,10 +9,6 @@ docClient = new AWS.DynamoDB.DocumentClient();
 
 
 // ============================== DynamoDB Functions ==============================
-//local
-/* const TABLENAME = 'users';
- */
-
 const TABLENAME = 'users_table';
 
 function addCognitoToDb(user_id, username, street_number="", street_name="", city="", state="", zip=""){
@@ -44,7 +36,8 @@ function addCognitoToDb(user_id, username, street_number="", street_name="", cit
         console.error('docClient is not initialized yet');
         return Promise.reject(new Error('docClient is not initialized'));
     }
-   
+    console.log("params", params);
+    console.log("params.Item", params.Item.friends);
     return docClient.put(params).promise();
 }
 
