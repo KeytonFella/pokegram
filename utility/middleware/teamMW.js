@@ -34,7 +34,7 @@ async function validateTeam(req, res, next) {
     console.log("validating team " + JSON.stringify(team))
     console.log("teamname: " + team.teamName)
     console.log(team.pokemonList)
-    console.log(team.pokemonList.length)
+    //console.log(team.pokemonList.length)
     
     // Team must have a name and a range of 1 - 6 pokemon
     if (!team.teamName) {
