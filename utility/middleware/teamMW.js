@@ -16,7 +16,7 @@ async function validatePokemonNames(pokemonList) {
             // console.log(response.status)
         if(response.status == 404) {
             //Pokemon does not exist
-            console.log('invalid mon')
+            console.log('invalid pokemon')
             return false;
             
         } 

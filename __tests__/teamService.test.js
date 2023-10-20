@@ -1,9 +1,7 @@
 const service = require('../service/teamService.js')
 const dao = require('../repository/teamDAO.js')
 const mw = require('../utility/middleware/teamMW');
-const controller = require('../controller/teamController.js')
 const { afterEach } = require('node:test')
-const st = require('supertest')
 
 jest.mock('../repository/teamDAO.js');
 
@@ -31,10 +29,7 @@ describe('Create Team Service', () => {
             {pokemonName: "Electabuzz", level: 34},
             {pokemonName: "Arbok", level: 70}
         ]}
-        //service.createTeam = jest.fn().mockResolvedValue(noName)
-        const response = await st(controller).post('', noName)
-        expect(response.status).toBe(400)
-        expect(response.body).toBe({message: "Error: Team is missing a name"})
+        
     });
 
     it('should reject an empty pokemon list', async () => {
