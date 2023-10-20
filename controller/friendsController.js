@@ -29,15 +29,17 @@ router.get('/:user_id/friends', async (req, res) => {
 router.put('/:user_id/friends', async (req, res) => {
     //check friend exists, check user's freinds list, add if not in list alreaady 
     if (req.body.currentUserId === req.params.user_id) {
-        const addedFriend = await friendsService.addFriend(req.body.currentUserId, req.body.friend_id);
-        console.log(addedFriend);
-        if(addedFriend ===null || addedFriend.length === 0){
+        const friendResponse = await friendsService.addFriend(req.body.currentUserId, req.body.friend_id);
+        //console.log("response", friendResponse);
+        if(!friendResponse || friendResponse.length === 0){
             return res.status(404).send({
                 message: "No Friend was added"
             });
-        } else {return res.status(201).send({
+        } else {
+            //console.log("updated friends", friendResponse);
+            return res.status(201).send({
             message: "Friend was added!",
-            addedFriend
+            friendResponse
         })}
     }else{
         return res.status(403).send({
@@ -48,7 +50,7 @@ router.put('/:user_id/friends', async (req, res) => {
 })
 
 //delete a friend to the friend list 
-router.put('/:user_id/friends', async (req,res) => {
+router.delete('/:user_id/friends', async (req,res) => {
 
 
     const friend  = friendsService.addFriend()
