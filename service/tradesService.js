@@ -1,22 +1,13 @@
 const tradesDAO = require('../repository/tradesDAO');
+const tradesHelper = require('./tradesHelper');
 
 module.exports = {
-    submitTradeData,
     findTrades,
     addDesireList,
     addSurrenderList,
     removeDesireList,
     removeSurrenderList,
     retrieveTradeDataByUser
-}
-
-async function submitTradeData(user_id, username, desire_list, surrender_list){    
-    try{
-        const data = await tradesDAO.submitTradeData(user_id, username, desire_list, surrender_list);
-        return {bool: true, message: "Trade data added successfully"};
-    }catch(err){
-        return {bool: false, message: `${err}`};
-    }
 }
 
 async function addDesireList(user_id, pokemon){
@@ -74,6 +65,7 @@ async function findTrades(user_id){
         if(!currentUserData.Item){
             return {bool: false, message: `Could not retrieve trade information for user ${user_id}`};
         }
+
         const currentUserGets = currentUserData.Item.desire_list;
         const currentUserGives = currentUserData.Item.surrender_list;
 
@@ -83,35 +75,7 @@ async function findTrades(user_id){
         }
         const tradeData = allTradeData.Items;
 
-        let trades = [];
-
-        for(otherUser of tradeData){
-            otherUser_id = otherUser.user_id;
-            otherUsername = otherUser.username
-            giveList = [];
-            getList = [];
-
-            for(getPokemon of currentUserGets){
-                if(otherUser.surrender_list.includes(getPokemon)){
-                    getList.push(getPokemon)
-                }
-            }
-
-            for(givePokemon of currentUserGives){
-                if(otherUser.desire_list.includes(givePokemon)){
-                    giveList.push(givePokemon)
-                }
-            }
-
-            if(giveList.length > 0 && getList.length > 0){
-                trades.push({
-                    user_id : otherUser_id,
-                    username : otherUsername,
-                    give_pokemon : giveList,
-                    get_pokemon: getList
-                })
-            }
-        }
+        const trades = tradesHelper.createTradesArray(tradeData, currentUserGives, currentUserGets); 
 
         if(trades.length > 0){
             return {bool: true, message: "Here are your available trades", data: trades};
