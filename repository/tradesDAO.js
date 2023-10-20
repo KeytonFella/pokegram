@@ -19,14 +19,14 @@ module.exports = {
 }
 
 //Post Trade Data (JSON Format = "surrender_list": ["pikachu", "blastoise", "garchomp", "bidoof"])
-function submitTradeData(user_id, username, desire_list, surrender_list){
+function submitTradeData(user_id, username){
     const params = {
         TableName: "poke_trades",
         Item: {
             user_id,
             username,
-            desire_list,
-            surrender_list
+            desire_list: [],
+            surrender_list: []
         }
     };
     return docClient.put(params).promise();

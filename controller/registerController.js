@@ -38,6 +38,20 @@ router.post("/users", async (req, res) => {
             CognitoUser: result.user
         });
     }
+
+    // Try to add the user to the trades_table in DynamoDB
+    const tradesDbResponse = await registerService.addCognitoToTradesDb(result?.userSub, result?.user?.username);
+    // Log the result for debugging
+    console.log("the tradesDbresponse", tradesDbResponse);
+    // If adding to the trades_table failed, send an error response
+    if (!tradesDbResponse) {
+        console.error("error trying to add user to the trades_table");
+        return res.status(500).send({
+            message: "error adding user to trades_table",
+            CognitoUser: result.user
+        });
+    }
+
     // Try to add the user profile to another table in DynamoDB
     const profileDbResponse = await registerService.addCognitoToProfilesDb(result.userSub , result.user.username);
     // Log the result for debugging
@@ -49,6 +63,7 @@ router.post("/users", async (req, res) => {
             CognitoUser: result.user
         });
     }
+
     // If everything succeeded, send a success response
     res.send({ 
         message: "User registered successfully!", 
