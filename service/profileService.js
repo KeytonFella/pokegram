@@ -131,16 +131,17 @@ async function addProfilePokemon(profile_id, pokemon){
     const pokemonList = profile.Item.pokemon;
     const index = pokemonList.indexOf(pokemon);
     return new Promise((resolve, reject) => {
-        if(index >= 0){
-            reject(`${pokemon} is already caught`)
+        if(index < 0){
+            profileDAO.addProfilePokemon(profile_id, pokemon).then((data) => {
+                logger.info(`Pokemon added: ${pokemon}`)
+                resolve(data);
+            }).catch((err) => {
+                logger.error(`Error attempting to add ${pokemon}: ${err}`)
+                reject(err);
+            });
+        }else{
+            reject(`${pokemon} has already been caught`)
         }
-        profileDAO.addProfilePokemon(profile_id, pokemon).then((data) => {
-            logger.info(`Pokemon added: ${pokemon}`)
-            resolve(data);
-        }).catch((err) => {
-            logger.error(`Error attempting to add ${pokemon}: ${err}`)
-            reject(err);
-        });
     });
 }
 
