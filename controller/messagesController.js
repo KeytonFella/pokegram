@@ -25,9 +25,9 @@ router.get('', async (req, res) => {
     }
 })
 
-router.get('/user_id', async (req, res) => {
+router.get('/user_id/:username', async (req, res) => {
     try{
-        const data = await messagesService.getIdByUsername(req.body.username);
+        const data = await messagesService.getIdByUsername(req.params.username);
         if(data.bool){
             res.send({
                 user_id: data.user_id
@@ -45,9 +45,9 @@ router.get('/user_id', async (req, res) => {
     }
 })
 
-router.get('/username', async (req, res) => {
+router.get('/username/:user_id', async (req, res) => {
     try{
-        const data = await messagesService.getUsernameById(req.body.user_id);
+        const data = await messagesService.getUsernameById(req.params.user_id);
         if(data.bool){
             res.send({
                 username: data.username
