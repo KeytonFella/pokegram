@@ -13,7 +13,27 @@ router.get('', async (req, res) => {
                 messages: data.messages
             })
         }else{
-            res.status(200).send({
+            res.status(400).send({
+                message: data.message,
+            });
+        }
+    }catch(err){
+        res.status(500).send({
+            message: 'An error occurred',
+            error: `${err}`
+        })
+    }
+})
+
+router.get('/user_id', async (req, res) => {
+    try{
+        const data = await messagesService.getIdByUsername(req.body.username);
+        if(data.bool){
+            res.send({
+                user_id: data.user_id
+            })
+        }else{
+            res.status(400).send({
                 message: data.message,
             });
         }
