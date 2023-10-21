@@ -127,11 +127,12 @@ function getAllProfilePokemon(profile_id){
 // Add pokemon to profile pokemon list
 async function addProfilePokemon(profile_id, pokemon){
     logger.info('addProfilePokemon service called');
+    let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon}`)
     const profile = await profileDAO.getAllProfilePokemon(profile_id);
     const pokemonList = profile.Item.pokemon;
     const index = pokemonList.indexOf(pokemon);
     return new Promise((resolve, reject) => {
-        if(index < 0){
+        if(index < 0 && response.status == 200){
             profileDAO.addProfilePokemon(profile_id, pokemon).then((data) => {
                 logger.info(`Pokemon added: ${pokemon}`)
                 resolve(data);
@@ -140,7 +141,7 @@ async function addProfilePokemon(profile_id, pokemon){
                 reject(err);
             });
         }else{
-            reject(`${pokemon} has already been caught`)
+            reject(`${pokemon} has already been caught or does not exist`)
         }
     });
 }
