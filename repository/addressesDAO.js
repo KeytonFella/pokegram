@@ -59,6 +59,7 @@ AWS.config.update({
     region: 'us-east-2',
 });
 
+const docClient = new AWS.DynamoDB.DocumentClient();
 const TABLE_NAME = 'users_table';
 
 // ============================== DynamoDB Functions ==============================

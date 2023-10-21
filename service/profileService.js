@@ -125,9 +125,15 @@ function getAllProfilePokemon(profile_id){
 }
 
 // Add pokemon to profile pokemon list
-function addProfilePokemon(profile_id, pokemon){
+async function addProfilePokemon(profile_id, pokemon){
     logger.info('addProfilePokemon service called');
+    const profile = await profileDAO.getAllProfilePokemon(profile_id);
+    const pokemonList = profile.Item.pokemon;
+    const index = pokemonList.indexOf(pokemon);
     return new Promise((resolve, reject) => {
+        if(index >= 0){
+            reject(`${pokemon} is already caught`)
+        }
         profileDAO.addProfilePokemon(profile_id, pokemon).then((data) => {
             logger.info(`Pokemon added: ${pokemon}`)
             resolve(data);
