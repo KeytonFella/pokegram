@@ -107,6 +107,24 @@ async function updateProfilePic(profile_id, image){
     });
 }
 
+// Update user address
+function updateUserAddress(user_id, address){
+    logger.info('updateUserAddress service called');
+    return new Promise((resolve, reject) => {
+        if(address.street_number && address.street_name && address.city && address.state && address.zip){
+            profileDAO.updateUserAddress(user_id, address).then((data) => {
+                logger.info('updateUserAddress resolved')
+                resolve(data);
+            }).catch((err) => {
+                logger.error(`Error attempting to updateUserAddress: ${err}`)
+                reject(err);
+            });
+        }else{
+            logger.error(`Error attempting to updateUserAddress: all fields must be filled out`)
+            reject(`Error attempting to updateUserAddress: all fields must be filled out`);
+        }
+    });
+}
 
 // ============================== Profile Pokemon Service Calls ==============================
 
@@ -190,5 +208,6 @@ module.exports = {
     createProfile,
     updateProfileBio,
     updateProfilePic,
+    updateUserAddress,
     getUsernameByProfileID //added by Josh
 }
