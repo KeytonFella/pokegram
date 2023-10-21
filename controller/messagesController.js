@@ -45,6 +45,26 @@ router.get('/user_id', async (req, res) => {
     }
 })
 
+router.get('/username', async (req, res) => {
+    try{
+        const data = await messagesService.getUsernameById(req.body.user_id);
+        if(data.bool){
+            res.send({
+                username: data.username
+            })
+        }else{
+            res.status(400).send({
+                message: data.message,
+            });
+        }
+    }catch(err){
+        res.status(500).send({
+            message: 'An error occurred',
+            error: `${err}`
+        })
+    }
+})
+
 router.put('', async (req, res) => {
     try{
         const data = await messagesService.sendMessage(req.body.currentUserId, req.body.recipient_id, req.body.message_text);

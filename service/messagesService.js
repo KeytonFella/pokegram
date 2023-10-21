@@ -5,7 +5,8 @@ module.exports = {
     getMessages,
     sendMessage,
     deleteMessage,
-    getIdByUsername
+    getIdByUsername,
+    getUsernameById
 }
 
 async function getMessages(user_id){
@@ -14,6 +15,16 @@ async function getMessages(user_id){
 
         return {bool: true, messages: messages.Item.messages};
 
+    }catch(err){
+        return {bool: false, message: `${err}`};
+    }
+}
+
+async function getUsernameById(user_id){
+    try{
+        const data = await messagesDAO.getUsernameById(user_id);
+        const username = data.Item.username;
+        return {bool: true, username: username};
     }catch(err){
         return {bool: false, message: `${err}`};
     }
