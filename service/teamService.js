@@ -1,8 +1,7 @@
 const teamDao = require('../repository/teamDAO');
 
 //Add team
-function createTeam(name, list, user_id) {
-    
+async function createTeam(name, list, user_id) {
     return new Promise((resolve, reject) => {
         console.log("promising...")
         teamDao.createTeam(name, list, user_id)

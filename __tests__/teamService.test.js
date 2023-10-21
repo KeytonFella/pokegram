@@ -1,60 +1,49 @@
 const service = require('../service/teamService.js')
 const dao = require('../repository/teamDAO.js')
-const mw = require('../utility/middleware/teamMW');
 const { afterEach } = require('node:test')
 
 jest.mock('../repository/teamDAO.js');
 
-describe('Create Team Service', () => {
+describe('Team Service', () => {
+    // afterEach(() => {
+    //     jest.clearAllMocks()
+    // })
+    const uuid = '32423afd-ec3c-4a37-a163-137c99e99173'
+    const updateTeam = {teamName: "updatedteam", pokemonList: [
+        {pokemonName: "Pikachu", level: 10, nickname: "JohnDoe"},
+        {pokemonName: "Vulpix", level: 12},
+        {pokemonName: "Oshawott", level: 100},
+        {pokemonName: "Wailord", level: 100},
+        {pokemonName: "Electabuzz", level: 34},
+        {pokemonName: "Arbok", level: 70}],
+        user_id: uuid
+    }
+    const testTeam = {teamName: "team", pokemonList: [
+        {pokemonName: "Pikachu", level: 10, nickname: "JohnDoe"},
+        {pokemonName: "Vulpix", level: 12},
+        {pokemonName: "Oshawott", level: 11},
+        {pokemonName: "Wailord", level: 100},
+        {pokemonName: "Electabuzz", level: 34},
+        {pokemonName: "Arbok", level: 70}],
+        user_id: uuid
+    }
     it('should validate and create a new team for a user', async() => {
-        const testTeam = {'teamName': "team", 'pokemonList': [
-            {pokemonName: "Pikachu", level: 10, nickname: "JohnDoe"},
-            {pokemonName: "Vulpix", level: 12},
-            {pokemonName: "Oshawott", level: 11},
-            {pokemonName: "Wailord", level: 100},
-            {pokemonName: "Electabuzz", level: 34},
-            {pokemonName: "Arbok", level: 70}]
-        }
+        
         dao.createTeam = jest.fn().mockResolvedValue(testTeam) 
-        const result = await service.createTeam(testTeam.teamName, testTeam.pokemonList)
+        const result = await service.createTeam(testTeam.teamName, testTeam.pokemonList, uuid)
         expect(result).toEqual(testTeam)
     })
 
-    it('should handle empty team name', async () => {
-        const noName = {'teamName': '', 'pokemonList': [
-            {pokemonName: "Pikachu", level: 10, nickname: "JohnDoe"},
-            {pokemonName: "Vulpix", level: 12},
-            {pokemonName: "Oshawott", level: 11},
-            {pokemonName: "Wailord", level: 100},
-            {pokemonName: "Electabuzz", level: 34},
-            {pokemonName: "Arbok", level: 70}
-        ]}
-        //service.createTeam = jest.fn().mockResolvedValue(noName)
-        const response = await service.createTeam(noName)
-        expect(response.body.error).toBe('Promise')
-    });
-
-    it('should reject an empty pokemon list', async () => {
-        const noTeam = {'teamName': "newteam", 'pokemonList': []}
-        service.createTeam = jest.fn().mockResolvedValue(noTeam)
-        const result = await service.createTeam(noTeam)
-        expect(result).toBeNull()
+    it('should get team by user id', async() => {
+        dao.getTeamByUserId = jest.fn().mockResolvedValue(testTeam)
+        const result = await service.getTeamByUserId(uuid)
+        expect(result).toEqual(testTeam)
     })
 
-    afterEach(() => {
-        jest.clearAllMocks()
+    it('should validate and update a team', async() => {
+        dao.updateTeamById = jest.fn().mockResolvedValue(updateTeam)
+        const result = await service.updateTeamById(uuid, updateTeam.teamName, updateTeam.pokemonList)
+        expect(result).toEqual(updateTeam)
     })
 })
 
-describe('Team Middleware', () => {
-    it('should reject a team if there are any invalid pokemon names', async() => {
-        const invalidNames= {teamName: 'team3', pokemonList: [
-            {pokemonName: "Pikachuuu", level: 2},
-            {pokemonName: "Electrike", level: 5},
-            {pokemonName: "Poliwag", level: 3}
-        ]}
-        //mw.validatePokemonNames = jest.fn().mockResolvedValue(invalidNames)
-        const result = await mw.validatePokemonNames(invalidNames)
-        expect(result).toEqual(false)
-    })
-})

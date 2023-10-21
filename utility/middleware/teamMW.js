@@ -4,19 +4,11 @@ const app = express()
 async function validatePokemonNames(pokemonList) {
 
     for(let h = 0; h < pokemonList.length; h++) {
-        console.log('h = ',h)
         const lower = pokemonList[h].pokemonName.toLowerCase()
         const pokeapi = `https://pokeapi.co/api/v2/pokemon/${lower}`
-        console.log(pokeapi)
-        
         const response  = await fetch(pokeapi)
-            // console.log(`${lower} response:`)
-            // console.log(response)
-            // console.log("fetching api")
-            // console.log(response.status)
         if(response.status == 404) {
             //Pokemon does not exist
-            console.log('invalid mon')
             return false;
             
         } 
@@ -34,13 +26,12 @@ async function validateTeam(req, res, next) {
     console.log("validating team " + JSON.stringify(team))
     console.log("teamname: " + team.teamName)
     console.log(team.pokemonList)
-    console.log(team.pokemonList.length)
     
     // Team must have a name and a range of 1 - 6 pokemon
     if (!team.teamName) {
         console.log("Team not ok")
-        res.statusCode = 400
-        res.send({message: "Error: Team is missing a name"})
+        //res.statusCode = 400
+        res.status(400).send({message: "Error: Team is missing a name"})
         req.body.valid = false;
     } else if (!req.body.pokemonList || !req.body.pokemonList.length) {
 
@@ -54,7 +45,7 @@ async function validateTeam(req, res, next) {
         
     } else {
         const response = await validatePokemonNames(team.pokemonList)
-        console.log("name validation failed")
+        
         if (!response) {
             res.statusCode = 400
             res.send({message: "Error: Invalid pokemon name(s)"})
