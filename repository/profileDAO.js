@@ -94,6 +94,19 @@ function updateProfilePic(profile_id, image){
     return docClient.update(params).promise();
 }
 
+function updateUserAddress(user_id, address){
+    const params = {
+        TableName: "users_table",
+        Key: {
+            'user_id': user_id 
+        },
+        UpdateExpression: 'set address = :a',
+        ExpressionAttributeValues: {
+            ':a': address
+        }
+    }
+    return docClient.update(params).promise();
+}
 // Add photo to s3 bucket
 async function addPhotoToBucket(name, buffer, mimetype){
     const params = {
@@ -159,6 +172,7 @@ module.exports = {
     createProfile,
     updateProfileBio,
     updateProfilePic,
+    updateUserAddress,
     addPhotoToBucket,
     getPhotoFromBucket,
     getUsernameByProfileIDDAO //added by josh
