@@ -15,7 +15,8 @@ module.exports = {
     addSurrenderList,
     removeSurrenderList,
     retrieveTradeDataByUser,
-    retrieveAllTradeData
+    retrieveAllTradeData,
+    addTradeOffer
 }
 
 //Post Trade Data (JSON Format = "surrender_list": ["pikachu", "blastoise", "garchomp", "bidoof"])
@@ -26,7 +27,8 @@ function submitTradeData(user_id, username){
             user_id,
             username,
             desire_list: [],
-            surrender_list: []
+            surrender_list: [],
+            trade_offers: []
         }
     };
     return docClient.put(params).promise();
@@ -105,6 +107,24 @@ function retrieveAllTradeData(){
         TableName: "poke_trades"
     }   
     return docClient.scan(params).promise();
+}
+
+function addTradeOffer(user_id, trade_offer){
+    const params = {
+        TableName: "poke_trades",
+        Key: {
+            user_id
+        },
+        UpdateExpression: 'set #o = list_append(#o, :o)',
+        ConditionExpression: 'attribute_exists(user_id)',
+        ExpressionAttributeNames:{
+            '#o': 'trade_offers'
+        },
+        ExpressionAttributeValues:{
+            ':o': [trade_offer]
+        }
+    };
+    return docClient.update(params).promise();
 }
 
 // function retrieveUsersWithPokemon(pokemon){

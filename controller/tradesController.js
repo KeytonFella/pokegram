@@ -154,3 +154,23 @@ router.put('/surrender-list', validatePokemon, async (req, res) => {
         })
     }
 })
+
+router.post('/offers', async (req, res) => {
+    try{
+        const data = await tradesService.makeTradeOffer(req.body.otherUserId, req.body.offer)
+        if(data.bool){
+            res.send({
+                message: data.message,
+            })
+        }else{
+            res.status(400).send({
+                error: data.message,
+            });
+        }
+    }catch(err){
+        res.status(500).send({
+            message: 'An error occurred',
+            error: `${err}`
+        })
+    }
+})

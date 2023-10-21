@@ -7,7 +7,8 @@ module.exports = {
     addSurrenderList,
     removeDesireList,
     removeSurrenderList,
-    retrieveTradeDataByUser
+    retrieveTradeDataByUser,
+    makeTradeOffer
 }
 
 async function addDesireList(user_id, pokemon){
@@ -88,3 +89,15 @@ async function findTrades(user_id){
         return {bool: false, message: `${err}`};
     }
 }
+
+async function makeTradeOffer(otherUserId, trade_offer){
+    try {
+        const offerdata = tradesDAO.addTradeOffer(otherUserId, trade_offer);
+        return {bool: true, message: "Trade offer made successfully"};
+    }catch(err){
+        console.error(err);
+        return {bool: false, message: `${err}`};
+    }
+}
+
+
