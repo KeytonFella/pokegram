@@ -9,7 +9,9 @@ docClient = new AWS.DynamoDB.DocumentClient();
 module.exports = {
     getMessages,
     addMessage,
-    deleteMessage
+    deleteMessage,
+    getUsernameById,
+    getIdByUsername
 }
 
 const TABLENAME = 'users_table';
@@ -23,6 +25,32 @@ function getMessages(user_id){
         ProjectionExpression: 'messages'
     }
     return docClient.get(params).promise();
+}
+
+function getUsernameById(user_id){
+    const params = {
+        TableName: TABLENAME,
+        Key: {
+            user_id
+        },
+        ProjectionExpression: 'username'
+    }
+    return docClient.get(params).promise();
+}
+
+function getIdByUsername(username){
+    const params = {
+        TableName: TABLENAME,
+        FilterExpression: '#u = :username',
+        ExpressionAttributeNames: {
+            '#u': 'username'
+        },
+        ExpressionAttributeValues: {
+            ':username': username
+        },  
+        ProjectionExpression: 'user_id'
+    }
+    return docClient.scan(params).promise();
 }
 
 function addMessage(user_id, message){
