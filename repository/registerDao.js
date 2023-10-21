@@ -28,7 +28,8 @@ function addCognitoToDb(user_id, username, street_number="", street_name="", cit
             friends: [{
                 user_id: "0ac11b24-e532-4d15-b36d-74d3e3d88dc3",
                 username: "ash_ketchum"
-              }]
+              }],
+            messages: []
         }
     };
 
