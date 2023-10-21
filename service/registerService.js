@@ -1,6 +1,7 @@
 
 const registerDao = require('../repository/registerDao');
 const profileDao = require('../repository/profileDAO');
+const tradesDao = require('../repository/tradesDAO');
 const cognito = require('../utility/aws/cognito');
 
 
@@ -28,6 +29,22 @@ async function addCognitoToProfilesDb(user_id, username){
         return true; // Return true if successful
     } catch (error) {
         console.log("error trying to add to profiles_table", error);
+        // If there's an error, delete the user from both the profiles_table and Cognito
+        await deleteFromUsersDb(user_id);
+        await cognito.deleteUser(username);
+        return false; // Return false if there's an error
+    }
+}
+
+// Function to add a trades for the user in the trades_table
+async function addCognitoToTradesDb(user_id, username){
+    try {
+        // Attempt to create a trades in DynamoDB
+        await tradesDao.submitTradeData(user_id, username);
+        console.log("added to trades");
+        return true; // Return true if successful
+    } catch (error) {
+        console.log("error trying to add to trades_table", error);
         // If there's an error, delete the user from both the profiles_table and Cognito
         await deleteFromUsersDb(user_id);
         await cognito.deleteUser(username);
@@ -63,5 +80,5 @@ async function deleteFromUsersDb(user_id){
 
 
 module.exports = {
-    addCognitoToUsersDb, signUp, addCognitoToProfilesDb
+    addCognitoToUsersDb, signUp, addCognitoToProfilesDb, addCognitoToTradesDb
 }

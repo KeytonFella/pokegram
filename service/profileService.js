@@ -86,7 +86,7 @@ function updateProfileBio(profile_id, bio){
 // Update profile pic
 async function updateProfilePic(profile_id, image){
     logger.info('updateProfilePic service called');
-    const buffer = await sharp(image.buffer).resize({height: 320, width: 320, fit: 'contain'}).toFormat('png').toBuffer();
+    const buffer = await sharp(image.buffer).resize({height: 180, fit: 'contain'}).toFormat('png').toBuffer();
     const name = `${profile_id}.png`;
 
     const response = await profileDAO.addPhotoToBucket(name, buffer, image.mimetype);
@@ -125,16 +125,23 @@ function getAllProfilePokemon(profile_id){
 }
 
 // Add pokemon to profile pokemon list
-function addProfilePokemon(profile_id, pokemon){
+async function addProfilePokemon(profile_id, pokemon){
     logger.info('addProfilePokemon service called');
+    const profile = await profileDAO.getAllProfilePokemon(profile_id);
+    const pokemonList = profile.Item.pokemon;
+    const index = pokemonList.indexOf(pokemon);
     return new Promise((resolve, reject) => {
-        profileDAO.addProfilePokemon(profile_id, pokemon).then((data) => {
-            logger.info(`Pokemon added: ${pokemon}`)
-            resolve(data);
-        }).catch((err) => {
-            logger.error(`Error attempting to add ${pokemon}: ${err}`)
-            reject(err);
-        });
+        if(index < 0){
+            profileDAO.addProfilePokemon(profile_id, pokemon).then((data) => {
+                logger.info(`Pokemon added: ${pokemon}`)
+                resolve(data);
+            }).catch((err) => {
+                logger.error(`Error attempting to add ${pokemon}: ${err}`)
+                reject(err);
+            });
+        }else{
+            reject(`${pokemon} has already been caught`)
+        }
     });
 }
 
