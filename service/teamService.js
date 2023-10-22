@@ -2,16 +2,24 @@ const teamDao = require('../repository/teamDAO');
 
 //Add team
 async function createTeam(name, list, user_id) {
+    const response = await teamDao.getTeamByUserId(user_id)
     return new Promise((resolve, reject) => {
         console.log("promising...")
-        teamDao.createTeam(name, list, user_id)
-            .then((data) => {
-                resolve(data)
-            })
-            .catch((err) => {
-                reject(err)
-            })
-    }) 
+        console.log(`response  = ${JSON.stringify(response)}`)
+        if(response.Item) {
+            reject("User already has a team")
+        } else {
+            teamDao.createTeam(name, list, user_id)
+                .then((data) => {
+                    console.log("resolving")
+                    console.log(data)
+                    resolve(data)
+                })
+                .catch((err) => {
+                    reject(err)
+                })
+            }
+        }) 
 }
 
 function getTeamByUserId(user_id) {

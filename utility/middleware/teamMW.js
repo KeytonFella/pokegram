@@ -33,7 +33,7 @@ async function validateTeam(req, res, next) {
         //res.statusCode = 400
         res.status(400).send({message: "Error: Team is missing a name"})
         req.body.valid = false;
-    } else if (!req.body.pokemonList || !req.body.pokemonList.length) {
+    } else if (!req.body.pokemonList || req.body.pokemonList.length < 1) {
 
         res.statusCode = 400
         res.send({message: "Error: Team cannot be empty"})
@@ -56,7 +56,7 @@ async function validateTeam(req, res, next) {
                 if(team.pokemonList[i].level > 100 || team.pokemonList[i].level < 0 || !team.pokemonList[i].level){
                     req.body.valid = false;
                     res.statusCode = 400
-                    res.send({message: `Error: ${team.pokemonList[i].name}'s level is out of bounds`})
+                    res.send({message: `Error: ${team.pokemonList[i].pokemonName}'s level is out of bounds`})
                 }
             }
             req.body.valid = true;
