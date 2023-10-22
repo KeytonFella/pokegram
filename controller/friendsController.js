@@ -10,6 +10,8 @@ router.use(bodyParser.json());
 
 /* Get a users friends list but only if they are logged in   */
 router.get('/:user_id/friends', async (req, res) => {
+
+    console.log(req.params.user_id);   
     //will return friends list or null
     const friendsList = await friendsService.getFriends(req.params.user_id);
     console.log("controller firends list", friendsList);
@@ -31,31 +33,46 @@ router.get('/:user_id/friends', async (req, res) => {
 /* add friends to list by id */
 router.put('/:user_id/friends', async (req, res) => {
     //Our Current user as given by the decoded bearer token
-    const user = {id: req.body.currentUserId, username: req.body.currentUserame};
+    const user = {id: req.body.currentUserId, username: req.body.currentUsername};
     //The friend_key which can be user_id or username, and spcecify which one to use
     const friendAction = {friend_key: req.body.friend_key, key_type: req.body.key_type};
-    console.log(req);
-    console.log("friendAction", friendAction.friend_key, friendAction.key_type);
-    ///key undefiened 
-    
-    console.log(friendAction.key_type !== 'username');
-    if(friendAction.key_type !== 'username' && friendAction.key_type !== 'user_id'){
+
+    //If there is no friend_key or key_type in the body then return error
+    if(friendAction.friend_key === undefined || friendAction.key_type === undefined){
+        return res.status(400).send({
+            message: "friend_key and key_type must be in the body"
+        })
+    };
+     //if key_type is not username or user_id then return error
+     if(friendAction.key_type !== 'username' && friendAction.key_type !== 'user_id'){
         return res.status(400).send({
             message: "key_type invalid. Must be username or user_id"
         })
     }
-    //check friend exists, check user's freinds list, add if not in list alreaady 
-    //Only edit your own list
+    //returns 0 is results are same (abc === ABC)
+    const isEqualUsername = user.username.localeCompare(friendAction.friend_key, undefined, { sensitivity: 'base' });
+    const isEqualUserId = user.id.localeCompare(friendAction.friend_key, undefined, { sensitivity: 'base' });
+
+    //if the CurrentUserId is the same as the user_id in the params then allow operation
     if (user.id === req.params.user_id) {
-        //if same id or username as user deny
-        if(req?.body?.friend_key === user.id || req.body?.friend_key === user.username  ){
+        
+        //if trying to add same id or username as user then deny operation
+        if(isEqualUserId === 0 || isEqualUsername === 0){
             return res.status(403).send({
                 message: "You can't add yourself to your friends list"
             })
         }
-
+        //set the friend_key to lowercase so we can search it in the db
+        try {
+            friendAction.friend_key = friendAction.friend_key.toLowerCase();
+        } catch (error) {
+            return res.status(404).send({
+                message: "No Friend was added"
+            });
+        }
+        //check friend exists, check user's freinds list, add if not in list alreaady 
         const friendResponse = await friendsService.addFriend(user.id, friendAction.friend_key, friendAction.key_type);
-        //console.log("response", friendResponse);
+
         //if no list returned
         if(!friendResponse || friendResponse.length === 0){
             return res.status(404).send({
@@ -78,9 +95,18 @@ router.put('/:user_id/friends', async (req, res) => {
 //delete a friend to the friend list 
 router.delete('/:user_id/friends', async (req,res) => {
     //Our Current user as given by the decoded bearer token
-    const user = {id: req.body.currentUserId, username: req.body.currentUserame};
-    //The friend_key which can be user_id or username, and spcecify which one to use
+    const user = {id: req.body.currentUserId, username: req.body.currentUsername};
+    console.log(req.body.currentUsername);
+    console.log(user);
+    //The friend_key which can be user_id or username, and spcecify which one to use with key_type
     const friendAction = {friend_key: req.body.friend_key, key_type: req.body.key_type};
+    console.log(friendAction);
+    //If there is no friend_key or key_type in the body then return error
+    if(friendAction.friend_key === undefined || friendAction.key_type === undefined){
+        return res.status(400).send({
+            message: "friend_key and key_type must be in the body"
+        })
+    };
     if(friendAction.key_type !== 'username' && friendAction.key_type !== 'user_id'){
         return res.status(400).send({
             message: "key_type invalid. Must be username or user_id"
@@ -92,6 +118,7 @@ router.delete('/:user_id/friends', async (req,res) => {
         })
     }
 
+
     //if current user != :user_id deny operation
     //Only edit your own list 
     if (user.id !== req.params.user_id) {
@@ -99,11 +126,24 @@ router.delete('/:user_id/friends', async (req,res) => {
             message: "You are not allowed to edit other users friends"
         })
     }
+    //returns 0 is results are same (abc === ABC)
+    console.log(user.username, friendAction.friend_key);
+    const isEqualUsername = user.username.localeCompare(friendAction.friend_key, undefined, { sensitivity: 'base' });
+    const isEqualUserId = user.id.localeCompare(friendAction.friend_key, undefined, { sensitivity: 'base' });
+
     //if trying to delete same id or username as user then deny operation
-    if(friendAction.friend_key === user.id || friendAction.friend_key === user.username ){
+    if(isEqualUserId === 0 || isEqualUsername === 0){
         return res.status(403).send({
             message: "You can't delete yourself to your friends list"
         })
+    } 
+
+    try {
+        friendAction.friend_key = friendAction.friend_key.toLowerCase();
+    } catch (error) {
+        return res.status(404).send({
+            message: "No Friend was added"
+        });
     }
 
     //call the delete friend service method, will return deletedFriend object or null

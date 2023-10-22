@@ -1,14 +1,13 @@
 const friendsDao = require('../repository/friendsDao');
 
 //////////////////////////////////
-async function getFriends(user_id) {
+async function getFriends(user_id) {  
     try { 
-        console.log("get friends user id", user_id);
+        console.log("get friends of  user id", user_id);
 
         const list = await friendsDao.getFriends(user_id);
-        //console.log("list.Items[0] = ", list.Items[0]);
-        console.log("list is ", list.Items[0].friends );
-        return list.Items[0].friends;
+        console.log("list is ", list);
+        return list?.Items[0]?.friends;
     } catch (error) {
         console.error("error in friendsService", error);
         return null;
@@ -16,33 +15,43 @@ async function getFriends(user_id) {
 }
 
 
-
 async function addFriend(user_id, friend_key, key_type) {
+
     try {
+        //1.)
         //see if friend exists
         console.log("friend_key is ", friend_key);
         console.log("key_type is ", key_type);
         console.log("uid",user_id);
+
+        //get friend response object from database
         const friendResponse = await friendsDao.getUser(friend_key, key_type);
         console.log("friendResponse is", friendResponse);
         const friend = friendResponse.Items[0];
+
+
+        //if no friend then return null
         if(!friend || friend === null){
             console.error("no user found with given key: ", friend_key);
             return null;
         }
         console.log("friend is: ", friend);
 
+        //2.)Check if friend is already in the list
+        //get friends list of current user
         const friends = await getFriends(user_id);
+        
         //check if list is null or empty
-        //console.log("friends  is ", friends || null);
         if (!friends || friends.length === 0) {
             console.error('No list retrieved');
             return null;
           }
-        ///check if friend we are adding exists in the users friends list 
+
+        ///check if friend we are adding exists in the users friends list or return null
         let friendIndex;
         try {
             //will return an index if friend is in the friends list
+            if(key_type === "username"){key_type = "search_username"}
             friendIndex = friends.findIndex(f => f[key_type] === friend_key);
             console.log("friend index is ", friendIndex);
             if (friendIndex !== -1) {
@@ -53,6 +62,8 @@ async function addFriend(user_id, friend_key, key_type) {
             console.error("error with friend index", friendIndex);
             return null;
         }
+        
+        //3.)
         //add friend to the friends list
         try {
             //console.log("going to add friend", user_id, friend.user_id, friend.username);
@@ -64,9 +75,24 @@ async function addFriend(user_id, friend_key, key_type) {
             return null;
         }
     } catch (error) {
-        console.error("error finding friend in getUser", error);
+        console.error("Something broke in addFriend", error);
         return null;
     }
+}
+
+//helper function to find the index of friend in friends list
+//returns index of friend or -1 if not found
+function findFriendIndex(friends, friend_key, key_type){
+    try {
+        //will return an index if friend is in the friends list
+        friendIndex = friends.findIndex(f => f[key_type] === friend_key);
+        console.log("friend index is ", friendIndex);
+        return friendIndex;
+    } catch (error) {
+        console.error("error with friend index", friendIndex);
+        return null;
+    }
+
 }
 
 async function deleteFriend(user_id, friend_key, key_type){
@@ -82,6 +108,7 @@ async function deleteFriend(user_id, friend_key, key_type){
         }
 
         // Check if the friend to be removed exists in the list
+        if(key_type === "username"){key_type = "search_username"};
         const friendIndex = friends.findIndex(f => f[key_type] === friend_key);
         if (friendIndex === -1) {
             console.error('Friend not found in the list');
@@ -105,6 +132,8 @@ async function deleteFriend(user_id, friend_key, key_type){
         return null;
     }
 }
+
+
 
 module.exports = {
     getFriends, addFriend, deleteFriend
