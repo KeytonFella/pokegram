@@ -11,8 +11,9 @@ router.use(bodyParser.json());
 // POST endpoint to handle user registration
 router.post("/users", async (req, res) => {
     // Destructure username, password, and email from request body
-    const { username, password, email } = req.body;
+    let { username, password, email } = req.body;
     let result;
+    
     // Try to register the user with Cognito
     try{
         result = await registerService.signUp(username, password, email);
