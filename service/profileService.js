@@ -145,6 +145,7 @@ function getAllProfilePokemon(profile_id){
 // Add pokemon to profile pokemon list
 async function addProfilePokemon(profile_id, pokemon){
     logger.info('addProfilePokemon service called');
+    pokemon = pokemon.toLowerCase();
     let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon}`)
     const profile = await profileDAO.getAllProfilePokemon(profile_id);
     const pokemonList = profile.Item.pokemon;
