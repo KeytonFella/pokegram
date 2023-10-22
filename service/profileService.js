@@ -172,7 +172,7 @@ async function removeProfilePokemon(profile_id, pokemon){
 
     const profile = await profileDAO.getAllProfilePokemon(profile_id);
     const pokemonList = profile.Item.pokemon;
-    const index = pokemonList.indexOf(pokemon).toLowerCase();
+    const index = pokemonList.indexOf(pokemon.toLowerCase());
     return new Promise((resolve, reject) => {
         profileDAO.removeProfilePokemon(profile_id, index).then((data) => {
             logger.info(`Pokemon removed: ${pokemon}`)
