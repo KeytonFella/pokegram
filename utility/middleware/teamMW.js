@@ -65,7 +65,7 @@ async function validateTeam(req, res, next) {
             req.body.valid = false
         } else {
             const response = validatePokemonLevels(team.pokemonList)
-            if(response.bool = false) {
+            if(response.bool === false) {
                 req.body.valid = false;
                 res.statusCode = 400
                 res.send({message: `Error: ${response.badPokemon}'s level is out of bounds!`})
