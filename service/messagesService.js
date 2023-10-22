@@ -48,9 +48,11 @@ async function sendMessage(sender, recipient, message_text){
     try{
         let recipient_id = recipient;
         const data = await getIdByUsername(recipient);
+
         if(data.bool){
             recipient_id = data.user_id;
         }
+
         const message = {
             message_id: uuid.v4(),
             sender_id: sender,
@@ -58,8 +60,8 @@ async function sendMessage(sender, recipient, message_text){
             message_text: message_text
         }
 
+        const dataRecipient = await messagesDAO.addMessage(recipient_id, message)
         const dataSender = await messagesDAO.addMessage(sender, message)
-        const dataRecipient = await messagesDAO.addMessage(recipient, message)
 
         return {bool: true, message: "message sent successfully"};
 

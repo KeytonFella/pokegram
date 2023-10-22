@@ -66,7 +66,7 @@ profileRouter.put('/:profile_id/photo', upload.single('image'), (req, res) => {
 // Update user address
 profileRouter.put('/:profile_id/address', (req, res) => {
     const address = req.body.address;
-    profileService.updateUserAddress(req.params.profile_id, address).then((data) => {
+    profileService.updateUserAddress(req.params.profile_id, req.body.address).then((data) => {
         res.status(200);
         res.send({message: `Address updated for ${req.params.profile_id}`});
     }).catch((err) => {
