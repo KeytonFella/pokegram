@@ -6,7 +6,7 @@ async function createTeam(name, list, user_id) {
     return new Promise((resolve, reject) => {
         console.log("promising...")
         console.log(`response  = ${JSON.stringify(response)}`)
-        if(response.Item) {
+        if(response.Item.teamName) {
             reject("User already has a team")
         } else {
             teamDao.createTeam(name, list, user_id)
