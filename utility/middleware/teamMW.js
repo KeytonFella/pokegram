@@ -17,7 +17,7 @@ async function validatePokemonNames(pokemonList) {
     return true;
 }
 
-async function validatePokemonLevels(pokemonList) {
+function validatePokemonLevels(pokemonList) {
     //check pokemon levels
     for(let i = 0; i< pokemonList.length; i++) {
         if(pokemonList[i].level > 100 || pokemonList[i].level < 0 || !pokemonList[i].level){
