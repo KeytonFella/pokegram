@@ -69,7 +69,7 @@ function addCognitoToDb(user_id, username, street_number="", street_name="", cit
                 zip
             },
             friends: [{
-                user_id: "0ac11b24-e532-4d15-b36d-74d3e3d88dc3",
+                user_id: "35466404-4102-46c1-a776-e85d143e6071",
                 username: "ash_ketchum",
                 search_username: "ash_ketchum"
               }],
