@@ -6,6 +6,7 @@ function that utilizes PokeAPI to allow users to filter and search for Pokemon b
 Geocoding API.
 
 
+
 ## API Reference
 
 #### Ensure connection to the API
