@@ -16,12 +16,12 @@ router.post("/login", async (req, res) => {
             message: `error logging in to Cognito ${result}`
         });
     }
-    const accessToken = result.accessToken;
-    const idToken = result.idToken;
+    //actually the id token but all our stuff refereences accessToken
+    const accessToken = result.idToken;
+    
     return res.status(200).send({
         message: "Successful login to Cognito",
-        accessToken,
-        idToken
+        accessToken
     });
     
 });
